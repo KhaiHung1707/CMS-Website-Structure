@@ -1,0 +1,48 @@
+/* =====================================================================
+   WORK ARCHIVE — page-specific rules extracted from templates/work.html
+   inline <style>. Shared chrome (nav, .sec, .sec-head, .page-hero,
+   .hero-stats, .stat-strip, .cta, footer) lives in src/styles/shared.css.
+   Only genuinely archive-specific rules are declared here.
+   ===================================================================== */
+
+/* filters */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.filter { height: 40px; padding: 0 18px; border-radius: var(--radius-pill); background: var(--surface); color: var(--text); font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; cursor: pointer; transition: background var(--dur-base) ease, color var(--dur-base) ease; }
+.filter:hover { background: var(--surface-2); }
+.filter.on { background: var(--ink); color: var(--text-on-dark); }
+
+/* work grid */
+.work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .work-grid { grid-template-columns: 1fr; } }
+.work-card { aspect-ratio: 4/5; border-radius: var(--radius-lg); overflow: hidden; position: relative; cursor: pointer; background: var(--ink); display: block; text-decoration: none; }
+.work-card.feature { grid-column: span 2; aspect-ratio: 8/5; }
+@media (max-width: 600px) { .work-card.feature { grid-column: span 1; aspect-ratio: 4/5; } }
+.work-card svg, .work-card img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-out); }
+.work-card:hover svg, .work-card:hover img { transform: scale(1.04); }
+.work-card .ov { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 48%, rgba(0,0,0,0.72) 100%); }
+.work-card .info { position: absolute; left: 22px; right: 22px; bottom: 20px; color: #fff; }
+.work-card .info .m { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.85; margin-bottom: 6px; }
+.work-card .info h3 { font-size: 21px; font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+.work-card .info .st { font-family: var(--font-numeric); font-weight: 900; font-size: 30px; color: var(--accent-on-dark); line-height: 0.9; margin-top: 10px; letter-spacing: -0.02em; }
+.work-card .info .st .s { font-size: 0.42em; color: #fff; opacity: 0.85; }
+.work-card .peek { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: 16px; transform: translate(54px,-54px) rotate(-45deg); transition: transform var(--dur-slow) var(--ease-out); }
+.work-card:hover .peek { transform: translate(0,0) rotate(0); }
+
+/* featured case */
+.cs-feature { display: grid; grid-template-columns: 1.1fr 1fr; border-radius: var(--radius-xl); overflow: hidden; background: var(--ink-soft); border: 1px solid var(--border-dark); }
+@media (max-width: 880px) { .cs-feature { grid-template-columns: 1fr; } }
+.cs-feature .cs-visual { position: relative; min-height: 440px; background: var(--ink); }
+.cs-feature .cs-visual svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.cs-feature .cs-badge { position: absolute; top: 24px; left: 24px; }
+.cs-feature .cs-body { padding: 48px; display: flex; flex-direction: column; }
+@media (max-width: 560px) { .cs-feature .cs-body { padding: 32px; } }
+.cs-feature .cs-eye { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-on-dark); margin-bottom: 18px; }
+.cs-feature h3 { font-family: var(--font-display); font-weight: 500; font-size: clamp(26px, 3.2vw, 38px); letter-spacing: -0.025em; line-height: 1.12; color: var(--text-on-dark); margin: 0 0 16px; }
+.cs-feature .cs-desc { font-size: 16px; color: var(--text-on-dark-muted); line-height: 1.6; margin: 0 0 32px; }
+.cs-feature .cs-stats { display: flex; margin-top: auto; border-top: 1px solid var(--border-dark); padding-top: 28px; }
+.cs-feature .cs-stats .st { flex: 1; }
+.cs-feature .cs-stats .st + .st { border-left: 1px solid var(--border-dark); padding-left: 24px; }
+.cs-feature .cs-stats .st .v { font-family: var(--font-numeric); font-weight: 900; font-size: clamp(36px, 4.5vw, 52px); color: var(--accent-on-dark); line-height: 0.88; letter-spacing: -0.03em; }
+.cs-feature .cs-stats .st .v .s { font-size: 0.45em; opacity: 0.7; }
+.cs-feature .cs-stats .st .k { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-on-dark-muted); margin-top: 10px; }

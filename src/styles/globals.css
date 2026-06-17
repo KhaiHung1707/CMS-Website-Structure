@@ -1,0 +1,22 @@
+/* =====================================================================
+   GLOBAL STYLE ENTRY
+   Single source of truth for tokens = assets/tokens-brick.css (imported, NOT copied).
+   Order matters: tokens first, then shared chrome, then vendored component CSS.
+   Page-specific <style> blocks are extracted to co-located *.css next to each route.
+   ===================================================================== */
+@import '../../assets/tokens-brick.css';
+@import './shared.css';
+@import '../../assets/nav-mega.css';
+@import '../../assets/service.css';
+
+/* Tailwind layers — thin escape hatch only (values come from tokens). */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+body.strx {
+  overflow-x: hidden;
+}

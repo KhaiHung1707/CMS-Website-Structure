@@ -1,0 +1,356 @@
+/* =====================================================================
+   STRUCXAL DESIGN SYSTEM — tokens.css
+   Source of truth for colors, type, spacing, radii, elevation, motion
+   and the core reusable component classes used across strucxal.com.
+
+   Load order:
+     <link rel="stylesheet" href="tokens.css">
+     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet">
+
+   Accent theming: default is lime. For other themes add one of
+     data-accent="orange | cyan | blue | violet | magenta"
+   on any element (or <html>). Every accent is luminous enough to read
+   as text on the near-black ink surfaces, so they stay interchangeable.
+   ===================================================================== */
+
+:root {
+  /* ---- Surfaces / paper ramp (warm) ------------------------------- */
+  --bg:            #F2F0E8;   /* page background */
+  --bg-cream:      #ECEAE0;   /* alt page tint   */
+  --surface:       #E5E2D7;   /* card / chip     */
+  --surface-2:     #DAD7CC;   /* pressed / deep  */
+
+  /* ---- Ink ramp (near-black, cool) -------------------------------- */
+  --ink:           #0A0A0A;   /* primary ink + dark sections */
+  --ink-soft:      #1F1F1F;   /* dark card surface           */
+  --ink-elevated:  #2A2A2A;   /* dark chip / raised          */
+
+  /* ---- Text ------------------------------------------------------- */
+  --text:               #0A0A0A;
+  --text-muted:         #6B6B66;
+  --text-faint:         #A8A8A2;
+  --text-on-dark:       #F2F0E8;
+  --text-on-dark-muted: #8B8B85;
+
+  /* ---- Borders (hairlines first) ---------------------------------- */
+  --border:             rgba(10, 10, 10, 0.08);
+  --border-strong:      rgba(10, 10, 10, 0.16);
+  --border-dark:        rgba(242, 240, 232, 0.08);
+  --border-dark-strong: rgba(242, 240, 232, 0.16);
+
+  /* ---- Accent — LIME (default) ------------------------------------ */
+  --accent:       #D4FF3A;
+  --accent-hover: #C0E833;
+  --accent-glow:  rgba(212, 255, 58, 0.40);
+  --accent-ink:   #1A2400;   /* readable text ON accent */
+  --accent-soft:  #F0FFB8;   /* tinted card fill        */
+
+  /* ---- Status (muted, sparing) ------------------------------------ */
+  --good:  #9FD43A;
+  --warn:  #FFA94D;
+  --bad:   #8B8B85;
+
+  /* ---- Type families ---------------------------------------------- */
+  --font-display: 'Geist', system-ui, -apple-system, sans-serif;   /* display / UI */
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;        /* labels / data */
+  --font-numeric: 'Doto', 'JetBrains Mono', monospace;              /* big stat numerals */
+
+  /* ---- Type scale (fluid) ----------------------------------------- */
+  --fs-display:  clamp(48px, 8vw, 128px);
+  --fs-h1:       clamp(44px, 7vw, 120px);
+  --fs-h2:       clamp(36px, 5vw, 72px);
+  --fs-h3:       clamp(28px, 3.5vw, 44px);
+  --fs-h4:       22px;
+  --fs-lead:     19px;
+  --fs-body:     16px;
+  --fs-sm:       14px;
+  --fs-label:    11px;   /* mono uppercase label */
+
+  /* ---- Spacing — strict 8px base grid ----------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  80px;
+  --space-10: 96px;
+  --space-11: 120px;
+  --space-12: 140px;
+
+  --gutter: 48px;          /* container side padding */
+  --maxw:   1440px;        /* container max width    */
+
+  /* ---- Corner radii ----------------------------------------------- */
+  --radius-sm:   6px;    /* small controls          */
+  --radius-md:   16px;   /* inputs, chips, mock cards */
+  --radius-lg:   24px;   /* work cards, role rows   */
+  --radius-xl:   32px;   /* feature / big cards     */
+  --radius-pill: 999px;  /* buttons, pills, tags    */
+
+  /* ---- Elevation (crisp, low, cool) ------------------------------- */
+  --shadow-sm:     0 4px 16px rgba(10, 10, 10, 0.05);
+  --shadow-md:     0 8px 28px rgba(10, 10, 10, 0.08);
+  --shadow-lg:     0 24px 60px -16px rgba(10, 10, 10, 0.40);
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(212, 255, 58, 0.30);
+
+  /* ---- Motion ----------------------------------------------------- */
+  --ease-out:    cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:    120ms;
+  --dur-base:    250ms;
+  --dur-slow:    600ms;
+}
+
+/* ---- Orange accent theme ------------------------------------------ */
+[data-accent="orange"] {
+  --accent:       #FF6B35;
+  --accent-hover: #E85A2A;
+  --accent-glow:  rgba(255, 107, 53, 0.40);
+  --accent-ink:   #2A0E00;
+  --accent-soft:  #FFD9C5;
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(255, 107, 53, 0.45);
+}
+
+/* ---- Cyan accent theme -------------------------------------------- */
+[data-accent="cyan"] {
+  --accent:       #2EE6C8;
+  --accent-hover: #22CFB3;
+  --accent-glow:  rgba(46, 230, 200, 0.40);
+  --accent-ink:   #00261F;
+  --accent-soft:  #C5FBF0;
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(46, 230, 200, 0.40);
+}
+
+/* ---- Electric blue accent theme ----------------------------------- */
+[data-accent="blue"] {
+  --accent:       #4D9BFF;
+  --accent-hover: #3D87E8;
+  --accent-glow:  rgba(77, 155, 255, 0.40);
+  --accent-ink:   #04143A;
+  --accent-soft:  #CFE3FF;
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(77, 155, 255, 0.45);
+}
+
+/* ---- Violet accent theme ------------------------------------------ */
+[data-accent="violet"] {
+  --accent:       #B292FF;
+  --accent-hover: #9E7DF0;
+  --accent-glow:  rgba(178, 146, 255, 0.40);
+  --accent-ink:   #1F0A47;
+  --accent-soft:  #E7DCFF;
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(178, 146, 255, 0.45);
+}
+
+/* ---- Magenta accent theme ----------------------------------------- */
+[data-accent="magenta"] {
+  --accent:       #FF5FA2;
+  --accent-hover: #E84F90;
+  --accent-glow:  rgba(255, 95, 162, 0.40);
+  --accent-ink:   #380018;
+  --accent-soft:  #FFD4E6;
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(255, 95, 162, 0.45);
+}
+
+/* =====================================================================
+   BASE
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body.strx {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.strx a { color: inherit; text-decoration: none; }
+.strx button { font-family: inherit; cursor: pointer; border: none; background: transparent; }
+.strx img, .strx svg { display: block; max-width: 100%; }
+
+/* Container */
+.strx-container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+@media (max-width: 768px) { .strx-container { padding: 0 24px; } }
+
+/* =====================================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================================== */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.t-lead {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.t-numeric {
+  font-family: var(--font-numeric);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  color: var(--accent);
+}
+.t-soft      { color: var(--text-muted); }
+.t-soft-dark { color: var(--text-on-dark-muted); }
+
+/* =====================================================================
+   EYEBROW PILL  —  mono uppercase label in a soft pill
+   ===================================================================== */
+.eyebrow-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--surface);
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.eyebrow-pill.on-dark   { background: var(--ink-soft); color: var(--text-on-dark-muted); }
+.eyebrow-pill.on-accent { background: var(--ink); color: var(--accent); }
+
+/* =====================================================================
+   BUTTONS  —  pill shaped, 52px, accent-on-hover
+   ===================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  transition: transform var(--dur-base) var(--ease-out),
+              background var(--dur-base) ease,
+              color var(--dur-base) ease,
+              border-color var(--dur-base) ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn-sm { height: 40px; padding: 0 18px; font-size: 14px; }
+
+.btn-dark  { background: var(--ink); color: var(--text-on-dark); }
+.btn-dark:hover  { background: var(--accent); color: var(--accent-ink); }
+
+.btn-soft  { background: var(--surface); color: var(--text); }
+.btn-soft:hover  { background: var(--surface-2); }
+
+.btn-accent { background: var(--accent); color: var(--accent-ink); }
+.btn-accent:hover { background: var(--accent-hover); }
+
+.btn-light { background: var(--bg); color: var(--ink); }
+.btn-light:hover { background: var(--accent); color: var(--accent-ink); }
+
+.btn-on-dark {
+  background: rgba(242, 240, 232, 0.10);
+  color: var(--text-on-dark);
+  border: 1px solid var(--border-dark-strong);
+}
+.btn-on-dark:hover { background: rgba(242, 240, 232, 0.16); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+.btn-ghost:hover { background: var(--surface); }
+
+/* =====================================================================
+   BADGE  —  tiny mono status marker
+   ===================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--surface);
+  color: var(--text-muted);
+}
+.badge.accent { background: var(--accent); color: var(--accent-ink); }
+.badge.ink    { background: var(--ink); color: var(--accent); }
+.badge .dot   { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* =====================================================================
+   TAG  —  rounded pill chip, optionally with dot
+   ===================================================================== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+}
+.tag .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* =====================================================================
+   CARD  —  surface, xl radius, hover lift
+   ===================================================================== */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  transition: background var(--dur-base) ease,
+              transform var(--dur-slow) var(--ease-out);
+}
+.card.lift:hover { background: var(--accent-soft); transform: translateY(-2px); }
+.card.outline   { background: var(--bg); border: 1px solid var(--border); }
+.card.outline:hover { border-color: var(--border-strong); }
+.card.dark      { background: var(--ink); color: var(--text-on-dark); }
+.card.accent    { background: var(--accent); color: var(--accent-ink); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .strx *, .btn, .card { transition: none !important; animation: none !important; }
+}

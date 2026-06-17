@@ -1,0 +1,35 @@
+/* ============ SERVICES MEGA MENU (shared across pages) ============ */
+.nav-links .has-mega { position: static; }
+.nav-mega-trigger { display: inline-flex; align-items: center; gap: 6px; }
+.nav-caret { font-size: 9px; opacity: 0.5; transition: transform var(--dur-base) var(--ease-out); }
+.has-mega.open .nav-caret { transform: rotate(180deg); opacity: 1; }
+.mega { position: absolute; top: 100%; left: 0; right: 0; padding: 12px 0 0; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), visibility var(--dur-base); pointer-events: none; z-index: 59; }
+.mega.open { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+.mega-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 28px; display: grid; grid-template-columns: 300px 1fr; gap: 32px; }
+.mega-aside { display: flex; flex-direction: column; padding-right: 32px; border-right: 1px solid var(--border); }
+.mega-aside .t-mono { color: var(--accent); }
+.mega-aside h3 { font-family: var(--font-display); font-weight: 500; font-size: 25px; letter-spacing: -0.025em; line-height: 1.1; margin: 12px 0 0; }
+.mega-blurb { font-size: 14px; color: var(--text-muted); line-height: 1.55; margin: 14px 0 0; }
+.mega-all { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--accent); }
+.mega-all span { transition: transform var(--dur-base) var(--ease-out); }
+.mega-all:hover span { transform: translateX(4px); }
+.mega-promo { margin-top: auto; background: var(--ink); border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; gap: 9px; }
+.mega-promo .mp-eye { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-on-dark); }
+.mega-promo .mp-title { font-size: 14px; font-weight: 500; color: var(--text-on-dark); line-height: 1.32; }
+.strx .mega-promo .mp-link { font-family: var(--font-mono); font-size: 11px; color: var(--text-on-dark-muted); }
+.mega-promo .mp-link:hover { color: var(--text-on-dark); }
+.mega-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.strx a.mega-item { position: relative; display: flex; gap: 16px; padding: 18px 42px 18px 18px; border-radius: var(--radius-md); border: 1px solid transparent; color: var(--text); transition: background var(--dur-base) ease, border-color var(--dur-base) ease; }
+.mega-item:hover { background: var(--surface); border-color: var(--border); }
+.mi-ico { flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent-soft-ink); display: grid; place-items: center; transition: background var(--dur-base) ease, color var(--dur-base) ease; }
+.mega-item:hover .mi-ico { background: var(--accent); color: var(--accent-ink); }
+.mi-ico svg { width: 22px; height: 22px; }
+.mi-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.mi-top { display: flex; align-items: baseline; gap: 10px; }
+.mi-n { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); }
+.mi-name { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; }
+.mi-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.mi-arr { position: absolute; top: 19px; right: 16px; color: var(--text-faint); opacity: 0; transform: translateX(-4px); transition: opacity var(--dur-base) ease, transform var(--dur-base) ease, color var(--dur-base) ease; }
+.mega-item:hover .mi-arr { opacity: 1; transform: none; color: var(--accent); }
+@media (max-width: 980px) { .mega-card { grid-template-columns: 1fr; gap: 24px; } .mega-aside { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 24px; } .mega-promo { margin-top: 20px; } }
+@media (max-width: 880px) { .mega { display: none; } .nav-caret { display: none; } }

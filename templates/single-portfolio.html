@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  SINGLE-PORTFOLIO  —  case study detail template (one page per project)
+  ============================================================================
+  Archive: work.html (loop .work-card)  →  this page = the Single it links to.
+  Replace every {{ ... }} token with a CMS field. Repeater regions are marked
+  CMS:REPEAT <name> START/END — duplicate the single item between the markers.
+
+  CPT: portfolio (single view)
+  Fields:
+    title, summary, eyebrow (industry · year), heroAccent,
+    client, duration, services[], industry, live_url, cover (image),
+    challenge (rich text), approach (rich text),
+    stats[]   { value, unit, label },
+    gallery[] { image, caption },
+    related[] { number, title, meta, href }
+  ============================================================================
+-->
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- CMS: {{title}} — Structure -->
+<title>Luma Atelier — Structure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="service.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+<style>
+  /* hero: title + project meta sidebar */
+  .cs-meta { display: grid; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .cs-meta .row { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+  .cs-meta .row:last-child { border-bottom: 0; }
+  .cs-meta .k { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 7px; }
+  .cs-meta .v { font-size: 15px; color: var(--text); line-height: 1.45; }
+  .cs-meta .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cs-meta .chip { font-family: var(--font-mono); font-size: 11px; padding: 5px 11px; border: 1px solid var(--border); border-radius: var(--radius-pill); color: var(--text-muted); }
+  .cs-meta a.live { color: var(--accent); font-weight: 500; }
+
+  /* full-bleed cover poster */
+  .cs-cover { margin-top: var(--space-9); border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border-dark); aspect-ratio: 16 / 8; background: var(--ink); position: relative; }
+  .cs-cover svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  /* body: challenge / approach two-column prose */
+  .cs-prose { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: var(--space-9); align-items: start; }
+  @media (max-width: 880px) { .cs-prose { grid-template-columns: 1fr; gap: var(--space-6); } }
+  .cs-prose h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.03em; margin: 14px 0 0; }
+  .cs-prose .body p { font-size: 17px; color: var(--text-muted); line-height: 1.65; margin: 0 0 18px; max-width: 60ch; }
+  .cs-prose .body p strong { color: var(--text); font-weight: 500; }
+
+  /* results stat strip (dark) */
+  .cs-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-dark); border: 1px solid var(--border-dark); border-radius: var(--radius-lg); overflow: hidden; }
+  @media (max-width: 700px) { .cs-results { grid-template-columns: 1fr; } }
+  .cs-results .st { background: var(--ink); padding: 38px 32px; }
+  .cs-results .st .v { font-family: var(--font-numeric); font-weight: 900; font-size: clamp(40px, 5vw, 60px); color: var(--accent-on-dark); line-height: 0.88; letter-spacing: -0.03em; }
+  .cs-results .st .v .s { font-size: 0.42em; opacity: 0.7; margin-left: 2px; }
+  .cs-results .st .k { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-on-dark-muted); margin-top: 14px; }
+
+  /* gallery */
+  .cs-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .cs-gallery { grid-template-columns: 1fr; } }
+  .cs-shot { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 4 / 3; background: var(--bg-cream); position: relative; }
+  .cs-shot svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cs-shot .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); background: color-mix(in srgb, var(--bg) 86%, transparent); padding: 5px 10px; border-radius: var(--radius-sm); }
+</style>
+</head>
+<body class="strx" data-template="single-portfolio">
+<!-- @cms TEMPLATE: single-portfolio | CPT: portfolio (single view) -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="work.html" class="cur">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="svc-hero">
+  <div class="strx-container inner">
+    <!-- CMS: breadcrumb — Work / {{title}} -->
+    <div class="crumb"><a href="work.html">Work</a><span class="sep">/</span><span>Luma Atelier</span></div>
+    <div class="lead-grid">
+      <div>
+        <!-- CMS: eyebrow — "{{industry}} · {{year}}" -->
+        <p class="t-mono">// E-commerce · 2025</p>
+        <!-- CMS: title (heroAccent = cobalt word) -->
+        <h1>Luma Atelier, <span class="accent">replatformed.</span></h1>
+        <!-- CMS: summary -->
+        <p class="lead" style="margin-top:24px;">A premium fashion label moved to a typed headless storefront — sub-second loads, one-page checkout, and product SEO built in from the first commit.</p>
+        <div class="acts">
+          <!-- CMS: live_url -->
+          <a href="#" class="btn btn-dark">Visit live site →</a>
+          <a href="work.html" class="btn btn-ghost">All work</a>
+        </div>
+      </div>
+      <!-- CMS: project meta sidebar -->
+      <div class="cs-meta">
+        <div class="row"><div class="k">Client</div><div class="v">Luma Atelier</div></div>
+        <div class="row"><div class="k">Duration</div><div class="v">6 weeks</div></div>
+        <div class="row"><div class="k">Industry</div><div class="v">E-commerce · Fashion</div></div>
+        <div class="row">
+          <div class="k">Services</div>
+          <!-- CMS:REPEAT services START -->
+          <div class="chips"><span class="chip">Web Design</span><span class="chip">Headless</span><span class="chip">SEO</span></div>
+          <!-- CMS:REPEAT services END -->
+        </div>
+        <div class="row"><div class="k">Live</div><div class="v"><a href="#" class="live">lumaatelier.com →</a></div></div>
+      </div>
+    </div>
+
+    <!-- CMS: cover image — replace this poster <svg> with the uploaded image -->
+    <div class="cs-cover">
+      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="csv" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A7282B"/><stop offset="100%" stop-color="#1a1a1a"/></linearGradient></defs><rect width="1200" height="600" fill="url(#csv)"/><g fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="1"><path d="M0 150H1200M0 300H1200M0 450H1200M300 0V600M600 0V600M900 0V600"/></g><text x="60" y="320" font-family="'Geist',sans-serif" font-weight="700" font-size="120" letter-spacing="-4" fill="#fff" opacity="0.95">LUMA</text><text x="60" y="430" font-family="'JetBrains Mono',monospace" font-size="22" fill="rgba(255,255,255,0.7)">// HEADLESS STOREFRONT · 2025</text></svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ OVERVIEW (challenge + approach) ============================ -->
+<section class="sec">
+  <div class="strx-container">
+    <div class="cs-prose">
+      <div>
+        <p class="t-mono">// The challenge</p>
+        <h2>A beautiful site that <span style="color:var(--accent)">couldn't convert.</span></h2>
+      </div>
+      <!-- CMS: challenge (rich text) -->
+      <div class="body">
+        <p>Luma's legacy storefront looked the part but <strong>buckled on mobile</strong> — 4-second loads, a four-step checkout, and product pages search engines barely indexed.</p>
+        <p>Conversion sat at <strong>1.2% on mobile</strong> while 70% of traffic came from phones. Every redesign attempt had bolted features onto the same slow foundation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cream">
+  <div class="strx-container">
+    <div class="cs-prose">
+      <div>
+        <p class="t-mono">// Our approach</p>
+        <h2>Rebuilt on a <span style="color:var(--accent)">typed foundation.</span></h2>
+      </div>
+      <!-- CMS: approach (rich text) -->
+      <div class="body">
+        <p>We moved Luma to a <strong>headless, component-driven stack</strong> — a typed front end on a fast commerce API, with a design system so the team could ship without us.</p>
+        <p>Checkout collapsed to <strong>one page</strong>. Images, fonts, and scripts were put on a strict performance budget. Product schema and clean crawl paths were engineered in, not added later.</p>
+        <p>Go-live was <strong>zero-downtime during peak season</strong>, with monitoring on Core Web Vitals from day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ RESULTS (stats[]) ============================ -->
+<section class="sec on-dark">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono dark">// Results</p><h2>Numbers that <span class="accent">moved.</span></h2></div>
+    <div class="cs-results reveal">
+      <!-- CMS:REPEAT stats START — duplicate one .st per metric -->
+      <div class="st"><div class="v">+212<span class="s">%</span></div><div class="k">Mobile revenue</div></div>
+      <!-- CMS:REPEAT stats END -->
+      <div class="st"><div class="v">0.8<span class="s">s</span></div><div class="k">Median LCP</div></div>
+      <div class="st"><div class="v">2.4<span class="s">%</span></div><div class="k">Mobile conversion</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ GALLERY (gallery[]) ============================ -->
+<section class="sec">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Selected screens</p><h2>Inside the <span class="accent">build.</span></h2></div>
+    <div class="cs-gallery reveal">
+      <!-- CMS:REPEAT gallery START — replace .cs-shot svg with image; set .cap from caption -->
+      <div class="cs-shot">
+        <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice"><rect width="600" height="450" fill="#ECE7DE"/><g fill="none" stroke="rgba(167,40,43,0.18)" stroke-width="1"><path d="M0 112H600M0 225H600M0 337H600M150 0V450M300 0V450M450 0V450"/></g><rect x="40" y="40" width="220" height="30" rx="6" fill="#1a1a1a" opacity="0.85"/><rect x="40" y="90" width="520" height="14" rx="4" fill="#1a1a1a" opacity="0.18"/><rect x="40" y="116" width="460" height="14" rx="4" fill="#1a1a1a" opacity="0.18"/></svg>
+        <span class="cap">Product detail · one-page checkout</span>
+      </div>
+      <!-- CMS:REPEAT gallery END -->
+      <div class="cs-shot">
+        <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice"><rect width="600" height="450" fill="#1a1a1a"/><g fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"><path d="M0 112H600M0 225H600M0 337H600M150 0V450M300 0V450M450 0V450"/></g><text x="40" y="240" font-family="'Geist',sans-serif" font-weight="700" font-size="64" fill="#fff" opacity="0.92">SHOP</text></svg>
+        <span class="cap">Home · editorial grid</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ NEXT PROJECTS (related[]) ============================ -->
+<section class="sec cream">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Next project</p><h2>More <span class="accent">work.</span></h2></div>
+    <div class="other-grid">
+      <!-- CMS:REPEAT related START -->
+      <a href="#" class="other-card reveal"><div><div class="oc-n">E-commerce · 2025</div><h4>Nordkraft Outdoor</h4></div><span class="oc-arr">→</span></a>
+      <!-- CMS:REPEAT related END -->
+      <a href="#" class="other-card reveal"><div><div class="oc-n">SaaS · 2024</div><h4>QuoteFlow</h4></div><span class="oc-arr">→</span></a>
+      <a href="#" class="other-card reveal"><div><div class="oc-n">Fintech · 2024</div><h4>Ledger North</h4></div><span class="oc-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CTA ============================ -->
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Start a project</p>
+    <h2>Have a build <span class="accent">like this?</span></h2>
+    <p>A 30-minute call to scope the work and the fastest path to launch.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Start a project →</a>
+      <a href="work.html" class="btn btn-on-dark">View all work</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="industries.html">Industries</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="industry-ecommerce.html">E-commerce</a></li><li><a href="industry-saas.html">SaaS</a></li><li><a href="industry-fintech.html">Fintech</a></li><li><a href="industry-healthcare.html">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="service.js"></script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

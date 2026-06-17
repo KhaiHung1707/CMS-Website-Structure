@@ -1,0 +1,37 @@
+/* =====================================================================
+   SINGLE SERVICE — page-specific helpers for service-saas.html.
+   The bulk of this page's styling (.svc-hero, .manifesto, .scrolly-*,
+   .story-*, .pillars, .proc-line, .stat-strip, .faq-*, .other-*) already
+   lives in assets/service.css (imported globally via globals.css) and must
+   NOT be redeclared here. These are only the few inline-<style> hooks from
+   the template, lifted out so the .tsx carries no raw px/hex.
+   ===================================================================== */
+
+/* hero stat block (template used inline margin-top + max-width) */
+.svc-hero .h-stats.svc-hero-stats { margin-top: var(--space-9); max-width: 560px; }
+
+/* FAQ answer body (template used inline padding-top) */
+.faq-a .faq-a-body { padding-top: 4px; }
+
+/* FAQ aside CTA spacing (template used inline margin-top) */
+.faq-aside .btn { margin-top: 24px; }
+
+/* results strip removes its own top padding (template inline style) */
+.sec.results-tight { padding-top: 0; }
+
+/* ---- SaaS console mock (the persistent story artifact) ---- */
+.story-mock-tall { width: 100%; height: 30px; }
+.story-mock-tall + .story-mock-tall { margin-top: 9px; }
+.sp-sso { margin-top: 12px; background: var(--accent); color: var(--accent-ink); font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: var(--radius-sm); text-align: center; }
+.sp-chips { display: flex; gap: 8px; margin-top: 12px; }
+.sp-split { display: flex; align-items: center; justify-content: space-between; }
+.sp-split.gap { margin-bottom: 12px; }
+.sp-split.gap-top { margin-top: 10px; }
+.sp-split.gap-top-lg { margin-top: 12px; }
+.sp-num-lg { font-size: 28px; }
+.sp-num-md { font-size: 20px; }
+.sp-muted-xs { font-size: 11px; }
+.sp-per { font-size: 11px; color: var(--text-on-dark-muted); }
+.sp-spark { width: 100%; height: auto; }
+.sp-tenants { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.sp-tenants .sp-bar { height: 30px; }

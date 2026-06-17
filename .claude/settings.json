@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(node -e ' *)",
+      "Bash(echo \"dev started pid $!\")",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"next-server\")",
+      "Bash(rm -f /tmp/strx-dev.log)",
+      "Bash(echo \"restarted pid $!\")",
+      "Bash(break)"
+    ]
+  }
+}

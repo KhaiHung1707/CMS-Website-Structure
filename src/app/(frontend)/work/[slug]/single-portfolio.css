@@ -1,0 +1,71 @@
+/* =====================================================================
+   SINGLE PORTFOLIO — page-specific rules from templates/single-portfolio.html.
+   Shared chrome (nav, .sec, .sec-head, .cta, footer, .stat-strip, .rt,
+   .gallery-grid, .media-text) lives in src/styles/shared.css.
+   The single template also depends on hero/related rules that originate in
+   assets/service.css (not in shared.css) — those are included here so the
+   page renders standalone without re-declaring anything global.
+   ===================================================================== */
+
+/* ---- breadcrumb + hero (from service.css, single-portfolio uses .svc-hero) ---- */
+.svc-hero { position: relative; overflow: hidden; padding: var(--space-8) 0 var(--space-10); }
+.svc-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 70% 80% at 85% 12%, #000 0%, transparent 70%); mask-image: radial-gradient(ellipse 70% 80% at 85% 12%, #000 0%, transparent 70%); pointer-events: none; }
+.svc-hero .inner { position: relative; z-index: 2; }
+.crumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 26px; }
+.crumb a { color: var(--text-muted); transition: color var(--dur-fast) ease; }
+.crumb a:hover { color: var(--accent); }
+.crumb .sep { opacity: 0.5; }
+.svc-hero .lead-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: var(--space-9); align-items: end; }
+@media (max-width: 920px) { .svc-hero .lead-grid { grid-template-columns: 1fr; gap: var(--space-6); } }
+.svc-hero h1 { font-family: var(--font-display); font-weight: 500; font-size: clamp(44px, 6vw, 92px); line-height: 0.98; letter-spacing: -0.04em; margin: 14px 0 0; }
+.svc-hero h1 .accent { color: var(--accent); }
+.svc-hero p.lead { font-size: 19px; color: var(--text-muted); line-height: 1.55; margin: 0 0 28px; }
+.svc-hero .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---- hero: title + project meta sidebar (inline <style>) ---- */
+.cs-meta { display: grid; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.cs-meta .row { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+.cs-meta .row:last-child { border-bottom: 0; }
+.cs-meta .k { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 7px; }
+.cs-meta .v { font-size: 15px; color: var(--text); line-height: 1.45; }
+.cs-meta .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.cs-meta .chip { font-family: var(--font-mono); font-size: 11px; padding: 5px 11px; border: 1px solid var(--border); border-radius: var(--radius-pill); color: var(--text-muted); }
+.cs-meta a.live { color: var(--accent); font-weight: 500; }
+
+/* ---- full-bleed cover poster ---- */
+.cs-cover { margin-top: var(--space-9); border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border-dark); aspect-ratio: 16 / 8; background: var(--ink); position: relative; }
+.cs-cover svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cs-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---- body: challenge / approach two-column prose ---- */
+.cs-prose { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: var(--space-9); align-items: start; }
+@media (max-width: 880px) { .cs-prose { grid-template-columns: 1fr; gap: var(--space-6); } }
+.cs-prose h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.03em; margin: 14px 0 0; }
+.cs-prose .body p { font-size: 17px; color: var(--text-muted); line-height: 1.65; margin: 0 0 18px; max-width: 60ch; }
+.cs-prose .body p strong { color: var(--text); font-weight: 500; }
+
+/* ---- results stat strip (dark) ---- */
+.cs-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-dark); border: 1px solid var(--border-dark); border-radius: var(--radius-lg); overflow: hidden; }
+@media (max-width: 700px) { .cs-results { grid-template-columns: 1fr; } }
+.cs-results .st { background: var(--ink); padding: 38px 32px; }
+.cs-results .st .v { font-family: var(--font-numeric); font-weight: 900; font-size: clamp(40px, 5vw, 60px); color: var(--accent-on-dark); line-height: 0.88; letter-spacing: -0.03em; }
+.cs-results .st .v .s { font-size: 0.42em; opacity: 0.7; margin-left: 2px; }
+.cs-results .st .k { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-on-dark-muted); margin-top: 14px; }
+
+/* ---- gallery (single-portfolio variant) ---- */
+.cs-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 760px) { .cs-gallery { grid-template-columns: 1fr; } }
+.cs-gallery .cs-shot { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 4 / 3; background: var(--bg-cream); position: relative; }
+.cs-gallery .cs-shot svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cs-gallery .cs-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cs-gallery .cs-shot .cap { position: absolute; left: 16px; bottom: 14px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); background: color-mix(in srgb, var(--bg) 86%, transparent); padding: 5px 10px; border-radius: var(--radius-sm); }
+
+/* ---- next projects / related (from service.css) ---- */
+.other-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 880px) { .other-grid { grid-template-columns: 1fr; } }
+.other-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 28px; transition: border-color var(--dur-base) ease, transform var(--dur-slow) var(--ease-out); }
+.other-card:hover { border-color: var(--ink); transform: translateY(-2px); }
+.other-card .oc-n { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-bottom: 8px; }
+.other-card h4 { font-size: 19px; font-weight: 500; letter-spacing: -0.02em; margin: 0; }
+.other-card .oc-arr { color: var(--text-faint); font-size: 18px; transition: transform var(--dur-base) var(--ease-out), color var(--dur-base) ease; }
+.other-card:hover .oc-arr { color: var(--accent); transform: rotate(-45deg); }

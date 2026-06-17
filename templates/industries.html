@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — Industries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="service.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+<style>
+  /* industries overview cards */
+  .ind-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (max-width: 860px) { .ind-cards { grid-template-columns: 1fr; } }
+  .strx a.ind-card { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: stretch; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px; color: var(--text); transition: border-color var(--dur-base) ease, transform var(--dur-slow) var(--ease-out), box-shadow var(--dur-base) ease; }
+  .ind-card:hover { border-color: var(--ink); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .ind-card .ic-n { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); letter-spacing: 0.04em; }
+  .ind-card h3 { font-family: var(--font-display); font-weight: 500; font-size: 27px; letter-spacing: -0.025em; line-height: 1.08; margin: 12px 0 0; }
+  .ind-card .ic-desc { font-size: 15px; color: var(--text-muted); line-height: 1.55; margin: 12px 0 0; max-width: 40ch; }
+  .ic-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .ic-tag { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; color: var(--text-muted); background: var(--surface); padding: 6px 12px; border-radius: var(--radius-pill); }
+  .ic-side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 28px; }
+  .ic-stat { text-align: right; }
+  .ic-stat .v { font-family: var(--font-numeric); font-weight: 900; font-size: 34px; color: var(--accent); line-height: 0.9; letter-spacing: -0.02em; }
+  .ic-stat .v .s { font-size: 0.46em; opacity: 0.62; margin-left: 1px; }
+  .ic-stat .k { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 7px; white-space: nowrap; }
+  .ic-arr { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border-strong); display: grid; place-items: center; font-size: 17px; flex-shrink: 0; transition: background var(--dur-base) ease, color var(--dur-base) ease, border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out); }
+  .ind-card:hover .ic-arr { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: rotate(-45deg); }
+  @media (max-width: 460px) { .strx a.ind-card { grid-template-columns: 1fr; } .ic-side { flex-direction: row; align-items: center; } }
+</style>
+</head>
+<body class="strx">
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html" class="cur">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="svc-hero">
+  <div class="strx-container inner">
+    <div class="crumb"><a href="Structure Homepage.html">Home</a><span class="sep">/</span><span>Industries</span></div>
+    <div class="lead-grid">
+      <div>
+        <p class="t-mono">// Industries</p>
+        <h1>Built for how your <span class="accent">industry</span> actually works.</h1>
+      </div>
+      <div>
+        <p class="lead">Every field has its own rules — compliance, conversion, accessibility, speed. We bring the patterns that win in yours, not a generic template.</p>
+        <div class="acts">
+          <a href="contact.html" class="btn btn-dark">Start a project →</a>
+          <a href="#grid" class="btn btn-ghost">Browse industries</a>
+        </div>
+      </div>
+    </div>
+    <div class="h-stats reveal" style="margin-top:var(--space-9);max-width:560px;">
+      <div class="hs"><div class="v"><span class="count-up" data-target="12">0</span></div><div class="k">Industries served</div></div>
+      <div class="hs"><div class="v"><span class="count-up" data-target="40">0</span><span class="s">+</span></div><div class="k">Projects shipped</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="strx-container">
+    <p class="big reveal"><span class="mut">A pattern that converts a fashion store will sink a clinic.</span> We start from your industry's real constraints — and design the web that <span class="accent">moves your numbers.</span></p>
+  </div>
+</section>
+
+<!-- INDUSTRY GRID -->
+<section class="sec cream" id="grid">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// Where we work</p>
+      <h2>Six industries, <span class="accent">one playbook each.</span></h2>
+      <p>Pick yours to see the problems we solve, the patterns we use, and the numbers we move.</p>
+    </div>
+    <!-- @cms:loop name="industry" item=".ind-card" fields="number:.ic-n, title:h3, lead:.ic-desc, tags:.ic-tags, stat_value:.ic-stat .v, stat_label:.ic-stat .k, permalink:href" -->
+    <div class="ind-cards" data-cms-loop="industry">
+      <a class="ind-card reveal" href="industry-ecommerce.html" data-cms-item>
+        <div><div class="ic-n">01</div><h3>E-commerce &amp; Retail</h3><p class="ic-desc">Storefronts engineered to convert — headless speed, one-page checkout, and product SEO built in.</p><div class="ic-tags"><span class="ic-tag">Headless</span><span class="ic-tag">Checkout</span><span class="ic-tag">Catalog SEO</span></div></div>
+        <div class="ic-side"><div class="ic-stat"><div class="v">+212<span class="s">%</span></div><div class="k">Mobile revenue</div></div><span class="ic-arr">→</span></div>
+      </a>
+      <a class="ind-card reveal" href="industry-saas.html">
+        <div><div class="ic-n">02</div><h3>SaaS &amp; Software</h3><p class="ic-desc">Marketing site to product app on one design system — onboarding, dashboards, and billing that scale.</p><div class="ic-tags"><span class="ic-tag">Onboarding</span><span class="ic-tag">Dashboards</span><span class="ic-tag">Billing</span></div></div>
+        <div class="ic-side"><div class="ic-stat"><div class="v">+54<span class="s">%</span></div><div class="k">Trial → paid</div></div><span class="ic-arr">→</span></div>
+      </a>
+      <a class="ind-card reveal" href="industry-fintech.html">
+        <div><div class="ic-n">03</div><h3>Fintech</h3><p class="ic-desc">Trust designed into the interface — security, compliance, and clarity that meet regulation.</p><div class="ic-tags"><span class="ic-tag">Security</span><span class="ic-tag">KYC</span><span class="ic-tag">WCAG AA</span></div></div>
+        <div class="ic-side"><div class="ic-stat"><div class="v">+47<span class="s">%</span></div><div class="k">KYC completion</div></div><span class="ic-arr">→</span></div>
+      </a>
+      <a class="ind-card reveal" href="industry-healthcare.html">
+        <div><div class="ic-n">04</div><h3>Healthcare</h3><p class="ic-desc">Clear interfaces for critical decisions — bookings, records, and maximum accessibility.</p><div class="ic-tags"><span class="ic-tag">Booking</span><span class="ic-tag">Records</span><span class="ic-tag">AAA</span></div></div>
+        <div class="ic-side"><div class="ic-stat"><div class="v">+63<span class="s">%</span></div><div class="k">Online bookings</div></div><span class="ic-arr">→</span></div>
+      </a>
+      <a class="ind-card reveal" href="industry-realestate.html">
+        <div><div class="ic-n">05</div><h3>Real estate</h3><p class="ic-desc">Image-rich property experiences that still load fast — search, tours, and lead capture.</p><div class="ic-tags"><span class="ic-tag">Galleries</span><span class="ic-tag">Search</span><span class="ic-tag">Local SEO</span></div></div>
+        <div class="ic-side"><div class="ic-stat"><div class="v">+89<span class="s">%</span></div><div class="k">Qualified leads</div></div><span class="ic-arr">→</span></div>
+      </a>
+      <a class="ind-card reveal" href="industry-education.html">
+        <div><div class="ic-n">06</div><h3>Education</h3><p class="ic-desc">Courses and platforms that enroll and retain — accessible content and student dashboards.</p><div class="ic-tags"><span class="ic-tag">LMS</span><span class="ic-tag">Enrollment</span><span class="ic-tag">Accessible</span></div></div>
+        <div class="ic-side"><div class="ic-stat"><div class="v">+58<span class="s">%</span></div><div class="k">Course sign-ups</div></div><span class="ic-arr">→</span></div>
+      </a>
+    </div>
+    <!-- /@cms:loop industry -->
+  </div>
+</section>
+
+<!-- CROSS-INDUSTRY RESULTS -->
+<section class="sec on-dark" id="results">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono dark">// Across every industry</p>
+      <h2>The standard <span class="accent">doesn't change.</span></h2>
+      <p>Different problems, same bar: fast, accessible, measurable. Averaged across all projects in the last 24 months.</p>
+    </div>
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="40">0</span><span class="s">+</span></div><div class="k">Projects shipped</div></div>
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="12">0</span></div><div class="k">Industries served</div></div>
+      <div class="stat-cell"><div class="v">0.9<span class="s">s</span></div><div class="k">Median CWV</div></div>
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="96">0</span><span class="s">/100</span></div><div class="k">Avg Lighthouse</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Get started</p>
+    <h2>Don't see your <span class="accent">industry?</span></h2>
+    <p>We've shipped in 12 of them and counting. Tell us about yours — a 30-minute call to see if we're a fit.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Start a project →</a>
+      <a href="work.html" class="btn btn-on-dark">View work</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services overview</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="industry-ecommerce.html">E-commerce</a></li><li><a href="industry-saas.html">SaaS</a></li><li><a href="industry-fintech.html">Fintech</a></li><li><a href="industry-healthcare.html">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="service.js"></script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

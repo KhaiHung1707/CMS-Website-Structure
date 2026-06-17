@@ -1,0 +1,15 @@
+/* single-industry — page-specific (extracted from templates/industry-saas.html <style>) */
+.cap4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 760px) { .cap4 { grid-template-columns: 1fr; } }
+.cap4 .pillar { min-height: 200px; }
+
+/* #story — show only the active step's mockup (clearer, one part at a time) */
+#story .story-body { min-height: 268px; justify-content: center; }
+#story .story-art [data-part] { display: none; opacity: 1; }
+#story .story-art:not([data-focus]) [data-part="p1"],
+#story .story-art[data-focus="p1"] [data-part="p1"],
+#story .story-art[data-focus="p2"] [data-part="p2"],
+#story .story-art[data-focus="p3"] [data-part="p3"],
+#story .story-art[data-focus="p4"] [data-part="p4"] { display: block; animation: spStorySwap 0.45s var(--ease-out); }
+@keyframes spStorySwap { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { #story .story-art [data-part] { animation: none; } }

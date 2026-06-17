@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+<style>
+  html { scroll-behavior: smooth; }
+  body.strx { overflow-x: hidden; }
+  .strx-container { max-width: 1440px; }
+
+  .strx a.btn-dark, .strx a.btn-on-dark { color: var(--text-on-dark); }
+  .strx a.btn-light { color: var(--ink); }
+  .strx a.btn-accent { color: var(--accent-ink); }
+  .strx a.btn-soft, .strx a.btn-ghost { color: var(--text); }
+  .btn { white-space: nowrap; }
+
+  nav.top { position: sticky; top: 0; z-index: 60; height: 74px; background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%); border-bottom: 1px solid transparent; transition: border-color var(--dur-base) ease; }
+  nav.top.scrolled { border-bottom-color: var(--border); }
+  nav.top .inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+  .nav-brand { display: flex; align-items: center; gap: 11px; }
+  .nav-mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: grid; place-items: center; }
+  .nav-mark img { width: 22px; height: 22px; display: block; }
+  .nav-word { font-size: 20px; font-weight: 700; letter-spacing: -0.04em; }
+  .nav-links { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a { font-size: 15px; color: var(--text); white-space: nowrap; transition: opacity var(--dur-fast) ease; }
+  .nav-links a:hover { opacity: 0.55; }
+  .nav-cta { height: 42px; padding: 0 20px; display: inline-flex; align-items: center; }
+  @media (max-width: 880px) { .nav-links { display: none; } }
+
+  .sec { padding: var(--space-11) 0; }
+  @media (max-width: 768px) { .sec { padding: var(--space-9) 0; } }
+  .sec.on-dark { background: var(--ink); color: var(--text-on-dark); }
+  .sec.cream { background: var(--bg-cream); }
+  .sec-head { max-width: 760px; margin-bottom: var(--space-8); }
+  .sec-head h2 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-h2); line-height: 1.02; letter-spacing: -0.03em; margin: 16px 0 0; }
+  .sec-head p { font-size: var(--fs-lead); color: var(--text-muted); line-height: 1.55; margin: 18px 0 0; max-width: 600px; }
+  .sec.on-dark .sec-head h2 { color: var(--text-on-dark); }
+  .sec.on-dark .sec-head p { color: var(--text-on-dark-muted); }
+  .sec-head h2 .accent { color: var(--accent); }
+  .sec.on-dark .sec-head h2 .accent { color: var(--accent-on-dark); }
+  .t-mono.dark { color: var(--accent-on-dark); }
+
+  /* hero + form */
+  .contact-hero { padding: var(--space-9) 0 var(--space-11); }
+  .ch-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: var(--space-9); align-items: start; }
+  @media (max-width: 920px) { .ch-grid { grid-template-columns: 1fr; gap: var(--space-7); } }
+  .ch-text h1 { font-family: var(--font-display); font-weight: 500; font-size: clamp(40px, 5.5vw, 84px); line-height: 0.98; letter-spacing: -0.04em; margin: 22px 0 0; }
+  .ch-text h1 .soft { color: var(--text-muted); }
+  .ch-text h1 .accent { color: var(--accent); }
+  .ch-text p.lead { font-size: 18px; color: var(--text-muted); line-height: 1.55; max-width: 460px; margin: 26px 0 0; }
+  .ch-points { list-style: none; margin: 36px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .ch-points li { display: flex; align-items: center; gap: 14px; font-size: 16px; }
+  .ch-points .ck { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: 13px; flex-shrink: 0; }
+
+  .form-card { background: var(--surface); border-radius: var(--radius-xl); padding: 40px; }
+  @media (max-width: 560px) { .form-card { padding: 28px; } }
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .frow { grid-template-columns: 1fr; } }
+  .fld { margin-bottom: 18px; }
+  .fld label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .fld .req { color: var(--accent); }
+  .inp, .ta, .sel { width: 100%; font-family: inherit; font-size: 15px; color: var(--text); background: var(--bg); border: 1px solid var(--border-strong); border-radius: var(--radius-md); padding: 14px 16px; outline: none; transition: border-color var(--dur-base) ease, box-shadow var(--dur-base) ease; }
+  .inp:focus, .ta:focus, .sel:focus { border-color: var(--ink); box-shadow: 0 0 0 4px var(--accent-soft); }
+  .inp::placeholder, .ta::placeholder { color: var(--text-faint); }
+  .ta { resize: vertical; min-height: 120px; }
+  .sel { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B6B66' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+  .form-card .btn-submit { width: 100%; margin-top: 6px; }
+  .form-note { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 14px; text-align: center; letter-spacing: 0.04em; }
+
+  /* discovery */
+  .disc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .disc-grid { grid-template-columns: 1fr; } }
+  .disc-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px; }
+  .disc-card .dc-n { font-family: var(--font-mono); font-size: 12px; color: var(--accent-ink); background: var(--accent); display: inline-block; padding: 4px 10px; border-radius: var(--radius-pill); margin-bottom: 18px; }
+  .disc-card h3 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; margin: 0 0 10px; }
+  .disc-card p { font-size: 15px; color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+  /* channels */
+  .chan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 800px) { .chan-grid { grid-template-columns: 1fr; } }
+  .chan { display: flex; align-items: center; gap: 18px; background: var(--ink-soft); border: 1px solid var(--border-dark); border-radius: var(--radius-lg); padding: 24px; transition: border-color var(--dur-base) ease, transform var(--dur-slow) var(--ease-out); }
+  .chan:hover { border-color: var(--accent-on-dark); transform: translateY(-2px); }
+  .chan .ic { width: 46px; height: 46px; border-radius: 12px; background: var(--ink-elevated); color: var(--accent-on-dark); display: grid; place-items: center; flex-shrink: 0; }
+  .chan .ct .k { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-on-dark-muted); margin-bottom: 5px; }
+  .chan .ct .v { font-size: 16px; font-weight: 500; color: var(--text-on-dark); }
+
+  /* faq */
+  .faq-grid { display: grid; grid-template-columns: 320px 1fr; gap: var(--space-9); align-items: start; }
+  @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; gap: var(--space-6); } }
+  .faq-aside h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.03em; line-height: 1.05; margin: 14px 0 0; }
+  .faq-aside p { font-size: 15px; color: var(--text-muted); margin: 16px 0 0; line-height: 1.55; }
+  .faq-item { border-top: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .faq-item.open { background: var(--surface-2); border-radius: var(--radius-md); border-color: transparent; padding: 0 18px; margin: 0 -18px; }
+  .faq-q { width: 100%; padding: 26px 0; display: flex; justify-content: space-between; align-items: center; gap: 22px; text-align: left; font-size: 18px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
+  .faq-ic { width: 32px; height: 32px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 18px; flex-shrink: 0; transition: transform var(--dur-base) var(--ease-out), background var(--dur-fast) ease; }
+  .faq-item.open .faq-ic { transform: rotate(45deg); background: var(--accent); color: var(--accent-ink); }
+  .faq-a { max-height: 0; overflow: hidden; color: var(--text-muted); font-size: 15px; line-height: 1.6; transition: max-height var(--dur-slow) var(--ease-out), padding var(--dur-base) ease; }
+  .faq-item.open .faq-a { max-height: 320px; padding: 0 0 26px; }
+
+  footer { background: var(--ink); color: var(--text-on-dark); border-top: 1px solid var(--border-dark); padding: var(--space-10) 0 var(--space-6); }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-7); margin-bottom: var(--space-9); }
+  @media (max-width: 700px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+  .foot-brand .nav-word { color: var(--text-on-dark); }
+  .foot-brand p { color: var(--text-on-dark-muted); font-size: 14px; line-height: 1.55; max-width: 300px; margin: 18px 0 0; }
+  .foot-col h4 { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-on-dark-muted); margin: 0 0 18px; font-weight: 400; }
+  .foot-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .foot-col a { color: var(--text-on-dark); font-size: 15px; transition: color var(--dur-fast) ease; }
+  .foot-col a:hover { color: var(--accent-on-dark); }
+  .foot-bottom { padding-top: 28px; border-top: 1px solid var(--border-dark); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; color: var(--text-on-dark-muted); letter-spacing: 0.04em; }
+</style>
+</head>
+<body class="strx" data-template="core-contact">
+<!-- @cms TEMPLATE: core-contact -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<!-- HERO + FORM -->
+<header class="contact-hero">
+  <div class="strx-container">
+    <div class="ch-grid">
+      <div class="ch-text">
+        <p class="t-mono">// Contact</p>
+        <h1>Let's talk about<br><span class="accent">your project.</span></h1>
+        <p class="lead">Fill in the form, or email us directly. We reply within one business day.</p>
+        <ul class="ch-points">
+          <li><span class="ck">✓</span>Reply within 24 business hours</li>
+          <li><span class="ck">✓</span>Free 30-minute call, no commitment</li>
+          <li><span class="ck">✓</span>Fixed quote staged by phase</li>
+        </ul>
+      </div>
+
+      <div class="form-card">
+        <form onsubmit="return false;">
+          <div class="frow">
+            <div class="fld"><label>Full name <span class="req">*</span></label><input class="inp" type="text" placeholder="Jane Doe" /></div>
+            <div class="fld"><label>Company</label><input class="inp" type="text" placeholder="Company name" /></div>
+          </div>
+          <div class="frow">
+            <div class="fld"><label>Email <span class="req">*</span></label><input class="inp" type="email" placeholder="you@company.com" /></div>
+            <div class="fld"><label>Budget</label>
+              <select class="sel">
+                <option value="" disabled selected>Select a budget…</option>
+                <option>Under $10k</option>
+                <option>$10k – $30k</option>
+                <option>$30k – $60k</option>
+                <option>$60k+</option>
+              </select>
+            </div>
+          </div>
+          <div class="fld"><label>Project type</label>
+            <select class="sel">
+              <option value="" disabled selected>Choose a service…</option>
+              <option>Web Design</option>
+              <option>Web Application</option>
+              <option>SEO &amp; Core Web Vitals</option>
+              <option>SaaS Platform</option>
+              <option>Replatform / optimization</option>
+            </select>
+          </div>
+          <div class="fld"><label>About the project <span class="req">*</span></label><textarea class="ta" placeholder="What are you building? Goals and target timeline?"></textarea></div>
+          <button type="submit" class="btn btn-dark btn-submit">Send inquiry →</button>
+          <p class="form-note">Protected by SSO · structure.studio</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DISCOVERY -->
+<section class="sec cream" id="discovery">
+  <div class="strx-container">
+    <div class="sec-head">
+      <p class="t-mono">// Book a discovery call</p>
+      <h2>A 30-minute <span class="accent">discovery call.</span></h2>
+      <p>Free. No commitment. To see your problem and whether we’re a fit.</p>
+    </div>
+    <div class="disc-grid">
+      <div class="disc-card"><span class="dc-n">Before the call</span><h3>You send a few lines about the project</h3><p>Goals, target timeline, and any materials you already have. We read closely before we meet.</p></div>
+      <div class="disc-card"><span class="dc-n">On the call</span><h3>We get straight to the problem</h3><p>Scope, approach, and a rough estimate. No pitch deck, no sales pitch.</p></div>
+      <div class="disc-card"><span class="dc-n">After the call</span><h3>A clear proposal &amp; quote</h3><p>A concrete scope, weekly deliverables, and a fixed quote staged by phase.</p></div>
+      <div class="disc-card"><span class="dc-n">If it fits</span><h3>Kick-off in 1–2 weeks</h3><p>We start the discovery workshop and the 12-week roadmap to launch.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHANNELS -->
+<section class="sec on-dark" id="channels">
+  <div class="strx-container">
+    <div class="sec-head">
+      <p class="t-mono dark">// Other channels</p>
+      <h2>Reach us <span class="accent">your way.</span></h2>
+      <p>We’re on several channels. Email gets the fastest reply.</p>
+    </div>
+    <div class="chan-grid">
+      <a href="mailto:hello@structure.studio" class="chan">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span>
+        <span class="ct"><span class="k">Email</span><span class="v">hello@structure.studio</span></span>
+      </a>
+      <a href="#" class="chan">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+        <span class="ct"><span class="k">Telegram</span><span class="v">@structurestudio</span></span>
+      </a>
+      <a href="#" class="chan">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
+        <span class="ct"><span class="k">LinkedIn</span><span class="v">/structure</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+  <div class="strx-container">
+    <div class="faq-grid">
+      <div class="faq-aside">
+        <p class="t-mono">// Before you send an inquiry</p>
+        <h2>A few things that might help.</h2>
+        <p>Don't see your answer? Just send an inquiry — we'll clarify on the call.</p>
+      </div>
+      <div id="faqList">
+        <div class="faq-item open"><button class="faq-q">Do you take on small projects?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes, as long as the problem is clear and within what we do. Send an inquiry and we'll take a look.</div></div></div>
+        <div class="faq-item"><button class="faq-q">How fast do you reply?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Within one business day. If it fits, we propose a 30-minute discovery call.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Do you work remotely?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes. Remote-first, serving clients worldwide, async-first.</div></div></div>
+        <div class="faq-item"><button class="faq-q">What should I prepare before the call?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Just a few lines about goals, timeline, and any materials you have. No complete brief needed.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Remote-first · serving clients worldwide.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="services.html#timeline">Process</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="Structure Homepage.html#industry">E-commerce</a></li><li><a href="Structure Homepage.html#industry">SaaS</a></li><li><a href="Structure Homepage.html#industry">Fintech</a></li><li><a href="Structure Homepage.html#industry">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){ const nav = document.getElementById('topnav'); const f = () => nav.classList.toggle('scrolled', window.scrollY > 8); f(); window.addEventListener('scroll', f, { passive: true }); })();
+  document.querySelectorAll('#faqList .faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const was = item.classList.contains('open');
+      document.querySelectorAll('#faqList .faq-item').forEach(i => i.classList.remove('open'));
+      if (!was) item.classList.add('open');
+    });
+  });
+</script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

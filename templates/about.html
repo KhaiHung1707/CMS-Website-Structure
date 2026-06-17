@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+<style>
+  html { scroll-behavior: smooth; }
+  body.strx { overflow-x: hidden; }
+  .strx-container { max-width: 1440px; }
+
+  .strx a.btn-dark, .strx a.btn-on-dark { color: var(--text-on-dark); }
+  .strx a.btn-light { color: var(--ink); }
+  .strx a.btn-accent { color: var(--accent-ink); }
+  .strx a.btn-soft, .strx a.btn-ghost { color: var(--text); }
+  .btn { white-space: nowrap; }
+
+  nav.top { position: sticky; top: 0; z-index: 60; height: 74px; background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%); border-bottom: 1px solid transparent; transition: border-color var(--dur-base) ease; }
+  nav.top.scrolled { border-bottom-color: var(--border); }
+  nav.top .inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+  .nav-brand { display: flex; align-items: center; gap: 11px; }
+  .nav-mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: grid; place-items: center; }
+  .nav-mark img { width: 22px; height: 22px; display: block; }
+  .nav-word { font-size: 20px; font-weight: 700; letter-spacing: -0.04em; }
+  .nav-links { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a { font-size: 15px; color: var(--text); white-space: nowrap; transition: opacity var(--dur-fast) ease; }
+  .nav-links a:hover { opacity: 0.55; }
+  .nav-links a.cur { position: relative; }
+  .nav-links a.cur::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--accent); border-radius: 2px; }
+  .nav-cta { height: 42px; padding: 0 20px; display: inline-flex; align-items: center; }
+  @media (max-width: 880px) { .nav-links { display: none; } }
+
+  .sec { padding: var(--space-11) 0; }
+  @media (max-width: 768px) { .sec { padding: var(--space-9) 0; } }
+  .sec.on-dark { background: var(--ink); color: var(--text-on-dark); }
+  .sec.cream { background: var(--bg-cream); }
+  .sec-head { max-width: 760px; margin-bottom: var(--space-8); }
+  .sec-head h2 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-h2); line-height: 1.02; letter-spacing: -0.03em; margin: 16px 0 0; }
+  .sec-head p { font-size: var(--fs-lead); color: var(--text-muted); line-height: 1.55; margin: 18px 0 0; max-width: 600px; }
+  .sec.on-dark .sec-head h2 { color: var(--text-on-dark); }
+  .sec.on-dark .sec-head p { color: var(--text-on-dark-muted); }
+  .sec-head h2 .accent { color: var(--accent); }
+  .sec.on-dark .sec-head h2 .accent { color: var(--accent-on-dark); }
+  .t-mono.dark { color: var(--accent-on-dark); }
+
+  .page-hero { position: relative; overflow: hidden; padding: var(--space-10) 0 var(--space-9); }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 70% 80% at 85% 12%, #000 0%, transparent 70%); mask-image: radial-gradient(ellipse 70% 80% at 85% 12%, #000 0%, transparent 70%); pointer-events: none; }
+  .page-hero .inner { position: relative; z-index: 2; max-width: 900px; }
+  .page-hero h1 { font-family: var(--font-display); font-weight: 500; font-size: clamp(44px, 6.5vw, 96px); line-height: 0.98; letter-spacing: -0.04em; margin: 22px 0 0; }
+  .page-hero h1 .soft { color: var(--text-muted); }
+  .page-hero h1 .accent { color: var(--accent); }
+  .page-hero p.lead { font-size: 19px; color: var(--text-muted); line-height: 1.55; max-width: 580px; margin: 26px 0 0; }
+
+  /* journey */
+  .journey { display: grid; grid-template-columns: 300px 1fr; gap: var(--space-9); align-items: start; }
+  @media (max-width: 880px) { .journey { grid-template-columns: 1fr; gap: var(--space-5); } }
+  .journey aside { position: sticky; top: 100px; }
+  .journey aside .num { font-family: var(--font-numeric); font-weight: 900; font-size: 80px; color: var(--accent); line-height: 0.85; letter-spacing: -0.04em; margin-bottom: 14px; }
+  .journey aside .lb { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
+  .journey .body p { font-size: 19px; line-height: 1.65; margin: 0 0 22px; max-width: 660px; }
+  .journey .body p.muted { color: var(--text-muted); font-size: 17px; }
+  .journey blockquote { border-left: 3px solid var(--accent); padding: 6px 24px; margin: 32px 0; font-size: 22px; font-weight: 500; line-height: 1.35; letter-spacing: -0.015em; max-width: 640px; }
+
+  /* team */
+  .team-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  @media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 620px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+  .team-card { background: var(--ink-soft); border: 1px solid var(--border-dark); border-radius: var(--radius-lg); overflow: hidden; transition: border-color var(--dur-base) ease, transform var(--dur-slow) var(--ease-out); }
+  .team-card:hover { border-color: var(--accent-on-dark); transform: translateY(-2px); }
+  .team-card .ph { aspect-ratio: 1/1; position: relative; }
+  .team-card .ph svg { width: 100%; height: 100%; }
+  .team-card .meta { padding: 18px 18px 22px; }
+  .team-card .meta .nm { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--text-on-dark); }
+  .team-card .meta .rl { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-on-dark); margin-top: 6px; }
+
+  /* values */
+  .val-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 900px) { .val-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .val-grid { grid-template-columns: 1fr; } }
+  .val-card { background: var(--surface); border-radius: var(--radius-xl); padding: 32px; min-height: 230px; display: flex; flex-direction: column; gap: 16px; transition: background var(--dur-base) ease, transform var(--dur-slow) var(--ease-out); }
+  .val-card:hover { background: var(--accent-soft); transform: translateY(-2px); }
+  .val-card .vn { font-family: var(--font-numeric); font-weight: 900; font-size: 44px; color: var(--accent); line-height: 0.85; letter-spacing: -0.03em; }
+  .val-card h4 { font-size: 21px; font-weight: 500; letter-spacing: -0.02em; margin: 0; }
+  .val-card p { font-size: 14px; line-height: 1.55; color: var(--text-muted); margin: auto 0 0; }
+
+  /* stat strip */
+  .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border-dark); border-bottom: 1px solid var(--border-dark); }
+  @media (max-width: 800px) { .stat-strip { grid-template-columns: repeat(2, 1fr); } }
+  .stat-cell { padding: 44px 32px; border-right: 1px solid var(--border-dark); }
+  .stat-cell:last-child { border-right: none; }
+  @media (max-width: 800px) { .stat-cell:nth-child(2n) { border-right: none; } .stat-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border-dark); } }
+  .stat-cell .v { font-family: var(--font-numeric); font-weight: 900; font-size: clamp(52px, 6vw, 80px); color: var(--accent-on-dark); line-height: 0.88; letter-spacing: -0.02em; }
+  .stat-cell .v .s { font-size: 0.48em; opacity: 0.7; margin-left: 3px; }
+  .stat-cell .k { font-size: 14px; color: var(--text-on-dark-muted); line-height: 1.5; margin-top: 14px; }
+
+  .cta { background: var(--ink); color: var(--text-on-dark); padding: var(--space-12) 0; position: relative; overflow: hidden; }
+  .cta::before { content: ''; position: absolute; top: -200px; right: -160px; width: 580px; height: 580px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); pointer-events: none; }
+  .cta .inner { position: relative; max-width: 820px; text-align: center; }
+  .cta h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(40px, 6vw, 84px); letter-spacing: -0.04em; line-height: 0.98; color: var(--text-on-dark); margin: 18px 0 24px; }
+  .cta h2 .accent { color: var(--accent-on-dark); }
+  .cta p { font-size: 18px; color: var(--text-on-dark-muted); line-height: 1.55; max-width: 520px; margin: 0 auto 40px; }
+  .cta .acts { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  footer { background: var(--ink); color: var(--text-on-dark); border-top: 1px solid var(--border-dark); padding: var(--space-10) 0 var(--space-6); }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-7); margin-bottom: var(--space-9); }
+  @media (max-width: 700px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+  .foot-brand .nav-word { color: var(--text-on-dark); }
+  .foot-brand p { color: var(--text-on-dark-muted); font-size: 14px; line-height: 1.55; max-width: 300px; margin: 18px 0 0; }
+  .foot-col h4 { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-on-dark-muted); margin: 0 0 18px; font-weight: 400; }
+  .foot-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .foot-col a { color: var(--text-on-dark); font-size: 15px; transition: color var(--dur-fast) ease; }
+  .foot-col a:hover { color: var(--accent-on-dark); }
+  .foot-bottom { padding-top: 28px; border-top: 1px solid var(--border-dark); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; color: var(--text-on-dark-muted); letter-spacing: 0.04em; }
+</style>
+</head>
+<body class="strx" data-template="core-about">
+<!-- @cms TEMPLATE: core-about -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html" class="cur">About</a></li>
+      <li><a href="industries.html">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="page-hero">
+  <div class="strx-container inner">
+    <p class="t-mono">// About Structure</p>
+    <h1>A small studio.<br>Working <span class="accent">extremely carefully.</span></h1>
+    <p class="lead">Five people. All senior. We take on fewer projects so each one gets full attention — and so we stay proud of what we ship.</p>
+  </div>
+</header>
+
+<!-- JOURNEY -->
+<section class="sec" id="journey">
+  <div class="strx-container">
+    <div class="journey">
+      <aside>
+        <div class="num">01</div>
+        <div class="lb">Our story</div>
+      </aside>
+      <div class="body">
+        <p>Structure didn’t start from a business plan — it started from a question: "Why is the web still slow and ugly when the technology is more than good enough to do it well?"</p>
+        <p class="muted">We came from large agencies, where projects passed through too many layers and quality fell away along the path. So we built the opposite kind of studio: small, direct, and owning the outcome end to end.</p>
+        <blockquote>"We build the web like a building — designed on a grid, engineered to last."</blockquote>
+        <p class="muted">Today we still hold to that principle. Every product is measured in numbers, every decision is explained, and every line of code has someone accountable for it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="sec on-dark" id="team">
+  <div class="strx-container">
+    <div class="sec-head">
+      <p class="t-mono dark">// Team</p>
+      <h2>Five people. No more. <span class="accent">Senior only.</span></h2>
+      <p>No juniors, no interns filling in. The person you talk to is the person who designs and builds.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#A7282B"/><circle cx="100" cy="80" r="34" fill="#3E0A0B" opacity="0.28"/><rect x="48" y="128" width="104" height="64" rx="32" fill="#3E0A0B" opacity="0.28"/></svg></div><div class="meta"><div class="nm">Dana Reyes</div><div class="rl">Founder · Design</div></div></div>
+      <div class="team-card"><div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#1C1C22"/><circle cx="100" cy="80" r="34" fill="#fff" opacity="0.22"/><rect x="48" y="128" width="104" height="64" rx="32" fill="#fff" opacity="0.22"/></svg></div><div class="meta"><div class="nm">Minh Trần</div><div class="rl">Lead Engineer</div></div></div>
+      <div class="team-card"><div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#232329"/><circle cx="100" cy="80" r="34" fill="#fff" opacity="0.22"/><rect x="48" y="128" width="104" height="64" rx="32" fill="#fff" opacity="0.22"/></svg></div><div class="meta"><div class="nm">Sofia Park</div><div class="rl">Product Designer</div></div></div>
+      <div class="team-card"><div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#8B1F22"/><circle cx="100" cy="80" r="34" fill="#fff" opacity="0.22"/><rect x="48" y="128" width="104" height="64" rx="32" fill="#fff" opacity="0.22"/></svg></div><div class="meta"><div class="nm">Liam Nguyễn</div><div class="rl">Frontend Eng</div></div></div>
+      <div class="team-card"><div class="ph"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#2A2A2A"/><circle cx="100" cy="80" r="34" fill="#A7282B" opacity="0.85"/><rect x="48" y="128" width="104" height="64" rx="32" fill="#A7282B" opacity="0.7"/></svg></div><div class="meta"><div class="nm">Aria Vũ</div><div class="rl">SEO · Performance</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="sec" id="values">
+  <div class="strx-container">
+    <div class="sec-head">
+      <p class="t-mono">// Core values</p>
+      <h2>Six principles <span class="accent">that shape every decision.</span></h2>
+    </div>
+    <div class="val-grid">
+      <div class="val-card"><div class="vn">01</div><h4>Quality over speed</h4><p>We’ll extend a timeline to hit the bar. We don’t ship "good enough".</p></div>
+      <div class="val-card"><div class="vn">02</div><h4>Less but better</h4><p>8–12 projects a year instead of 50. Each one gets 100% of our attention.</p></div>
+      <div class="val-card"><div class="vn">03</div><h4>Direct, always</h4><p>Work directly with the designer/developer. No middle layers.</p></div>
+      <div class="val-card"><div class="vn">04</div><h4>Measure everything</h4><p>Every decision is grounded in data. Beautiful isn’t enough — it has to work.</p></div>
+      <div class="val-card"><div class="vn">05</div><h4>Own the outcome</h4><p>We don't vanish after go-live. The outcome is our responsibility.</p></div>
+      <div class="val-card"><div class="vn">06</div><h4>Build to last</h4><p>Typed, structured, maintainable code. So the product outlives the project.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BY THE NUMBERS -->
+<section class="sec on-dark" id="numbers">
+  <div class="strx-container">
+    <div class="sec-head">
+      <p class="t-mono dark">// By the numbers</p>
+      <h2>The studio in <span class="accent">60 seconds.</span></h2>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-cell"><div class="v">5</div><div class="k">People · all senior</div></div>
+      <div class="stat-cell"><div class="v">8–12</div><div class="k">Projects per year</div></div>
+      <div class="stat-cell"><div class="v">40<span class="s">+</span></div><div class="k">Products shipped</div></div>
+      <div class="stat-cell"><div class="v">6</div><div class="k">Years operating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Work with us</p>
+    <h2>Like how <span class="accent">we work?</span></h2>
+    <p>A 30-minute call to see if we're a fit — no sales pitch, no commitment.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Contact →</a>
+      <a href="work.html" class="btn btn-on-dark">View work</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="services.html#timeline">Process</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="Structure Homepage.html#industry">E-commerce</a></li><li><a href="Structure Homepage.html#industry">SaaS</a></li><li><a href="Structure Homepage.html#industry">Fintech</a></li><li><a href="Structure Homepage.html#industry">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){ const nav = document.getElementById('topnav'); const f = () => nav.classList.toggle('scrolled', window.scrollY > 8); f(); window.addEventListener('scroll', f, { passive: true }); })();
+</script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

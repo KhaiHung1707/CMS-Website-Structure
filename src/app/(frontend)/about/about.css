@@ -1,0 +1,43 @@
+/* =====================================================================
+   ABOUT — page-specific styles extracted from templates/about.html.
+   Shared chrome (.sec, .sec-head, .page-hero, .stat-strip, .cta, footer)
+   lives in src/styles/shared.css. Only about-unique rules are declared here.
+   ===================================================================== */
+
+/* about hero padding + width differ slightly from the shared .page-hero default */
+.about-page .page-hero { padding: var(--space-10) 0 var(--space-9); }
+.about-page .page-hero .inner { max-width: 900px; }
+.about-page .page-hero h1 { font-size: clamp(44px, 6.5vw, 96px); line-height: 0.98; max-width: none; }
+.about-page .page-hero p.lead { font-size: 19px; max-width: 580px; }
+
+/* journey */
+.journey { display: grid; grid-template-columns: 300px 1fr; gap: var(--space-9); align-items: start; }
+@media (max-width: 880px) { .journey { grid-template-columns: 1fr; gap: var(--space-5); } }
+.journey aside { position: sticky; top: 100px; }
+.journey aside .num { font-family: var(--font-numeric); font-weight: 900; font-size: 80px; color: var(--accent); line-height: 0.85; letter-spacing: -0.04em; margin-bottom: 14px; }
+.journey aside .lb { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
+.journey .body p { font-size: 19px; line-height: 1.65; margin: 0 0 22px; max-width: 660px; }
+.journey .body p.muted { color: var(--text-muted); font-size: 17px; }
+.journey blockquote { border-left: 3px solid var(--accent); padding: 6px 24px; margin: 32px 0; font-size: 22px; font-weight: 500; line-height: 1.35; letter-spacing: -0.015em; max-width: 640px; }
+
+/* team */
+.team-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 620px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+.team-card { background: var(--ink-soft); border: 1px solid var(--border-dark); border-radius: var(--radius-lg); overflow: hidden; transition: border-color var(--dur-base) ease, transform var(--dur-slow) var(--ease-out); }
+.team-card:hover { border-color: var(--accent-on-dark); transform: translateY(-2px); }
+.team-card .ph { aspect-ratio: 1/1; position: relative; }
+.team-card .ph svg { width: 100%; height: 100%; }
+.team-card .meta { padding: 18px 18px 22px; }
+.team-card .meta .nm { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--text-on-dark); }
+.team-card .meta .rl { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-on-dark); margin-top: 6px; }
+
+/* values */
+.val-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 900px) { .val-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .val-grid { grid-template-columns: 1fr; } }
+.val-card { background: var(--surface); border-radius: var(--radius-xl); padding: 32px; min-height: 230px; display: flex; flex-direction: column; gap: 16px; transition: background var(--dur-base) ease, transform var(--dur-slow) var(--ease-out); }
+.val-card:hover { background: var(--accent-soft); transform: translateY(-2px); }
+.val-card .vn { font-family: var(--font-numeric); font-weight: 900; font-size: 44px; color: var(--accent); line-height: 0.85; letter-spacing: -0.03em; }
+.val-card h4 { font-size: 21px; font-weight: 500; letter-spacing: -0.02em; margin: 0; }
+.val-card p { font-size: 14px; line-height: 1.55; color: var(--text-muted); margin: auto 0 0; }

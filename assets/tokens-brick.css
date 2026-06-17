@@ -1,0 +1,379 @@
+/* =====================================================================
+   STRUCXAL DESIGN SYSTEM — tokens-v2.css  (WHITE + INK edition)
+   Source of truth for colors, type, spacing, radii, elevation, motion
+   and the core reusable component classes.
+
+   What changed from v1:
+   - Warm "paper" surfaces  →  clean WHITE + cool-gray ramp.
+   - Near-black ink ramp kept (cooled very slightly).
+   - Accent reworked for a DUOTONE system (white sections AND ink
+     sections). Each accent now ships a full surface-aware set:
+       --accent           saturated fill (buttons, blocks, dots, glow)
+       --accent-hover     hover state of the fill
+       --accent-ink       text/icon placed ON the saturated fill (light)
+       --accent-soft      pale tint fill on white surfaces
+       --accent-soft-ink  text placed ON the soft tint (dark accent)
+       --accent-on-dark   accent used as TEXT/glyph on ink (a lighter tint
+                          so it reads on near-black)
+   - Default accent is COBALT "blueprint blue". Add data-accent=
+       "orange | emerald | violet | magenta" on <html> for alternates.
+     Every accent reads as text on white and as a fill with light text.
+
+   Load order:
+     <link rel="stylesheet" href="tokens-v2.css">
+     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet">
+   ===================================================================== */
+
+:root {
+  /* ---- Surfaces / white ramp (cool) ------------------------------- */
+  --bg:            #FFFFFF;   /* page background */
+  --bg-cream:      #F5F6F8;   /* alt page tint (cool off-white) */
+  --surface:       #EFF1F4;   /* card / chip     */
+  --surface-2:     #E4E7EC;   /* pressed / deep  */
+
+  /* ---- Ink ramp (near-black, cool) -------------------------------- */
+  --ink:           #0A0A0B;   /* primary ink + dark sections */
+  --ink-soft:      #161618;   /* dark card surface           */
+  --ink-elevated:  #242428;   /* dark chip / raised          */
+
+  /* ---- Text ------------------------------------------------------- */
+  --text:               #0A0A0B;
+  --text-muted:         #585B61;
+  --text-faint:         #9A9EA5;
+  --text-on-dark:       #F4F5F7;
+  --text-on-dark-muted: #9CA0A8;
+
+  /* ---- Borders (hairlines first) ---------------------------------- */
+  --border:             rgba(10, 10, 12, 0.10);
+  --border-strong:      rgba(10, 10, 12, 0.18);
+  --border-dark:        rgba(255, 255, 255, 0.10);
+  --border-dark-strong: rgba(255, 255, 255, 0.18);
+
+  /* ---- Accent — COBALT "blueprint blue" (default) ----------------- */
+  --accent:          #2347E5;
+  --accent-hover:    #1B38C2;
+  --accent-ink:      #FFFFFF;   /* text ON the saturated fill          */
+  --accent-soft:     #E7ECFF;   /* tinted card fill on white           */
+  --accent-soft-ink: #1B36B5;   /* text ON the soft tint               */
+  --accent-on-dark:  #7C97FF;   /* accent as text/glyph on ink         */
+  --accent-glow:     rgba(35, 71, 229, 0.40);
+
+  /* ---- Status (muted, sparing) ------------------------------------ */
+  --good:  #2B8A57;
+  --warn:  #C2780C;
+  --bad:   #8B8B92;
+
+  /* ---- Type families ---------------------------------------------- */
+  --font-display: 'Geist', system-ui, -apple-system, sans-serif;   /* display / UI */
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;        /* labels / data */
+  --font-numeric: 'Doto', 'JetBrains Mono', monospace;              /* big stat numerals */
+
+  /* ---- Type scale (fluid) ----------------------------------------- */
+  --fs-display:  clamp(48px, 8vw, 128px);
+  --fs-h1:       clamp(44px, 7vw, 120px);
+  --fs-h2:       clamp(36px, 5vw, 72px);
+  --fs-h3:       clamp(28px, 3.5vw, 44px);
+  --fs-h4:       22px;
+  --fs-lead:     19px;
+  --fs-body:     16px;
+  --fs-sm:       14px;
+  --fs-label:    11px;   /* mono uppercase label */
+
+  /* ---- Spacing — strict 8px base grid ----------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  80px;
+  --space-10: 96px;
+  --space-11: 120px;
+  --space-12: 140px;
+
+  --gutter: 48px;          /* container side padding */
+  --maxw:   1440px;        /* container max width    */
+
+  /* ---- Corner radii ----------------------------------------------- */
+  --radius-sm:   6px;
+  --radius-md:   16px;
+  --radius-lg:   24px;
+  --radius-xl:   32px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation (crisp, low, cool) ------------------------------- */
+  --shadow-sm:     0 2px 8px rgba(10, 10, 12, 0.06), 0 1px 2px rgba(10, 10, 12, 0.04);
+  --shadow-md:     0 8px 28px rgba(10, 10, 12, 0.10);
+  --shadow-lg:     0 24px 60px -16px rgba(10, 10, 12, 0.30);
+  --shadow-accent: 0 0 0 2px var(--accent), 0 0 70px rgba(35, 71, 229, 0.35);
+
+  /* ---- Motion ----------------------------------------------------- */
+  --ease-out:    cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:    120ms;
+  --dur-base:    250ms;
+  --dur-slow:    600ms;
+}
+
+/* ---- Orange accent theme ------------------------------------------ */
+[data-accent="orange"] {
+  --accent:          #E8530B;
+  --accent-hover:    #C8420A;
+  --accent-ink:      #FFFFFF;
+  --accent-soft:     #FFE6D6;
+  --accent-soft-ink: #9A3412;
+  --accent-on-dark:  #FF9255;
+  --accent-glow:     rgba(232, 83, 11, 0.40);
+  --shadow-accent:   0 0 0 2px var(--accent), 0 0 70px rgba(232, 83, 11, 0.35);
+}
+
+/* ---- Emerald accent theme ----------------------------------------- */
+[data-accent="emerald"] {
+  --accent:          #0E9F6E;
+  --accent-hover:    #0B855C;
+  --accent-ink:      #FFFFFF;
+  --accent-soft:     #D6F4E6;
+  --accent-soft-ink: #065F46;
+  --accent-on-dark:  #34D8A0;
+  --accent-glow:     rgba(14, 159, 110, 0.40);
+  --shadow-accent:   0 0 0 2px var(--accent), 0 0 70px rgba(14, 159, 110, 0.35);
+}
+
+/* ---- Violet accent theme ------------------------------------------ */
+[data-accent="violet"] {
+  --accent:          #6D28D9;
+  --accent-hover:    #5B21B6;
+  --accent-ink:      #FFFFFF;
+  --accent-soft:     #ECE3FF;
+  --accent-soft-ink: #5B21B6;
+  --accent-on-dark:  #B49BFF;
+  --accent-glow:     rgba(109, 40, 217, 0.40);
+  --shadow-accent:   0 0 0 2px var(--accent), 0 0 70px rgba(109, 40, 217, 0.40);
+}
+
+/* ---- Magenta accent theme ----------------------------------------- */
+[data-accent="magenta"] {
+  --accent:          #D81B72;
+  --accent-hover:    #B8155F;
+  --accent-ink:      #FFFFFF;
+  --accent-soft:     #FCE0EE;
+  --accent-soft-ink: #9D174D;
+  --accent-on-dark:  #FF6FAE;
+  --accent-glow:     rgba(216, 27, 114, 0.40);
+  --shadow-accent:   0 0 0 2px var(--accent), 0 0 70px rgba(216, 27, 114, 0.38);
+}
+
+/* ---- Brick accent theme (deep architectural red) ------------------ */
+[data-accent="brick"] {
+  --accent:          #A7282B;
+  --accent-hover:    #8B1F22;
+  --accent-ink:      #FFFFFF;
+  --accent-soft:     #F6E1E1;
+  --accent-soft-ink: #8B1F22;
+  --accent-on-dark:  #E87A7C;
+  --accent-glow:     rgba(167, 40, 43, 0.40);
+  --shadow-accent:   0 0 0 2px var(--accent), 0 0 70px rgba(167, 40, 43, 0.35);
+}
+
+/* =====================================================================
+   BASE
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body.strx {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.strx a { color: inherit; text-decoration: none; }
+.strx button { font-family: inherit; cursor: pointer; border: none; background: transparent; }
+.strx img, .strx svg { display: block; max-width: 100%; }
+
+/* Container */
+.strx-container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+@media (max-width: 768px) { .strx-container { padding: 0 24px; } }
+
+/* =====================================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================================== */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.t-lead {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.t-numeric {
+  font-family: var(--font-numeric);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  color: var(--accent);
+}
+.t-soft      { color: var(--text-muted); }
+.t-soft-dark { color: var(--text-on-dark-muted); }
+
+/* =====================================================================
+   EYEBROW PILL  —  mono uppercase label in a soft pill
+   ===================================================================== */
+.eyebrow-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--surface);
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.eyebrow-pill.on-dark   { background: var(--ink-soft); color: var(--text-on-dark-muted); }
+.eyebrow-pill.on-accent { background: var(--ink); color: var(--accent-on-dark); }
+
+/* =====================================================================
+   BUTTONS  —  pill shaped, 52px, accent-on-hover
+   ===================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  transition: transform var(--dur-base) var(--ease-out),
+              background var(--dur-base) ease,
+              color var(--dur-base) ease,
+              border-color var(--dur-base) ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn-sm { height: 40px; padding: 0 18px; font-size: 14px; }
+
+.btn-dark  { background: var(--ink); color: var(--text-on-dark); }
+.btn-dark:hover  { background: var(--accent); color: var(--accent-ink); }
+
+.btn-soft  { background: var(--surface); color: var(--text); }
+.btn-soft:hover  { background: var(--surface-2); }
+
+.btn-accent { background: var(--accent); color: var(--accent-ink); }
+.btn-accent:hover { background: var(--accent-hover); }
+
+.btn-light { background: var(--surface); color: var(--ink); }
+.btn-light:hover { background: var(--accent); color: var(--accent-ink); }
+
+.btn-on-dark {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--text-on-dark);
+  border: 1px solid var(--border-dark-strong);
+}
+.btn-on-dark:hover { background: rgba(255, 255, 255, 0.16); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+.btn-ghost:hover { background: var(--surface); }
+
+/* =====================================================================
+   BADGE  —  tiny mono status marker
+   ===================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--surface);
+  color: var(--text-muted);
+}
+.badge.accent { background: var(--accent); color: var(--accent-ink); }
+.badge.ink    { background: var(--ink); color: var(--accent-on-dark); }
+.badge .dot   { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* =====================================================================
+   TAG  —  rounded pill chip, optionally with dot
+   ===================================================================== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+}
+.tag .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* =====================================================================
+   CARD  —  surface, xl radius, hover lift
+   ===================================================================== */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  transition: background var(--dur-base) ease,
+              transform var(--dur-slow) var(--ease-out);
+}
+.card.lift:hover { background: var(--accent-soft); transform: translateY(-2px); }
+.card.outline   { background: var(--bg); border: 1px solid var(--border); }
+.card.outline:hover { border-color: var(--border-strong); }
+.card.dark      { background: var(--ink); color: var(--text-on-dark); }
+.card.accent    { background: var(--accent); color: var(--accent-ink); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .strx *, .btn, .card { transition: none !important; animation: none !important; }
+}

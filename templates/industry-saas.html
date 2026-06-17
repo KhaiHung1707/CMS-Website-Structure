@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — SaaS & Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="service.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+<style>
+  .cap4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 760px) { .cap4 { grid-template-columns: 1fr; } }
+  .cap4 .pillar { min-height: 200px; }
+  /* #story — show only the active step's mockup (clearer, one part at a time) */
+  #story .story-body { min-height: 268px; justify-content: center; }
+  #story .story-art [data-part] { display: none; opacity: 1; }
+  #story .story-art:not([data-focus]) [data-part="p1"],
+  #story .story-art[data-focus="p1"] [data-part="p1"],
+  #story .story-art[data-focus="p2"] [data-part="p2"],
+  #story .story-art[data-focus="p3"] [data-part="p3"],
+  #story .story-art[data-focus="p4"] [data-part="p4"] { display: block; animation: spStorySwap 0.45s var(--ease-out); }
+  @keyframes spStorySwap { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { #story .story-art [data-part] { animation: none; } }
+</style>
+</head>
+<body class="strx" data-template="single-industry">
+<!-- @cms TEMPLATE: single-industry -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html" class="cur">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<header class="svc-hero">
+  <div class="strx-container inner">
+    <div class="crumb"><a href="industries.html">Industries</a><span class="sep">/</span><span>SaaS & Software</span></div>
+    <div class="lead-grid">
+      <div>
+        <p class="t-mono">// Industry 02</p>
+        <h1>From marketing site <span class="accent">to product,</span> seamlessly.</h1>
+      </div>
+      <div>
+        <p class="lead">A converting landing page and a working app on one shared design system — so the team ships features fast and users activate faster.</p>
+        <div class="acts">
+          <a href="contact.html" class="btn btn-dark">Start a project →</a>
+          <a href="work.html" class="btn btn-ghost">View work</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="manifesto">
+  <div class="strx-container">
+    <p class="big reveal"><span class="mut">Acquisition is wasted if users never reach the aha moment.</span> We design the whole arc — landing, onboarding, and the product — so trials turn into <span class="accent">paying customers.</span></p>
+  </div>
+</section>
+
+<section class="sec cream" id="story">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// Case study · QuoteFlow</p>
+      <h2>Four steps, <span class="accent">structured.</span></h2>
+      <p>Scroll through how QuoteFlow takes a customer from an instant quote to a paid, tracked project — all on one platform.</p>
+    </div>
+
+    <div class="scrolly-grid">
+      <div class="scrolly-visual">
+        <div class="story-window story-art" data-focus="p1">
+          <div class="story-chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">quoteflow.app — customer portal</span></div>
+          <div class="story-body">
+            <div class="story-part" data-part="p1">
+              <div class="sp-cap">01 · Instant quote</div>
+              <div class="sp-row" style="justify-content:space-between;margin-bottom:14px;">
+                <div><span class="sp-num" style="font-size:28px;">$2,450</span><div class="sp-muted" style="font-size:11px;">Live estimate · USD</div></div>
+                <span class="sp-chip accent">Instant</span>
+              </div>
+              <div class="sp-row" style="justify-content:space-between;"><span class="sp-muted">Website design</span><span class="sp-title" style="font-size:14px;">$1,200</span></div>
+              <div class="sp-row" style="justify-content:space-between;margin-top:8px;"><span class="sp-muted">Content writing</span><span class="sp-title" style="font-size:14px;">$800</span></div>
+              <div class="sp-row" style="justify-content:space-between;margin-top:8px;"><span class="sp-muted">SEO &amp; keywords</span><span class="sp-title" style="font-size:14px;">$450</span></div>
+            </div>
+            <div class="story-part" data-part="p2">
+              <div class="sp-cap">02 · Request &amp; consult</div>
+              <div class="sp-bar" style="width:62%;height:26px;margin-bottom:10px;"></div>
+              <div class="sp-row" style="gap:8px;margin-bottom:12px;"><span class="sp-chip accent">Website design</span><span class="sp-chip">Consult</span></div>
+              <div class="sp-bar" style="width:100%;height:44px;margin-bottom:12px;"></div>
+              <div class="sp-row" style="justify-content:space-between;"><span class="sp-chip">project-brief.pdf</span><span style="background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:600;padding:8px 14px;border-radius:var(--radius-sm);">Send request</span></div>
+            </div>
+            <div class="story-part" data-part="p3">
+              <div class="sp-cap">03 · Customer portal</div>
+              <div class="sp-row" style="justify-content:space-between;margin-bottom:14px;">
+                <div><span class="sp-num" style="font-size:24px;">5</span><div class="sp-muted" style="font-size:11px;">Quotes</div></div>
+                <div><span class="sp-num" style="font-size:24px;">2</span><div class="sp-muted" style="font-size:11px;">Projects</div></div>
+                <div><span class="sp-num" style="font-size:24px;">1</span><div class="sp-muted" style="font-size:11px;">Requests</div></div>
+              </div>
+              <div class="sp-row" style="justify-content:space-between;"><span class="sp-muted">Website redesign</span><span class="sp-chip accent">In progress</span></div>
+              <div class="sp-row" style="justify-content:space-between;margin-top:8px;"><span class="sp-muted">Landing page</span><span class="sp-chip">Completed</span></div>
+            </div>
+            <div class="story-part" data-part="p4">
+              <div class="sp-cap">04 · Pay &amp; track</div>
+              <div class="sp-row" style="justify-content:space-between;margin-bottom:14px;"><div><span class="sp-num" style="font-size:24px;">$1,250</span><div class="sp-muted" style="font-size:11px;">Wallet balance</div></div><span class="sp-chip accent">Paid</span></div>
+              <div class="sp-row" style="justify-content:space-between;"><span class="sp-muted">Website design</span><span class="sp-title" style="font-size:14px;">−$800</span></div>
+              <div class="sp-row" style="justify-content:space-between;margin-top:8px;"><span class="sp-muted">Quote ready · notified</span><span class="sp-chip">May 22</span></div>
+            </div>
+          </div>
+          <div class="story-progress"></div>
+        </div>
+      </div>
+
+      <div class="scrolly-steps">
+        <article class="scrolly-step active" data-step="0" data-focus="p1">
+          <div class="ss-num"><span class="dot">01</span>Instant quote</div>
+          <h3>Priced in minutes, not days.</h3>
+          <p>Customers build a live estimate from the service catalog and see the total before they commit — no email, no waiting on a sales reply.</p>
+          <div class="ss-tags"><span class="tag">Quote calculator</span><span class="tag">Live estimate</span><span class="tag">Self-serve</span></div>
+        </article>
+        <article class="scrolly-step" data-step="1" data-focus="p2">
+          <div class="ss-num"><span class="dot">02</span>Request &amp; consult</div>
+          <h3>From interest to inquiry, instantly.</h3>
+          <p>One form captures the service type, project details, and attachments, then routes the request straight to the team for consultation.</p>
+          <div class="ss-tags"><span class="tag">Service request</span><span class="tag">Attachments</span><span class="tag">Consultation</span></div>
+        </article>
+        <article class="scrolly-step" data-step="2" data-focus="p3">
+          <div class="ss-num"><span class="dot">03</span>Customer portal</div>
+          <h3>Every quote, project and booking in one place.</h3>
+          <p>A personal dashboard tracks quotes, project status, appointments, and requests in real time — so customers always know where things stand.</p>
+          <div class="ss-tags"><span class="tag">Dashboard</span><span class="tag">Bookings</span><span class="tag">Status tracking</span></div>
+        </article>
+        <article class="scrolly-step" data-step="3" data-focus="p4">
+          <div class="ss-num"><span class="dot">04</span>Pay &amp; track</div>
+          <h3>Paid, invoiced, and kept in the loop.</h3>
+          <p>A built-in wallet, invoices, and automated notifications keep customers paying and informed at every stage of the project.</p>
+          <div class="ss-tags"><span class="tag">Wallet</span><span class="tag">Invoices</span><span class="tag">Notifications</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="capabilities">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// What we build</p>
+      <h2>Built for saas & software <span class="accent">from the ground up.</span></h2>
+    </div>
+    <div class="cap4">
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18"/><path d="M9 21V9"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg></span>
+        <h3>Onboarding & activation</h3>
+        <p>A sign-up flow, trial-to-paid path, and empty states designed to get users to value in the first session.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></span>
+        <h3>Dashboards & data viz</h3>
+        <p>Real-time dashboards and readable charts that make complex product data feel obvious.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+        <h3>Billing & subscription</h3>
+        <p>Stripe integration, plan management, proration, and automated invoices — handled end to end.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>
+        <h3>Scalable design system</h3>
+        <p>A component library and tokens so your team ships consistent features for years, not weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec on-dark" id="results">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono dark">// Results</p>
+      <h2>Numbers that <span class="accent">moved.</span></h2>
+      <p>Representative outcomes from saas & software projects after go-live.</p>
+    </div>
+    <div class="stat-strip reveal" style="grid-template-columns:repeat(3,1fr);">
+      <div class="stat-cell"><div class="v">+54<span class="s">%</span></div><div class="k">Trial → paid</div></div>
+      <div class="stat-cell"><div class="v">3.2<span class="s">×</span></div><div class="k">Feature ship speed</div></div>
+      <div class="stat-cell"><div class="v">99.9<span class="s">%</span></div><div class="k">Uptime</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cream" id="faq">
+  <div class="strx-container">
+    <div class="faq-grid">
+      <div class="faq-aside reveal">
+        <p class="t-mono">// FAQ</p>
+        <h2>SaaS & Software questions.</h2>
+        <p>Don't see your answer? Message us — we reply within one business day.</p>
+        <a href="contact.html" class="btn btn-dark" style="margin-top:24px;">Contact →</a>
+      </div>
+      <div id="faqList">
+        <div class="faq-item open"><button class="faq-q">Do you build both the site and the app?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes — on one design system, so the marketing site and the product feel like the same brand and reuse the same components.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Can you work with our existing codebase?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">We work in Next.js and TypeScript and integrate with your APIs and infra, or stand up a new typed foundation if you need one.</div></div></div>
+        <div class="faq-item"><button class="faq-q">How do you handle billing edge cases?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Proration, trials, upgrades, dunning, and failed-payment recovery are designed in from the start, not patched later.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="other">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Other industries</p><h2>Explore <span class="accent">more.</span></h2></div>
+    <div class="other-grid">
+      <a href="industry-ecommerce.html" class="other-card reveal"><div><div class="oc-n">01</div><h4>E-commerce & Retail</h4></div><span class="oc-arr">→</span></a>
+      <a href="industry-fintech.html" class="other-card reveal"><div><div class="oc-n">03</div><h4>Fintech</h4></div><span class="oc-arr">→</span></a>
+      <a href="industry-healthcare.html" class="other-card reveal"><div><div class="oc-n">04</div><h4>Healthcare</h4></div><span class="oc-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Get started</p>
+    <h2>Ready to ship <span class="accent">faster?</span></h2>
+    <p>A 30-minute call to look at your product and the path from trial to paid.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Start a project →</a>
+      <a href="industries.html" class="btn btn-on-dark">All industries</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="industries.html">Industries</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="industry-ecommerce.html">E-commerce</a></li><li><a href="industry-saas.html">SaaS</a></li><li><a href="industry-fintech.html">Fintech</a></li><li><a href="industry-healthcare.html">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="service.js"></script>
+<script src="nav-mega.js"></script>
+</body>
+</html>
