@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getIndustries } from '@/lib/content'
+import { getIndustries, getArchive } from '@/lib/content'
+import type { ArchiveStat } from '@/lib/content/types'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { CtaSection } from '@/components/layout/CtaSection'
 import { IndustryCard } from '@/components/cards/IndustryCard'
@@ -10,8 +11,23 @@ export const metadata: Metadata = {
   title: 'Industries — Structure',
 }
 
+const FALLBACK_HERO_STATS: ArchiveStat[] = [
+  { value: '12', label: 'Industries served' },
+  { value: '40', suffix: '+', label: 'Projects shipped' },
+]
+
+const FALLBACK_RESULTS: ArchiveStat[] = [
+  { value: '40', suffix: '+', label: 'Projects shipped' },
+  { value: '12', label: 'Industries served' },
+  { value: '0.9', suffix: 's', label: 'Median CWV' },
+  { value: '96', suffix: '/100', label: 'Avg Lighthouse' },
+]
+
 export default async function IndustriesPage() {
-  const industries = await getIndustries()
+  const [industries, content] = await Promise.all([getIndustries(), getArchive('industries')])
+
+  const heroStats = content?.hero_stats?.length ? content.hero_stats : FALLBACK_HERO_STATS
+  const resultsStats = content?.results_stats?.length ? content.results_stats : FALLBACK_RESULTS
 
   return (
     <>
@@ -24,15 +40,15 @@ export default async function IndustriesPage() {
           </div>
           <div className="lead-grid">
             <div>
-              <Eyebrow>// Industries</Eyebrow>
+              <Eyebrow>{content?.hero_eyebrow ?? '// Industries'}</Eyebrow>
               <h1>
                 Built for how your <span className="accent">industry</span> actually works.
               </h1>
             </div>
             <div>
               <p className="lead">
-                Every field has its own rules — compliance, conversion, accessibility, speed. We
-                bring the patterns that win in yours, not a generic template.
+                {content?.hero_lead ??
+                  "Every field has its own rules — compliance, conversion, accessibility, speed. We bring the patterns that win in yours, not a generic template."}
               </p>
               <div className="acts">
                 <Link href="/contact" className="btn btn-dark">
@@ -45,27 +61,30 @@ export default async function IndustriesPage() {
             </div>
           </div>
           <div className="h-stats reveal" style={{ marginTop: 'var(--space-9)', maxWidth: 560 }}>
-            <div className="hs">
-              <div className="v">12</div>
-              <div className="k">Industries served</div>
-            </div>
-            <div className="hs">
-              <div className="v">
-                40<span className="s">+</span>
+            {heroStats.map((s, i) => (
+              <div className="hs" key={i}>
+                <div className="v">
+                  {s.value}
+                  {s.suffix ? <span className="s">{s.suffix}</span> : null}
+                </div>
+                <div className="k">{s.label}</div>
               </div>
-              <div className="k">Projects shipped</div>
-            </div>
+            ))}
           </div>
         </div>
       </header>
 
       <section className="manifesto">
         <div className="strx-container">
-          <p className="big reveal">
-            <span className="mut">A pattern that converts a fashion store will sink a clinic.</span>{' '}
-            We start from your industry&apos;s real constraints — and design the web that{' '}
-            <span className="accent">moves your numbers.</span>
-          </p>
+          {content?.manifesto ? (
+            <p className="big reveal">{content.manifesto}</p>
+          ) : (
+            <p className="big reveal">
+              <span className="mut">A pattern that converts a fashion store will sink a clinic.</span>{' '}
+              We start from your industry&apos;s real constraints — and design the web that{' '}
+              <span className="accent">moves your numbers.</span>
+            </p>
+          )}
         </div>
       </section>
 
@@ -89,38 +108,26 @@ export default async function IndustriesPage() {
       <section className="sec on-dark" id="results">
         <div className="strx-container">
           <div className="sec-head reveal">
-            <Eyebrow dark>// Across every industry</Eyebrow>
+            <Eyebrow dark>{content?.results_eyebrow ?? '// Across every industry'}</Eyebrow>
             <h2>
-              The standard <span className="accent">doesn&apos;t change.</span>
+              {content?.results_heading ?? 'The standard '}
+              <span className="accent">{content?.results_heading_accent ?? "doesn't change."}</span>
             </h2>
             <p>
-              Different problems, same bar: fast, accessible, measurable. Averaged across all projects
-              in the last 24 months.
+              {content?.results_lead ??
+                'Different problems, same bar: fast, accessible, measurable. Averaged across all projects in the last 24 months.'}
             </p>
           </div>
           <div className="stat-strip reveal">
-            <div className="stat-cell">
-              <div className="v">
-                40<span className="s">+</span>
+            {resultsStats.map((s, i) => (
+              <div className="stat-cell" key={i}>
+                <div className="v">
+                  {s.value}
+                  {s.suffix ? <span className="s">{s.suffix}</span> : null}
+                </div>
+                <div className="k">{s.label}</div>
               </div>
-              <div className="k">Projects shipped</div>
-            </div>
-            <div className="stat-cell">
-              <div className="v">12</div>
-              <div className="k">Industries served</div>
-            </div>
-            <div className="stat-cell">
-              <div className="v">
-                0.9<span className="s">s</span>
-              </div>
-              <div className="k">Median CWV</div>
-            </div>
-            <div className="stat-cell">
-              <div className="v">
-                96<span className="s">/100</span>
-              </div>
-              <div className="k">Avg Lighthouse</div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

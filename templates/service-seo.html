@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — SEO &amp; Core Web Vitals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="service.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+<style>
+  /* SERP listing visual — each part lights up as you scroll */
+  .serp-window { position: relative; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px 26px; box-shadow: var(--shadow-md); overflow: hidden; }
+  .serp-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .serp-g { font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.04em; }
+  .serp-input { flex: 1; display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); font-size: 13px; color: var(--text); }
+  .serp-input .serp-x { color: var(--text-faint); }
+  .serp-mag { color: #4285F4; font-size: 17px; }
+  .serp-tabs { display: flex; gap: 18px; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+  .serp-tabs span { padding-bottom: 9px; }
+  .serp-tabs .on { color: var(--accent-ink); border-bottom: 2px solid var(--accent); font-weight: 500; }
+  .serp-meta-line { font-size: 11px; color: var(--text-faint); margin: 10px 0 12px; }
+  .serp-result { padding: 10px 12px; margin: 0 -12px; }
+  .r-url { font-size: 12px; color: #4d5156; }
+  .r-head { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+  .r-head .fav { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .r-site { font-size: 13px; color: #202124; font-weight: 500; line-height: 1.2; }
+  .r-title { color: #1a0dab; font-size: 19px; line-height: 1.3; margin: 2px 0 4px; letter-spacing: -0.01em; }
+  .r-title.alt { font-size: 16px; }
+  .r-rich { font-size: 13px; color: #4d5156; margin-bottom: 4px; }
+  .r-rich .stars { color: #f5b400; letter-spacing: -1px; }
+  .r-rich b { color: #202124; }
+  .r-desc { font-size: 13px; color: #4d5156; line-height: 1.55; }
+  .r-desc b { color: #202124; font-weight: 600; }
+  .r-sitelinks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin-top: 12px; }
+  .r-sitelinks a { display: block; }
+  .r-sitelinks .sl-t { display: block; color: #1a0dab; font-size: 14px; }
+  .r-sitelinks .sl-d { display: block; color: #4d5156; font-size: 12px; }
+  .serp-paa { border: 1px solid var(--border); border-radius: 12px; padding: 2px 16px; margin: 10px 0; }
+  .serp-paa .paa-h { font-size: 14px; color: #202124; font-weight: 500; padding: 12px 0 4px; }
+  .serp-paa .paa-q { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #4d5156; padding: 12px 0; border-top: 1px solid var(--border); }
+  .serp-paa .paa-q span { color: var(--text-faint); font-size: 17px; }
+  /* focus highlight driven by [data-focus] */
+  .serp-window [data-part] { border-radius: 8px; transition: opacity .45s var(--ease-out), box-shadow .45s var(--ease-out), background .45s var(--ease-out); }
+  .serp-window[data-focus] [data-part] { opacity: 0.3; }
+  .serp-window[data-focus="title"] [data-part="title"],
+  .serp-window[data-focus="meta"] [data-part="meta"],
+  .serp-window[data-focus="schema"] [data-part="schema"],
+  .serp-window[data-focus="intent"] [data-part="intent"],
+  .serp-window[data-focus="surround"] [data-part="surround"] { opacity: 1; box-shadow: 0 0 0 2px var(--accent), 0 10px 30px rgba(255,107,53,0.16); background: rgba(255,107,53,0.05); }
+  .serp-window[data-focus="surround"] .serp-result.main [data-part] { opacity: 0.2; }
+  .serp-progress { position: absolute; left: 0; bottom: 0; height: 3px; width: 20%; background: var(--accent); transition: width .5s var(--ease-out); }
+  @media (max-width: 480px) { .r-sitelinks { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="strx" data-template="single-service">
+<!-- @cms TEMPLATE: single-service -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html" class="cur">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="svc-hero">
+  <div class="strx-container inner">
+    <div class="crumb"><a href="services.html">Services</a><span class="sep">/</span><span>SEO &amp; Core Web Vitals</span></div>
+    <div class="lead-grid">
+      <div>
+        <p class="t-mono">// Service 03</p>
+        <h1>SEO that drives <span class="accent">revenue,</span> not just rankings.</h1>
+      </div>
+      <div>
+        <p class="lead">Technical SEO and Core Web Vitals engineered in from the first commit — not bolted on later. We optimize so customers find you, and stay.</p>
+        <div class="acts">
+          <a href="contact.html" class="btn btn-dark">Book a call →</a>
+          <a href="#story" class="btn btn-ghost">See how it works</a>
+        </div>
+      </div>
+    </div>
+    <div class="h-stats reveal" style="margin-top:var(--space-9);max-width:560px;">
+      <div class="hs"><div class="v"><span class="count-up" data-target="0.9">0</span><span class="s">s</span></div><div class="k">Median LCP</div></div>
+      <div class="hs"><div class="v"><span class="count-up" data-target="95">0</span><span class="s">/100</span></div><div class="k">Lighthouse SEO</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="strx-container">
+    <p class="big reveal"><span class="mut">A high ranking on a slow page is worthless.</span> We tie SEO to performance and experience — so every click becomes a <span class="accent">real customer.</span></p>
+  </div>
+</section>
+
+<!-- SCROLLY STORY -->
+<section class="sec cream" id="story">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// What we optimize for</p>
+      <h2>The listing buyers <span class="accent">actually see.</span></h2>
+      <p>Not just the keyword. The result. Title, meta, structured data, the question that brought them here, and what their eye lands on around your listing. We design the SERP listing <em>before</em> we design the page.</p>
+    </div>
+
+    <div class="scrolly-grid">
+      <!-- sticky SERP -->
+      <div class="scrolly-visual">
+        <div class="serp-window" id="serpStage" data-focus="title">
+          <div class="serp-bar">
+            <span class="serp-g"><span style="color:#4285F4;">G</span><span style="color:#EA4335;">o</span><span style="color:#FBBC05;">o</span><span style="color:#4285F4;">g</span><span style="color:#34A853;">l</span><span style="color:#EA4335;">e</span></span>
+            <div class="serp-input">seo services for fashion stores<span class="serp-x">×</span></div>
+            <span class="serp-mag">⌕</span>
+          </div>
+          <div class="serp-tabs"><span class="on">All</span><span>Images</span><span>News</span><span>Video</span><span>Maps</span></div>
+          <div class="serp-meta-line">About 2,140,000 results (0.42 seconds)</div>
+
+          <div class="serp-result surround" data-part="surround">
+            <div class="r-url">competitor-a.vn › dich-vu-seo</div>
+            <div class="r-title alt">Cheap SEO services — Top rankings guaranteed</div>
+            <div class="r-desc">All-in SEO pricing, top-10 Google rankings guaranteed in 3 months…</div>
+          </div>
+
+          <div class="serp-result main">
+            <div class="r-head part" data-part="meta">
+              <span class="fav"><img src="assets/wolf-paper.png" alt="" style="width:14px;height:14px;display:block;"></span>
+              <div><div class="r-site">Structure Studio</div><div class="r-url">https://structure.studio › seo</div></div>
+            </div>
+            <div class="r-title part" data-part="title">SEO &amp; Core Web Vitals services for fashion stores</div>
+            <div class="r-rich part" data-part="schema"><span class="stars">★★★★★</span> <b>4.9</b> · 48 reviews · Quotes from $900</div>
+            <div class="r-desc part" data-part="meta">Grow organic search revenue with <b>technical SEO</b> and sub-second page loads. Full structured data, rich results on every device…</div>
+            <div class="r-sitelinks part" data-part="schema">
+              <a><span class="sl-t">Pricing &amp; packages</span><span class="sl-d">Transparent, staged by phase</span></a>
+              <a><span class="sl-t">Case study</span><span class="sl-d">+186% organic traffic</span></a>
+            </div>
+          </div>
+
+          <div class="serp-paa part" data-part="intent">
+            <div class="paa-h">People also ask</div>
+            <div class="paa-q">How long does SEO take for a fashion store?<span>+</span></div>
+            <div class="paa-q">How much does SEO for a website cost?<span>+</span></div>
+            <div class="paa-q">Should I choose SEO or run ads?<span>+</span></div>
+          </div>
+
+          <div class="serp-result surround" data-part="surround">
+            <div class="r-url">competitor-b.vn › blog</div>
+            <div class="r-title alt">Top 10 trusted SEO companies 2026</div>
+            <div class="r-desc">A list of highly rated, leading SEO agencies…</div>
+          </div>
+
+          <div class="serp-progress"></div>
+        </div>
+      </div>
+
+      <!-- scrolling steps -->
+      <div class="scrolly-steps">
+        <article class="scrolly-step active" data-step="0" data-focus="title">
+          <div class="ss-num"><span class="dot">01</span>Title</div>
+          <h3>The first line decides the click.</h3>
+          <p>A title that holds the right keyword and promises a concrete result. It’s the first thing the eye stops on — and decides whether to click or scroll past.</p>
+          <div class="ss-tags"><span class="tag">Primary keyword</span><span class="tag">Clear promise</span><span class="tag">&lt; 60 chars</span></div>
+        </article>
+        <article class="scrolly-step" data-step="1" data-focus="meta">
+          <div class="ss-num"><span class="dot">02</span>Meta &amp; URL</div>
+          <h3>Context that convinces the click.</h3>
+          <p>A clean URL, a clear brand name, and a meta description that answers the real need. No keyword stuffing — written for humans, so Google pulls the right snippet.</p>
+          <div class="ss-tags"><span class="tag">Meta description</span><span class="tag">Clean URL</span><span class="tag">Brand</span></div>
+        </article>
+        <article class="scrolly-step" data-step="2" data-focus="schema">
+          <div class="ss-num"><span class="dot">03</span>Structured data</div>
+          <h3>Take up more real estate.</h3>
+          <p>Schema.org creates star ratings, prices, and sitelinks — your listing stands out and reads as more trustworthy than the plain results around it.</p>
+          <div class="ss-tags"><span class="tag">Rating</span><span class="tag">Sitelinks</span><span class="tag">JSON-LD</span></div>
+        </article>
+        <article class="scrolly-step" data-step="3" data-focus="intent">
+          <div class="ss-num"><span class="dot">04</span>The question that brings them</div>
+          <h3>Answer the real search intent.</h3>
+          <p>"People also ask" reveals the real intent behind the keyword. We design content that answers exactly those questions — and claim those spots too.</p>
+          <div class="ss-tags"><span class="tag">Search intent</span><span class="tag">People also ask</span><span class="tag">FAQ</span></div>
+        </article>
+        <article class="scrolly-step" data-step="4" data-focus="surround">
+          <div class="ss-num"><span class="dot">05</span>The surrounding context</div>
+          <h3>You don’t appear alone.</h3>
+          <p>The eye scans the whole page. We design the listing to win the head-to-head comparison with competitors right on the results page — before they even visit.</p>
+          <div class="ss-tags"><span class="tag">Competitors</span><span class="tag">CTR</span><span class="tag">Differentiation</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="sec" id="capabilities">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// Capabilities</p>
+      <h2>Three pillars <span class="accent">of sustainable SEO.</span></h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20v-4M18 20v-9"/><circle cx="12" cy="6" r="2"/></svg></span>
+        <h3>Technical SEO</h3>
+        <p>Crawlability, indexing, sitemaps, canonicals, performance. The foundation for Google to read and rank pages correctly.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+        <h3>Content &amp; intent</h3>
+        <p>Intent-based keyword research, content structure, internal links. The right person, the right question, the right moment.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+        <h3>Authority &amp; local</h3>
+        <p>Domain authority building, local SEO, Google Business. Strong visibility in the regions and fields you serve.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec on-dark" id="process">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono dark">// Process</p>
+      <h2>How we <span class="accent">deliver.</span></h2>
+      <p>Transparent at every stage, clear deliverables, no empty promises.</p>
+    </div>
+    <div class="proc-line">
+      <div class="proc-step"><div class="pw">Week 1</div><div class="pd"></div><h4>Audit</h4><p>Technical, content, and competitor review. Find quick wins and long-term opportunities.</p></div>
+      <div class="proc-step"><div class="pw">Weeks 2–3</div><div class="pd"></div><h4>Fix the foundation</h4><p>Fix technical issues, optimize CWV, build structured data.</p></div>
+      <div class="proc-step future"><div class="pw">Weeks 4–8</div><div class="pd"></div><h4>Content</h4><p>Optimize existing pages, build intent-driven content.</p></div>
+      <div class="proc-step future"><div class="pw">Monthly</div><div class="pd"></div><h4>Measure &amp; iterate</h4><p>Reporting, rank tracking, continuous optimization.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="sec on-dark" id="results" style="padding-top:0;">
+  <div class="strx-container">
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="186">0</span><span class="s">%</span></div><div class="k">Average organic traffic</div></div>
+      <div class="stat-cell"><div class="v">0.9<span class="s">s</span></div><div class="k">Median LCP</div></div>
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="95">0</span><span class="s">/100</span></div><div class="k">Lighthouse SEO</div></div>
+      <div class="stat-cell"><div class="v">×<span class="count-up" data-target="3">0</span></div><div class="k">Keywords in top 3</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec cream" id="faq">
+  <div class="strx-container">
+    <div class="faq-grid">
+      <div class="faq-aside reveal">
+        <p class="t-mono">// FAQ</p>
+        <h2>SEO questions.</h2>
+        <p>Don’t see your answer? Message us — we reply within one business day.</p>
+        <a href="contact.html" class="btn btn-dark" style="margin-top:24px;">Contact →</a>
+      </div>
+      <div id="faqList">
+        <div class="faq-item open"><button class="faq-q">How soon do SEO results show?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Technical and CWV improvements show within a few weeks. Organic ranking growth is usually clear after 3–6 months.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Is SEO tied to web performance?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Tightly. Core Web Vitals is a ranking factor, so we optimize speed and SEO together — never separately.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Do you do local SEO?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes. Google Business optimization, local schema, and regional content for strong visibility in your market.</div></div></div>
+        <div class="faq-item"><button class="faq-q">How do you report?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Monthly reports: keyword rankings, traffic, CWV, and conversions — with analysis and next steps.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER SERVICES -->
+<section class="sec" id="other">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Other services</p><h2>Explore <span class="accent">more.</span></h2></div>
+    <div class="other-grid">
+      <a href="service-web-design.html" class="other-card reveal"><div><div class="oc-n">01</div><h4>Web Design</h4></div><span class="oc-arr">→</span></a>
+      <a href="service-web-app.html" class="other-card reveal"><div><div class="oc-n">02</div><h4>Web Application</h4></div><span class="oc-arr">→</span></a>
+      <a href="service-saas.html" class="other-card reveal"><div><div class="oc-n">04</div><h4>SaaS Platform</h4></div><span class="oc-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Get started</p>
+    <h2>Ready to be <span class="accent">found?</span></h2>
+    <p>A 30-minute call to see where your website stands and how far it can go.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Book a call →</a>
+      <a href="work.html" class="btn btn-on-dark">View work</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services overview</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="Structure Homepage.html#industry">E-commerce</a></li><li><a href="Structure Homepage.html#industry">SaaS</a></li><li><a href="Structure Homepage.html#industry">Fintech</a></li><li><a href="Structure Homepage.html#industry">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="service.js"></script>
+<script>
+  // SERP focus driver — the step nearest viewport centre highlights its listing part.
+  // Scroll-position based so it fires reliably in every renderer.
+  (function () {
+    var stage = document.getElementById('serpStage');
+    var steps = [].slice.call(document.querySelectorAll('#story .scrolly-step'));
+    var prog = document.querySelector('#story .serp-progress');
+    if (!stage || !steps.length) return;
+    var current = -1;
+    function setActive(idx) {
+      if (idx === current) return;
+      current = idx;
+      steps.forEach(function (s, i) { s.classList.toggle('active', i === idx); });
+      stage.setAttribute('data-focus', steps[idx].getAttribute('data-focus'));
+      if (prog) prog.style.width = ((idx + 1) / steps.length * 100) + '%';
+    }
+    function update() {
+      var mid = window.innerHeight / 2, best = 0, bestDist = Infinity;
+      steps.forEach(function (s, i) {
+        var r = s.getBoundingClientRect();
+        var d = Math.abs(r.top + r.height / 2 - mid);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      setActive(best);
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+  })();
+</script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

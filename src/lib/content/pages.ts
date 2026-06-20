@@ -1,5 +1,15 @@
 import { getPayloadClient } from '../payload/getPayload'
-import type { Page } from './types'
+import type { ArchiveContent, Page } from './types'
+
+/**
+ * Editable copy for an archive route. `slug` is the archive page record
+ * (`work` / `industries` / `services`). depth:2 resolves the featured project
+ * relationship. Returns null when no record exists yet (routes fall back).
+ */
+export async function getArchive(slug: string): Promise<ArchiveContent | null> {
+  const page = await getPageBySlug(slug)
+  return page?.archive ?? null
+}
 
 /** Core/Legal page by slug (home = "home"). */
 export async function getPageBySlug(slug: string): Promise<Page | null> {

@@ -37,6 +37,20 @@ export interface TagItem {
   label: string
 }
 
+/** Scrolly walkthrough step (Service.scrolly, Industry.story.steps). */
+export interface StoryStep {
+  num: string
+  cap: string
+  title: string
+  desc: string
+  tags?: TagItem[] | null
+}
+
+export interface FaqItem {
+  q: string
+  a: string
+}
+
 /** Optional flexible sections (extra_blocks / pages.layout). `blockType` discriminates. */
 export interface AnyBlock {
   blockType: string
@@ -58,7 +72,9 @@ export interface Project {
   duration?: string | null
   services?: (Service | string)[] | null
   live_url?: string | null
+  challenge_title?: string | null
   challenge?: Richtext | null
+  approach_title?: string | null
   approach?: Richtext | null
   stats?: StatItem[] | null
   gallery?: GalleryItem[] | null
@@ -79,8 +95,14 @@ export interface Industry {
   hero_image?: MediaDoc | string | null
   // single
   eyebrow?: string | null
+  story?: {
+    eyebrow?: string | null
+    title?: string | null
+    lead?: string | null
+    steps?: StoryStep[] | null
+  } | null
   stats?: StatItem[] | null
-  faqs?: { q: string; a: string }[] | null
+  faqs?: FaqItem[] | null
   related?: (Industry | string)[] | null
   extra_blocks?: AnyBlock[] | null
   seo?: SeoMeta | null
@@ -97,9 +119,28 @@ export interface Service {
   metric_label?: string | null
   hero_image?: MediaDoc | string | null
   // single
+  headings?: {
+    hero?: string | null
+    story_eyebrow?: string | null
+    story_heading?: string | null
+    story_lead?: string | null
+    capabilities_eyebrow?: string | null
+    capabilities_heading?: string | null
+    process_eyebrow?: string | null
+    process_heading?: string | null
+    process_lead?: string | null
+    faq_eyebrow?: string | null
+    faq_heading?: string | null
+  } | null
   icon?: string | null
+  manifesto?: string | null
+  hero_metrics?: { value: string; label: string }[] | null
+  scrolly?: StoryStep[] | null
   features?: TagItem[] | null
+  capabilities?: { label: string; desc: string }[] | null
   process?: { step: string; title: string; desc: string }[] | null
+  results?: StatItem[] | null
+  faqs?: FaqItem[] | null
   pricing?: string | null
   tech?: TagItem[] | null
   extra_blocks?: AnyBlock[] | null
@@ -122,11 +163,56 @@ export interface Post {
   seo?: SeoMeta | null
 }
 
+export interface ArchiveStat {
+  value: string
+  suffix?: string | null
+  label: string
+}
+
+/** Editable copy for the archive routes (pages with slug work/industries/services). */
+export interface ArchiveContent {
+  hero_eyebrow?: string | null
+  hero_heading?: string | null
+  hero_heading_accent?: string | null
+  hero_lead?: string | null
+  hero_stats?: ArchiveStat[] | null
+  manifesto?: string | null
+  featured?: {
+    project?: Project | string | null
+    eyebrow?: string | null
+    heading?: string | null
+    heading_accent?: string | null
+    desc?: string | null
+    stats?: ArchiveStat[] | null
+  } | null
+  results_eyebrow?: string | null
+  results_heading?: string | null
+  results_heading_accent?: string | null
+  results_lead?: string | null
+  results_stats?: ArchiveStat[] | null
+  roadmap?: { week: string; title: string; desc: string; future?: boolean | null }[] | null
+  engagement?:
+    | {
+        tag: string
+        title: string
+        price: string
+        price_unit?: string | null
+        desc: string
+        featured?: boolean | null
+        cta_label?: string | null
+        cta_href?: string | null
+        items?: TagItem[] | null
+      }[]
+    | null
+  matrix?: { do?: TagItem[] | null; dont?: TagItem[] | null } | null
+}
+
 export interface Page {
   id: string
   slug: string
   title: string
   layout?: AnyBlock[] | null
+  archive?: ArchiveContent | null
   seo?: SeoMeta | null
 }
 
@@ -144,11 +230,33 @@ export interface NavLink {
   href: string
 }
 
+export interface ContactChannel {
+  platform: string
+  handle: string
+  href: string
+}
+
+export interface MegaContent {
+  eyebrow?: string | null
+  heading?: string | null
+  blurb?: string | null
+  ctaLabel?: string | null
+  promo?: {
+    eyebrow?: string | null
+    title?: string | null
+    linkLabel?: string | null
+    linkHref?: string | null
+  } | null
+}
+
 export interface SiteSettings {
   brandWord?: string | null
   logo?: MediaDoc | string | null
   nav?: NavLink[] | null
+  mega?: MegaContent | null
   footerColumns?: { heading: string; links?: NavLink[] | null }[] | null
   footerTagline?: string | null
+  footerBottom?: { left?: string | null; right?: string | null } | null
   social?: { platform: string; href: string }[] | null
+  contact?: { email?: string | null; channels?: ContactChannel[] | null } | null
 }

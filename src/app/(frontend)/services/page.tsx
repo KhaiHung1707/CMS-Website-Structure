@@ -1,7 +1,8 @@
 import './services.css'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getServices } from '@/lib/content'
+import { getServices, getArchive } from '@/lib/content'
+import type { ArchiveContent } from '@/lib/content/types'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { CtaSection } from '@/components/layout/CtaSection'
 import { ServiceCard } from '@/components/cards/ServiceCard'
@@ -12,25 +13,91 @@ export const metadata: Metadata = {
     'From strategy to the final line of production code — no handoffs through middlemen. You work directly with the people who design and build.',
 }
 
+const FALLBACK_ROADMAP: NonNullable<ArchiveContent['roadmap']> = [
+  { week: 'Week 0', title: 'Kick-off', desc: 'Discovery workshop. Map goals and success metrics.' },
+  { week: 'Weeks 1–2', title: 'Strategy', desc: 'Sitemap, user flow, content strategy.' },
+  { week: 'Weeks 3–4', title: 'Design', desc: 'High-fidelity design and a full Figma prototype.' },
+  { week: 'Weeks 5–8', title: 'Build', desc: 'Next.js + TypeScript code. Weekly staging.', future: true },
+  { week: 'Weeks 9–11', title: 'Launch', desc: 'QA, accessibility, performance, go-live.', future: true },
+]
+
+const FALLBACK_ENGAGEMENT: NonNullable<ArchiveContent['engagement']> = [
+  {
+    tag: 'Fixed-scope project',
+    title: 'Project',
+    price: '6–12',
+    price_unit: 'weeks / project',
+    desc: 'Best when you have a well-defined product to design and build from start to launch.',
+    cta_label: 'Start a project →',
+    cta_href: '/contact',
+    items: [
+      { label: 'Fixed quote staged by phase' },
+      { label: 'Clear weekly deliverables' },
+      { label: 'Design + build in one team' },
+      { label: 'Full documentation & code handoff' },
+    ],
+  },
+  {
+    tag: 'Long-term partnership',
+    title: 'Retainer',
+    price: '2',
+    price_unit: 'weeks / sprint',
+    desc: 'Best when you need a product team to continuously design, build, and optimize over time.',
+    featured: true,
+    cta_label: 'Book a call →',
+    cta_href: '/contact',
+    items: [
+      { label: 'Two-week sprints, async-first' },
+      { label: 'Monthly metrics reports' },
+      { label: 'Flexible prioritization by roadmap' },
+      { label: 'Continuous optimization after go-live' },
+    ],
+  },
+]
+
+const FALLBACK_MATRIX: NonNullable<ArchiveContent['matrix']> = {
+  do: [
+    { label: 'Custom web apps & SaaS' },
+    { label: 'Modern, headless e-commerce' },
+    { label: 'Design system & component library' },
+    { label: 'Replatforming & performance optimization' },
+    { label: 'Technical SEO & Core Web Vitals' },
+  ],
+  dont: [
+    { label: 'WordPress / Wix template setups' },
+    { label: 'Native mobile app' },
+    { label: 'Standalone logo / brand work' },
+    { label: 'Running ads / performance marketing' },
+    { label: '"Quick and cheap" projects' },
+  ],
+}
+
 /** Services archive: hero + .svc-list (getServices → ServiceCard) + process
  *  timeline + engagement models + scope matrix + CTA. Ported from
  *  templates/services.html. Nav/Footer come from the frontend layout. */
 export default async function ServicesPage() {
-  const services = await getServices()
+  const [services, content] = await Promise.all([getServices(), getArchive('services')])
+
+  const roadmap = content?.roadmap?.length ? content.roadmap : FALLBACK_ROADMAP
+  const engagement = content?.engagement?.length ? content.engagement : FALLBACK_ENGAGEMENT
+  const matrix =
+    content?.matrix && (content.matrix.do?.length || content.matrix.dont?.length)
+      ? content.matrix
+      : FALLBACK_MATRIX
 
   return (
     <>
       <header className="page-hero">
         <div className="strx-container inner">
-          <Eyebrow>// Services</Eyebrow>
+          <Eyebrow>{content?.hero_eyebrow ?? '// Services'}</Eyebrow>
           <h1>
-            Every stage.
+            {content?.hero_heading ?? 'Every stage.'}
             <br />
-            <span className="accent">One single team.</span>
+            <span className="accent">{content?.hero_heading_accent ?? 'One single team.'}</span>
           </h1>
           <p className="lead">
-            From strategy to the final line of production code — no handoffs through middlemen. You
-            work directly with the people who design and build.
+            {content?.hero_lead ??
+              'From strategy to the final line of production code — no handoffs through middlemen. You work directly with the people who design and build.'}
           </p>
           <div className="acts">
             <Link href="/contact" className="btn btn-dark">
@@ -76,36 +143,14 @@ export default async function ServicesPage() {
             </p>
           </div>
           <div className="pt-line">
-            <div className="pt-step">
-              <div className="pt-week">Week 0</div>
-              <div className="pt-dot" />
-              <h4>Kick-off</h4>
-              <p>Discovery workshop. Map goals and success metrics.</p>
-            </div>
-            <div className="pt-step">
-              <div className="pt-week">Weeks 1–2</div>
-              <div className="pt-dot" />
-              <h4>Strategy</h4>
-              <p>Sitemap, user flow, content strategy.</p>
-            </div>
-            <div className="pt-step">
-              <div className="pt-week">Weeks 3–4</div>
-              <div className="pt-dot" />
-              <h4>Design</h4>
-              <p>High-fidelity design and a full Figma prototype.</p>
-            </div>
-            <div className="pt-step future">
-              <div className="pt-week">Weeks 5–8</div>
-              <div className="pt-dot" />
-              <h4>Build</h4>
-              <p>Next.js + TypeScript code. Weekly staging.</p>
-            </div>
-            <div className="pt-step future">
-              <div className="pt-week">Weeks 9–11</div>
-              <div className="pt-dot" />
-              <h4>Launch</h4>
-              <p>QA, accessibility, performance, go-live.</p>
-            </div>
+            {roadmap.map((step, i) => (
+              <div className={step.future ? 'pt-step future' : 'pt-step'} key={i}>
+                <div className="pt-week">{step.week}</div>
+                <div className="pt-dot" />
+                <h4>{step.title}</h4>
+                <p>{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -120,65 +165,33 @@ export default async function ServicesPage() {
             <p>The same senior team. Pick the model that fits your product stage.</p>
           </div>
           <div className="eng-grid">
-            <div className="eng-card">
-              <div className="ec-tag">Fixed-scope project</div>
-              <h3>Project</h3>
-              <div className="ec-price">
-                6–12<span className="u">weeks / project</span>
+            {engagement.map((e, i) => (
+              <div className={e.featured ? 'eng-card feat' : 'eng-card'} key={i}>
+                <div className="ec-tag">{e.tag}</div>
+                <h3>{e.title}</h3>
+                <div className="ec-price">
+                  {e.price}
+                  {e.price_unit ? <span className="u">{e.price_unit}</span> : null}
+                </div>
+                <p className="ec-desc">{e.desc}</p>
+                <ul>
+                  {(e.items ?? []).map((item, j) => (
+                    <li key={j}>
+                      <span className="ck">✓</span>
+                      {item.label}
+                    </li>
+                  ))}
+                </ul>
+                <div className="ec-foot">
+                  <Link
+                    href={e.cta_href ?? '/contact'}
+                    className={e.featured ? 'btn btn-accent' : 'btn btn-dark'}
+                  >
+                    {e.cta_label ?? 'Start a project →'}
+                  </Link>
+                </div>
               </div>
-              <p className="ec-desc">
-                Best when you have a well-defined product to design and build from start to launch.
-              </p>
-              <ul>
-                <li>
-                  <span className="ck">✓</span>Fixed quote staged by phase
-                </li>
-                <li>
-                  <span className="ck">✓</span>Clear weekly deliverables
-                </li>
-                <li>
-                  <span className="ck">✓</span>Design + build in one team
-                </li>
-                <li>
-                  <span className="ck">✓</span>Full documentation &amp; code handoff
-                </li>
-              </ul>
-              <div className="ec-foot">
-                <Link href="/contact" className="btn btn-dark">
-                  Start a project →
-                </Link>
-              </div>
-            </div>
-            <div className="eng-card feat">
-              <div className="ec-tag">Long-term partnership</div>
-              <h3>Retainer</h3>
-              <div className="ec-price">
-                2<span className="u">weeks / sprint</span>
-              </div>
-              <p className="ec-desc">
-                Best when you need a product team to continuously design, build, and optimize over
-                time.
-              </p>
-              <ul>
-                <li>
-                  <span className="ck">✓</span>Two-week sprints, async-first
-                </li>
-                <li>
-                  <span className="ck">✓</span>Monthly metrics reports
-                </li>
-                <li>
-                  <span className="ck">✓</span>Flexible prioritization by roadmap
-                </li>
-                <li>
-                  <span className="ck">✓</span>Continuous optimization after go-live
-                </li>
-              </ul>
-              <div className="ec-foot">
-                <Link href="/contact" className="btn btn-accent">
-                  Book a call →
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -196,41 +209,23 @@ export default async function ServicesPage() {
             <div className="matrix-col do">
               <span className="mt">✓ We do</span>
               <ul>
-                <li>
-                  <span className="mk">✓</span>Custom web apps &amp; SaaS
-                </li>
-                <li>
-                  <span className="mk">✓</span>Modern, headless e-commerce
-                </li>
-                <li>
-                  <span className="mk">✓</span>Design system &amp; component library
-                </li>
-                <li>
-                  <span className="mk">✓</span>Replatforming &amp; performance optimization
-                </li>
-                <li>
-                  <span className="mk">✓</span>Technical SEO &amp; Core Web Vitals
-                </li>
+                {(matrix.do ?? []).map((item, i) => (
+                  <li key={i}>
+                    <span className="mk">✓</span>
+                    {item.label}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="matrix-col dont">
               <span className="mt">✕ We don’t</span>
               <ul>
-                <li>
-                  <span className="mk">✕</span>WordPress / Wix template setups
-                </li>
-                <li>
-                  <span className="mk">✕</span>Native mobile app
-                </li>
-                <li>
-                  <span className="mk">✕</span>Standalone logo / brand work
-                </li>
-                <li>
-                  <span className="mk">✕</span>Running ads / performance marketing
-                </li>
-                <li>
-                  <span className="mk">✕</span>&quot;Quick and cheap&quot; projects
-                </li>
+                {(matrix.dont ?? []).map((item, i) => (
+                  <li key={i}>
+                    <span className="mk">✕</span>
+                    {item.label}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

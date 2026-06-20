@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — Web Application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="service.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+</head>
+<body class="strx" data-template="single-service">
+<!-- @cms TEMPLATE: single-service -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html" class="cur">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<header class="svc-hero">
+  <div class="strx-container inner">
+    <div class="crumb"><a href="services.html">Services</a><span class="sep">/</span><span>Web Application</span></div>
+    <div class="lead-grid">
+      <div>
+        <p class="t-mono">// Service 02</p>
+        <h1>Web apps <span class="accent">typed end-to-end.</span></h1>
+      </div>
+      <div>
+        <p class="lead">Next.js, TypeScript, and production-ready infrastructure. Structured code, automated tests, zero-downtime deploys — built to outlive the project.</p>
+        <div class="acts">
+          <a href="contact.html" class="btn btn-dark">Book a call →</a>
+          <a href="#story" class="btn btn-ghost">See how it works</a>
+        </div>
+      </div>
+    </div>
+    <div class="h-stats reveal" style="margin-top:var(--space-9);max-width:560px;">
+      <div class="hs"><div class="v"><span class="count-up" data-target="99.9">0</span><span class="s">%</span></div><div class="k">Uptime</div></div>
+      <div class="hs"><div class="v"><span class="count-up" data-target="0">0</span></div><div class="k">Downtime at go-live</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="manifesto">
+  <div class="strx-container">
+    <p class="big reveal"><span class="mut">Code isn’t only for today.</span> We write it typed, structured, and maintainable — so the product <span class="accent">scales without breaking.</span></p>
+  </div>
+</section>
+
+<section class="sec cream" id="story">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// From architecture to production</p>
+      <h2>Four layers, <span class="accent">built carefully.</span></h2>
+      <p>Scroll to see a web app take shape — from system diagram to a zero-downtime deploy.</p>
+    </div>
+
+    <div class="scrolly-grid">
+      <div class="scrolly-visual">
+        <div class="story-window story-art" data-focus="p1">
+          <div class="story-chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">app.structure.studio — build</span></div>
+          <div class="story-body">
+            <div class="story-part" data-part="p1">
+              <div class="sp-cap">01 · System architecture</div>
+              <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+                <span class="sp-chip accent">Client</span>
+                <span class="sp-muted">↓</span>
+                <span class="sp-chip">Next.js · API</span>
+                <span class="sp-muted">↓</span>
+                <div class="sp-row" style="gap:8px;"><span class="sp-chip">DB</span><span class="sp-chip">Cache</span><span class="sp-chip">Storage</span></div>
+              </div>
+            </div>
+            <div class="story-part" data-part="p2">
+              <div class="sp-cap">02 · Typed build</div>
+              <div class="sp-code"><span class="k">type</span> Project = { id: <span class="k">string</span>; status: <span class="k">'live'</span> | <span class="k">'draft'</span>; score: <span class="k">number</span> }</div>
+              <div class="sp-row" style="gap:8px;margin-top:12px;"><span class="sp-chip accent">0 any</span><span class="sp-chip">Strict mode</span></div>
+            </div>
+            <div class="story-part" data-part="p3">
+              <div class="sp-cap">03 · Integrations</div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <div class="sp-row" style="justify-content:space-between;"><span class="sp-title">Supabase</span><span class="sp-chip accent">Auth · DB</span></div>
+                <div class="sp-row" style="justify-content:space-between;"><span class="sp-title">Stripe</span><span class="sp-chip accent">Billing</span></div>
+                <div class="sp-row" style="justify-content:space-between;"><span class="sp-title">Sanity</span><span class="sp-chip accent">CMS</span></div>
+              </div>
+            </div>
+            <div class="story-part" data-part="p4">
+              <div class="sp-cap">04 · Deploy CI/CD</div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <div class="sp-row" style="gap:10px;"><span style="width:16px;height:16px;border-radius:50%;background:var(--accent);"></span><span class="sp-title">Tests passed</span></div>
+                <div class="sp-row" style="gap:10px;"><span style="width:16px;height:16px;border-radius:50%;background:var(--accent);"></span><span class="sp-title">Build · 42s</span></div>
+                <div class="sp-row" style="gap:10px;"><span style="width:16px;height:16px;border-radius:50%;background:var(--accent);"></span><span class="sp-title">Deployed · 0 downtime</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="story-progress"></div>
+        </div>
+      </div>
+
+      <div class="scrolly-steps">
+        <article class="scrolly-step active" data-step="0" data-focus="p1">
+          <div class="ss-num"><span class="dot">01</span>Architecture</div>
+          <h3>The foundation decides everything.</h3>
+          <p>We design the system architecture first — data flow, APIs, storage model — so the product scales without a rewrite.</p>
+          <div class="ss-tags"><span class="tag">System design</span><span class="tag">Data model</span><span class="tag">API</span></div>
+        </article>
+        <article class="scrolly-step" data-step="1" data-focus="p2">
+          <div class="ss-num"><span class="dot">02</span>Typed build</div>
+          <h3>TypeScript from end to end.</h3>
+          <p>Typed end-to-end means errors are caught while writing code, not when users hit them. Fewer bugs, easier refactors, more confident shipping.</p>
+          <div class="ss-tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Strict</span></div>
+        </article>
+        <article class="scrolly-step" data-step="2" data-focus="p3">
+          <div class="ss-num"><span class="dot">03</span>Integrations</div>
+          <h3>Connect the right tools.</h3>
+          <p>Auth, database, payments, CMS, email — integrating proven services instead of rebuilding them. Fast, stable, standards-compliant.</p>
+          <div class="ss-tags"><span class="tag">Supabase</span><span class="tag">Stripe</span><span class="tag">CMS</span></div>
+        </article>
+        <article class="scrolly-step" data-step="3" data-focus="p4">
+          <div class="ss-num"><span class="dot">04</span>Deploy</div>
+          <h3>Zero-downtime go-live.</h3>
+          <p>CI/CD with automated tests and weekly staging. You see real progress every week, and reach production without service interruption.</p>
+          <div class="ss-tags"><span class="tag">CI/CD</span><span class="tag">Staging</span><span class="tag">0 downtime</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="capabilities">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Capabilities</p><h2>Three pillars <span class="accent">of solid engineering.</span></h2></div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+        <h3>Frontend typed</h3>
+        <p>Next.js, React, TypeScript. Fast, accessible interfaces, typed end-to-end and faithful to the design system.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0"/></svg></span>
+        <h3>Backend &amp; data</h3>
+        <p>APIs, databases, authentication, and authorization. Secure, testable, scalable infrastructure.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="4"/></svg></span>
+        <h3>DevOps &amp; deploy</h3>
+        <p>CI/CD, monitoring, staging, and rollback. Ship steadily and safely, no praying on every deploy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec on-dark" id="process">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono dark">// Process</p><h2>How we <span class="accent">build.</span></h2><p>Transparent at every stage, with weekly staging for you to follow.</p></div>
+    <div class="proc-line">
+      <div class="proc-step"><div class="pw">Week 1</div><div class="pd"></div><h4>Architecture</h4><p>System design, data model, and stack selection.</p></div>
+      <div class="proc-step"><div class="pw">Weeks 2–5</div><div class="pd"></div><h4>Build</h4><p>Typed development, weekly staging for review.</p></div>
+      <div class="proc-step future"><div class="pw">Week 6</div><div class="pd"></div><h4>Integrate</h4><p>Service integration, testing, and full QA.</p></div>
+      <div class="proc-step future"><div class="pw">Week 7</div><div class="pd"></div><h4>Launch</h4><p>Zero-downtime production deploy, documentation handoff.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec on-dark" id="results" style="padding-top:0;">
+  <div class="strx-container">
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="99.9">0</span><span class="s">%</span></div><div class="k">Average uptime</div></div>
+      <div class="stat-cell"><div class="v">0</div><div class="k">Downtime at go-live</div></div>
+      <div class="stat-cell"><div class="v">E2E</div><div class="k">Entire codebase typed</div></div>
+      <div class="stat-cell"><div class="v">1<span class="s">/week</span></div><div class="k">Staging for your review</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cream" id="faq">
+  <div class="strx-container">
+    <div class="faq-grid">
+      <div class="faq-aside reveal">
+        <p class="t-mono">// FAQ</p>
+        <h2>Engineering questions.</h2>
+        <p>Don’t see your answer? Message us — we reply within one business day.</p>
+        <a href="contact.html" class="btn btn-dark" style="margin-top:24px;">Contact →</a>
+      </div>
+      <div id="faqList">
+        <div class="faq-item open"><button class="faq-q">What is the tech stack?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Next.js, TypeScript, Tailwind. Supabase, Stripe, and CMS integrations depending on the problem.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Do you hand over the source code?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes. You own the entire codebase, with documentation so your team can take over easily.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Do you support after launch?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes. A two-week retainer sprint for maintenance, optimization, and new feature work.</div></div></div>
+        <div class="faq-item"><button class="faq-q">How long does a project take?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">A typical app is 6–10 weeks from architecture to launch, depending on complexity.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="other">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Other services</p><h2>Explore <span class="accent">more.</span></h2></div>
+    <div class="other-grid">
+      <a href="service-web-design.html" class="other-card reveal"><div><div class="oc-n">01</div><h4>Web Design</h4></div><span class="oc-arr">→</span></a>
+      <a href="service-seo.html" class="other-card reveal"><div><div class="oc-n">03</div><h4>SEO &amp; Core Web Vitals</h4></div><span class="oc-arr">→</span></a>
+      <a href="service-saas.html" class="other-card reveal"><div><div class="oc-n">04</div><h4>SaaS Platform</h4></div><span class="oc-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Get started</p>
+    <h2>Have an app <span class="accent">that needs building right?</span></h2>
+    <p>A 30-minute call to look at your engineering problem and how we solve it.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Book a call →</a>
+      <a href="work.html" class="btn btn-on-dark">View work</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services overview</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="Structure Homepage.html#industry">E-commerce</a></li><li><a href="Structure Homepage.html#industry">SaaS</a></li><li><a href="Structure Homepage.html#industry">Fintech</a></li><li><a href="Structure Homepage.html#industry">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="service.js"></script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

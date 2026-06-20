@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils/cn'
 import { mediaUrl, mediaAlt } from '@/lib/utils/format'
 import type { NavLink, SiteSettings } from '@/lib/content/types'
-import { MegaNav } from './MegaNav'
+import { MegaNav, type MegaItemData } from './MegaNav'
 
 const DEFAULT_NAV: NavLink[] = [
   { label: 'Services', href: '/services' },
@@ -20,7 +20,13 @@ const DEFAULT_NAV: NavLink[] = [
  * Client component: scroll shadow + Services mega-menu (React state, no DOM listeners).
  * Nav links come from SiteSettings, falling back to the design defaults.
  */
-export function TopNav({ settings }: { settings: SiteSettings }) {
+export function TopNav({
+  settings,
+  megaItems,
+}: {
+  settings: SiteSettings
+  megaItems: MegaItemData[]
+}) {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [megaOpen, setMegaOpen] = useState(false)
@@ -87,7 +93,7 @@ export function TopNav({ settings }: { settings: SiteSettings }) {
         </Link>
       </div>
       <div onMouseEnter={openMega} onMouseLeave={closeMega}>
-        <MegaNav open={megaOpen} />
+        <MegaNav open={megaOpen} mega={settings.mega} items={megaItems} />
       </div>
     </nav>
   )

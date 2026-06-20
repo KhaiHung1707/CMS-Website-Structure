@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — Web Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Doto:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens-brick.css" />
+<link rel="stylesheet" href="service.css" />
+<link rel="stylesheet" href="nav-mega.css" />
+</head>
+<body class="strx" data-template="single-service">
+<!-- @cms TEMPLATE: single-service -->
+
+<nav class="top" id="topnav">
+  <div class="strx-container inner">
+    <a href="Structure Homepage.html" class="nav-brand"><span class="nav-mark"><img src="assets/wolf-paper.png" alt="" /></span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="services.html" class="cur">Services</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="industries.html">Industries</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<header class="svc-hero">
+  <div class="strx-container inner">
+    <div class="crumb"><a href="services.html">Services</a><span class="sep">/</span><span>Web Design</span></div>
+    <div class="lead-grid">
+      <div>
+        <p class="t-mono">// Service 01</p>
+        <h1>Interface design that’s <span class="accent">code-ready.</span></h1>
+      </div>
+      <div>
+        <p class="lead">High-fidelity design and interactive prototypes, built on a design system — not static mockups. Devs never have to guess, because everything is defined.</p>
+        <div class="acts">
+          <a href="contact.html" class="btn btn-dark">Book a call →</a>
+          <a href="#story" class="btn btn-ghost">See how it works</a>
+        </div>
+      </div>
+    </div>
+    <div class="h-stats reveal" style="margin-top:var(--space-9);max-width:560px;">
+      <div class="hs"><div class="v"><span class="count-up" data-target="100">0</span><span class="s">%</span></div><div class="k">Reusable components</div></div>
+      <div class="hs"><div class="v">×<span class="count-up" data-target="2">0</span></div><div class="k">Dev build speed</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="manifesto">
+  <div class="strx-container">
+    <p class="big reveal"><span class="mut">Beautiful isn’t enough.</span> Good design has to be buildable, scalable, and <span class="accent">handed off</span> without losing the original intent.</p>
+  </div>
+</section>
+
+<section class="sec cream" id="story">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// From idea to handoff</p>
+      <h2>Four steps, <span class="accent">structured.</span></h2>
+      <p>Scroll to see how an interface takes shape — from skeleton to files a dev can build right away.</p>
+    </div>
+
+    <div class="scrolly-grid">
+      <div class="scrolly-visual">
+        <div class="story-window story-art" data-focus="p1">
+          <div class="story-chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">luma-atelier.com — design</span></div>
+          <div class="story-body">
+            <div class="story-part" data-part="p1">
+              <div class="sp-cap">01 · Structure &amp; wireframe</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div class="sp-bar" style="width:45%;"></div>
+                <div class="sp-bar" style="width:75%;height:20px;"></div>
+                <div class="sp-row" style="gap:10px;"><div class="sp-bar" style="flex:1;height:46px;"></div><div class="sp-bar" style="flex:1;height:46px;"></div><div class="sp-bar" style="flex:1;height:46px;"></div></div>
+              </div>
+            </div>
+            <div class="story-part" data-part="p2">
+              <div class="sp-cap">02 · Design system</div>
+              <div class="sp-row" style="justify-content:space-between;">
+                <div class="sp-row" style="gap:8px;">
+                  <span class="sp-swatch" style="background:#A7282B;"></span>
+                  <span class="sp-swatch" style="background:#0A0A0B;"></span>
+                  <span class="sp-swatch" style="background:#6B6B66;"></span>
+                  <span class="sp-swatch" style="background:#F0EEE6;"></span>
+                </div>
+                <div style="text-align:right;"><span class="sp-title" style="font-size:22px;">Aa</span> <span class="sp-muted">Space Grotesk</span></div>
+              </div>
+            </div>
+            <div class="story-part" data-part="p3" style="padding:0;overflow:hidden;">
+              <div style="background:var(--accent);color:var(--accent-ink);padding:14px 18px;font-weight:600;">Luma Atelier · Wool coat</div>
+              <div style="padding:16px 18px;">
+                <div class="sp-row" style="justify-content:space-between;"><span class="sp-title">$96.00</span><span class="sp-chip accent">Buy now →</span></div>
+              </div>
+            </div>
+            <div class="story-part" data-part="p4">
+              <div class="sp-cap">04 · Handoff dev-ready</div>
+              <div class="sp-code"><span class="k">--space-4</span>: 16px; · <span class="k">--radius-lg</span>: 16px; · <span class="k">font</span>: 20px/1.4</div>
+              <div class="sp-row" style="gap:8px;margin-top:12px;"><span class="sp-chip accent">Figma</span><span class="sp-chip">Specs</span><span class="sp-chip">Tokens</span></div>
+            </div>
+          </div>
+          <div class="story-progress"></div>
+        </div>
+      </div>
+
+      <div class="scrolly-steps">
+        <article class="scrolly-step active" data-step="0" data-focus="p1">
+          <div class="ss-num"><span class="dot">01</span>Structure &amp; wireframe</div>
+          <h3>Skeleton first, decoration later.</h3>
+          <p>Sitemap, user flow, and wireframes define content and hierarchy before we touch color. The right structure makes everything else easy.</p>
+          <div class="ss-tags"><span class="tag">Sitemap</span><span class="tag">User flow</span><span class="tag">Wireframe</span></div>
+        </article>
+        <article class="scrolly-step" data-step="1" data-focus="p2">
+          <div class="ss-num"><span class="dot">02</span>Design system</div>
+          <h3>One language, reused everywhere.</h3>
+          <p>Color, type, spacing, and components defined as tokens. A consistent interface, and a team that ships new features far faster.</p>
+          <div class="ss-tags"><span class="tag">Tokens</span><span class="tag">Component</span><span class="tag">Consistency</span></div>
+        </article>
+        <article class="scrolly-step" data-step="2" data-focus="p3">
+          <div class="ss-num"><span class="dot">03</span>Hi-fi &amp; prototype</div>
+          <h3>Looks real, clicks real.</h3>
+          <p>High-fidelity design and a fully interactive prototype — so you feel the product before a line of code is written.</p>
+          <div class="ss-tags"><span class="tag">Hi-fi UI</span><span class="tag">Prototype</span><span class="tag">Micro-interaction</span></div>
+        </article>
+        <article class="scrolly-step" data-step="3" data-focus="p4">
+          <div class="ss-num"><span class="dot">04</span>Dev handoff</div>
+          <h3>Devs never have to guess.</h3>
+          <p>Specs, tokens, and components handed off cleanly. Engineers build exactly what was designed — no drift, no debate.</p>
+          <div class="ss-tags"><span class="tag">Specs</span><span class="tag">Code-ready</span><span class="tag">Tokens</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="capabilities">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Capabilities</p><h2>Three pillars <span class="accent">of good design.</span></h2></div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span>
+        <h3>UX &amp; flows</h3>
+        <p>User research, information architecture, and task flows. A clear, usable experience aimed at the goal.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 22a10 10 0 1 1 0-20"/></svg></span>
+        <h3>Design system</h3>
+        <p>Tokens, a component library, and documentation. The foundation for a consistent, sustainably scalable product.</p>
+      </div>
+      <div class="pillar reveal">
+        <span class="pi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+        <h3>Interactive prototypes</h3>
+        <p>Clickable, animated prototypes — to validate ideas and convince stakeholders before building.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec on-dark" id="process">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono dark">// Process</p><h2>How we <span class="accent">design.</span></h2><p>Transparent at every stage, with clear weekly deliverables.</p></div>
+    <div class="proc-line">
+      <div class="proc-step"><div class="pw">Week 1</div><div class="pd"></div><h4>Discovery</h4><p>Goals, audience, constraints. We map the full scope.</p></div>
+      <div class="proc-step"><div class="pw">Week 2</div><div class="pd"></div><h4>Wireframe</h4><p>Sitemap, flows, and the skeleton of the key screens.</p></div>
+      <div class="proc-step future"><div class="pw">Weeks 3–4</div><div class="pd"></div><h4>Hi-fi design</h4><p>A design system and a complete high-fidelity interface.</p></div>
+      <div class="proc-step future"><div class="pw">Week 5</div><div class="pd"></div><h4>Handoff</h4><p>Prototype, specs, and tokens handed to the devs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec on-dark" id="results" style="padding-top:0;">
+  <div class="strx-container">
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="100">0</span><span class="s">%</span></div><div class="k">Reusable components</div></div>
+      <div class="stat-cell"><div class="v">×<span class="count-up" data-target="2">0</span></div><div class="k">Dev build speed</div></div>
+      <div class="stat-cell"><div class="v">AA</div><div class="k">Accessibility standard met</div></div>
+      <div class="stat-cell"><div class="v">0</div><div class="k">Times devs had to "guess"</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cream" id="faq">
+  <div class="strx-container">
+    <div class="faq-grid">
+      <div class="faq-aside reveal">
+        <p class="t-mono">// FAQ</p>
+        <h2>Design questions.</h2>
+        <p>Don’t see your answer? Message us — we reply within one business day.</p>
+        <a href="contact.html" class="btn btn-dark" style="margin-top:24px;">Contact →</a>
+      </div>
+      <div id="faqList">
+        <div class="faq-item open"><button class="faq-q">What tools do you use?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Figma for design and prototyping. We hand off design tokens so devs build precisely.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Do you build a dedicated design system?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Yes. Every project is built on a design system for consistency and easy future scaling.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Do you also build after designing?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">We can. We do both design and engineering, so you can continue to build with the same team.</div></div></div>
+        <div class="faq-item"><button class="faq-q">Are revisions included?<span class="faq-ic">+</span></button><div class="faq-a"><div style="padding-top:4px;">Each stage includes review and revision rounds. We work with you, not apart from you.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="other">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Other services</p><h2>Explore <span class="accent">more.</span></h2></div>
+    <div class="other-grid">
+      <a href="service-web-app.html" class="other-card reveal"><div><div class="oc-n">02</div><h4>Web Application</h4></div><span class="oc-arr">→</span></a>
+      <a href="service-seo.html" class="other-card reveal"><div><div class="oc-n">03</div><h4>SEO &amp; Core Web Vitals</h4></div><span class="oc-arr">→</span></a>
+      <a href="service-saas.html" class="other-card reveal"><div><div class="oc-n">04</div><h4>SaaS Platform</h4></div><span class="oc-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="strx-container inner">
+    <p class="t-mono dark">// Get started</p>
+    <h2>Need an interface <span class="accent">worth building?</span></h2>
+    <p>A 30-minute call to look at your idea and how we turn it into a product.</p>
+    <div class="acts">
+      <a href="contact.html" class="btn btn-accent">Book a call →</a>
+      <a href="work.html" class="btn btn-on-dark">View work</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="service-web-design.html">Web Design</a></li><li><a href="service-web-app.html">Web Application</a></li><li><a href="service-seo.html">SEO</a></li><li><a href="service-saas.html">SaaS Platform</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services overview</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="Structure Homepage.html#industry">E-commerce</a></li><li><a href="Structure Homepage.html#industry">SaaS</a></li><li><a href="Structure Homepage.html#industry">Fintech</a></li><li><a href="Structure Homepage.html#industry">Healthcare</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="service.js"></script>
+<script src="nav-mega.js"></script>
+</body>
+</html>

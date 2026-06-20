@@ -1,36 +1,71 @@
 import './work.css'
 import type { Metadata } from 'next'
-import { getProjects } from '@/lib/content'
-import { WorkCard } from '@/components/cards/WorkCard'
-import { WorkFilters } from '@/components/sections/WorkFilters'
+import { getProjects, getArchive } from '@/lib/content'
+import type { ArchiveStat, Project } from '@/lib/content/types'
+import { WorkGrid } from '@/components/sections/WorkGrid'
 import { CtaSection } from '@/components/layout/CtaSection'
 
 export const metadata: Metadata = { title: 'Work — Structure' }
 
+const FALLBACK_HERO_STATS: ArchiveStat[] = [
+  { value: '40', suffix: '+', label: 'Projects shipped' },
+  { value: '12', label: 'Industries' },
+  { value: '96', suffix: '/100', label: 'Avg Lighthouse' },
+  { value: '0.9', suffix: 's', label: 'Median CWV' },
+]
+
+const FALLBACK_RESULTS: ArchiveStat[] = [
+  { value: '+64', suffix: '%', label: 'Average conversion lift after replatform' },
+  { value: '−52', suffix: '%', label: 'Page load time' },
+  { value: '96', suffix: '/100', label: 'Average Lighthouse score' },
+  { value: '100', suffix: '%', label: 'Projects with zero-downtime go-live' },
+]
+
+const FALLBACK_FEATURED_STATS: ArchiveStat[] = [
+  { value: '+212', suffix: '%', label: 'Mobile revenue' },
+  { value: '0.8', suffix: 's', label: 'Median LCP' },
+  { value: '98', suffix: '/100', label: 'Lighthouse' },
+]
+
 /** Work archive — hero, filters, work grid, featured case, results, CTA. */
 export default async function WorkPage() {
-  const projects = await getProjects()
+  const [projects, content] = await Promise.all([getProjects(), getArchive('work')])
+
+  const heroStats = content?.hero_stats?.length ? content.hero_stats : FALLBACK_HERO_STATS
+  const resultsStats = content?.results_stats?.length ? content.results_stats : FALLBACK_RESULTS
+
+  const feat = content?.featured
+  const featuredProject: Project | null =
+    feat?.project && typeof feat.project === 'object'
+      ? feat.project
+      : (projects.find((p) => p.featured) ?? null)
+  const featuredStats = feat?.stats?.length ? feat.stats : FALLBACK_FEATURED_STATS
 
   return (
     <>
       {/* HERO */}
       <header className="page-hero">
         <div className="strx-container inner">
-          <p className="t-mono">// Portfolio</p>
+          <p className="t-mono">{content?.hero_eyebrow ?? '// Portfolio'}</p>
           <h1>
-            40 projects.
+            {content?.hero_heading ?? '40 projects.'}
             <br />
-            <span className="accent">12 industries.</span>
+            <span className="accent">{content?.hero_heading_accent ?? '12 industries.'}</span>
           </h1>
           <p className="lead">
-            Every project is measured by real numbers after go-live. Here is some of the work we are
-            proud of.
+            {content?.hero_lead ??
+              'Every project is measured by real numbers after go-live. Here is some of the work we are proud of.'}
           </p>
           <div className="hero-stats">
-            <div className="hs"><div className="v">40<span className="s">+</span></div><div className="k">Projects shipped</div></div>
-            <div className="hs"><div className="v">12</div><div className="k">Industries</div></div>
-            <div className="hs"><div className="v">96<span className="s">/100</span></div><div className="k">Avg Lighthouse</div></div>
-            <div className="hs"><div className="v">0.9<span className="s">s</span></div><div className="k">Median CWV</div></div>
+            {heroStats.map((s, i) => (
+              <div className="hs" key={i}>
+                <div className="v">
+                  {s.value}
+                  {s.suffix ? <span className="s">{s.suffix}</span> : null}
+                </div>
+                <div className="k">{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </header>
@@ -38,13 +73,7 @@ export default async function WorkPage() {
       {/* WORK GRID */}
       <section className="sec" id="grid">
         <div className="strx-container">
-          <WorkFilters />
-          {/* @cms:loop name="portfolio" — each project → WorkCard */}
-          <div className="work-grid" data-cms-loop="portfolio">
-            {projects.map((project) => (
-              <WorkCard key={project.id} project={project} />
-            ))}
-          </div>
+          <WorkGrid projects={projects} />
         </div>
       </section>
 
@@ -52,13 +81,14 @@ export default async function WorkPage() {
       <section className="sec on-dark" id="featured">
         <div className="strx-container">
           <div className="sec-head">
-            <p className="t-mono dark">// Featured case study</p>
+            <p className="t-mono dark">{feat?.eyebrow ?? '// Featured case study'}</p>
             <h2>
-              Luma Atelier — <span className="accent">a 6-week replatform.</span>
+              {feat?.heading ?? 'Luma Atelier — '}
+              <span className="accent">{feat?.heading_accent ?? 'a 6-week replatform.'}</span>
             </h2>
             <p>
-              From 1.2% to 2.4% mobile conversion — we redesigned the entire shopping experience for a
-              premium fashion brand.
+              {feat?.desc ??
+                'From 1.2% to 2.4% mobile conversion — we redesigned the entire shopping experience for a premium fashion brand.'}
             </p>
           </div>
           <div className="cs-feature">
@@ -81,16 +111,22 @@ export default async function WorkPage() {
               <span className="badge ink cs-badge">★ Case study</span>
             </div>
             <div className="cs-body">
-              <div className="cs-eye">E-commerce · Headless · 6 weeks</div>
-              <h3>Moved to a typed headless storefront, 3× mobile revenue.</h3>
+              <div className="cs-eye">{featuredProject?.meta ?? 'E-commerce · Headless · 6 weeks'}</div>
+              <h3>{featuredProject?.title ?? 'Moved to a typed headless storefront, 3× mobile revenue.'}</h3>
               <p className="cs-desc">
-                Sub-second loads, one-page checkout, product SEO built in — zero-downtime go-live during
-                peak season.
+                {featuredProject?.summary ??
+                  'Sub-second loads, one-page checkout, product SEO built in — zero-downtime go-live during peak season.'}
               </p>
               <div className="cs-stats">
-                <div className="st"><div className="v">+212<span className="s">%</span></div><div className="k">Mobile revenue</div></div>
-                <div className="st"><div className="v">0.8<span className="s">s</span></div><div className="k">Median LCP</div></div>
-                <div className="st"><div className="v">98<span className="s">/100</span></div><div className="k">Lighthouse</div></div>
+                {featuredStats.map((s, i) => (
+                  <div className="st" key={i}>
+                    <div className="v">
+                      {s.value}
+                      {s.suffix ? <span className="s">{s.suffix}</span> : null}
+                    </div>
+                    <div className="k">{s.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -101,17 +137,23 @@ export default async function WorkPage() {
       <section className="sec on-dark" id="results" style={{ paddingTop: 0 }}>
         <div className="strx-container">
           <div className="sec-head">
-            <p className="t-mono dark">// Results</p>
+            <p className="t-mono dark">{content?.results_eyebrow ?? '// Results'}</p>
             <h2>
-              Real numbers, <span className="accent">not pretty slides.</span>
+              {content?.results_heading ?? 'Real numbers, '}
+              <span className="accent">{content?.results_heading_accent ?? 'not pretty slides.'}</span>
             </h2>
-            <p>Averaged across all projects over the last 24 months.</p>
+            <p>{content?.results_lead ?? 'Averaged across all projects over the last 24 months.'}</p>
           </div>
           <div className="stat-strip">
-            <div className="stat-cell"><div className="v">+64<span className="s">%</span></div><div className="k">Average conversion lift after replatform</div></div>
-            <div className="stat-cell"><div className="v">−52<span className="s">%</span></div><div className="k">Page load time</div></div>
-            <div className="stat-cell"><div className="v">96<span className="s">/100</span></div><div className="k">Average Lighthouse score</div></div>
-            <div className="stat-cell"><div className="v">100<span className="s">%</span></div><div className="k">Projects with zero-downtime go-live</div></div>
+            {resultsStats.map((s, i) => (
+              <div className="stat-cell" key={i}>
+                <div className="v">
+                  {s.value}
+                  {s.suffix ? <span className="s">{s.suffix}</span> : null}
+                </div>
+                <div className="k">{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

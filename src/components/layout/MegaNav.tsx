@@ -1,11 +1,34 @@
 import { cn } from '@/lib/utils/cn'
+import type { MegaContent } from '@/lib/content/types'
+
+export interface MegaItemData {
+  n: string
+  name: string
+  desc: string
+  href: string
+}
 
 /**
  * Services mega panel. Markup ported 1:1 from assets/nav-mega.js (.mega / .mega-card …).
- * Static marketing content matches the design reference.
- * TODO(design): drive items from getServices() once copy is finalised in CMS.
+ * Surrounding copy comes from SiteSettings.mega; the four cards are the live Services.
  */
-export function MegaNav({ open }: { open: boolean }) {
+export function MegaNav({
+  open,
+  mega,
+  items,
+}: {
+  open: boolean
+  mega?: MegaContent | null
+  items: MegaItemData[]
+}) {
+  const eyebrow = mega?.eyebrow || '// Services'
+  const heading = mega?.heading || 'Four capabilities, one team.'
+  const blurb =
+    mega?.blurb ||
+    'Strategy, design, and engineering under one roof — together from the first commit to launch and beyond.'
+  const ctaLabel = mega?.ctaLabel || 'View all services'
+  const promo = mega?.promo
+
   return (
     <div
       className={cn('mega', open && 'open')}
@@ -16,32 +39,26 @@ export function MegaNav({ open }: { open: boolean }) {
       <div className="strx-container">
         <div className="mega-card">
           <div className="mega-aside">
-            <p className="t-mono">// Services</p>
-            <h3>
-              Four capabilities,
-              <br />
-              one team.
-            </h3>
-            <p className="mega-blurb">
-              Strategy, design, and engineering under one roof — together from the first commit to
-              launch and beyond.
-            </p>
+            <p className="t-mono">{eyebrow}</p>
+            <h3>{heading}</h3>
+            <p className="mega-blurb">{blurb}</p>
             <a href="/services" className="mega-all">
-              View all services <span>→</span>
+              {ctaLabel} <span>→</span>
             </a>
-            <div className="mega-promo">
-              <span className="mp-eye">// Featured</span>
-              <span className="mp-title">Luma Atelier — +212% mobile revenue</span>
-              <a href="/work" className="mp-link">
-                Read case study →
-              </a>
-            </div>
+            {promo?.title ? (
+              <div className="mega-promo">
+                <span className="mp-eye">{promo.eyebrow || '// Featured'}</span>
+                <span className="mp-title">{promo.title}</span>
+                <a href={promo.linkHref || '/work'} className="mp-link">
+                  {promo.linkLabel || 'Read case study →'}
+                </a>
+              </div>
+            ) : null}
           </div>
           <div className="mega-grid">
-            <MegaItem href="/services/web-design" n="01" name="Web Design" desc="High-fidelity interface design and interactive prototypes — a component system, not static mockups." />
-            <MegaItem href="/services/web-app" n="02" name="Web Application" desc="Stateful web apps, typed end-to-end. Next.js, TypeScript, production-ready infrastructure." />
-            <MegaItem href="/services/seo" n="03" name="SEO & Core Web Vitals" desc="Technical SEO and Core Web Vitals engineered in from the first commit — not bolted on later." />
-            <MegaItem href="/services/saas" n="04" name="SaaS Platform" desc="Multi-tenant SaaS platforms: auth, billing, dashboards, and a design system that scales." />
+            {items.map((item) => (
+              <MegaItem key={item.href} {...item} />
+            ))}
           </div>
         </div>
       </div>
@@ -49,7 +66,7 @@ export function MegaNav({ open }: { open: boolean }) {
   )
 }
 
-function MegaItem({ href, n, name, desc }: { href: string; n: string; name: string; desc: string }) {
+function MegaItem({ href, n, name, desc }: MegaItemData) {
   return (
     <a className="mega-item" href={href}>
       <span className="mi-ico">

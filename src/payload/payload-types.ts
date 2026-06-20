@@ -227,6 +227,32 @@ export interface Industry {
   stat_label?: string | null;
   hero_image?: (number | null) | Media;
   eyebrow?: string | null;
+  /**
+   * Scrolly case-study section. Hidden if it has no steps.
+   */
+  story?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    lead?: string | null;
+    steps?:
+      | {
+          /**
+           * e.g. 01
+           */
+          num: string;
+          cap: string;
+          title: string;
+          desc: string;
+          tags?:
+            | {
+                label: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   stats?:
     | {
         value: string;
@@ -399,22 +425,125 @@ export interface Service {
   number?: string | null;
   title: string;
   lead: string;
+  /**
+   * Shown as chips on the service card.
+   */
   tags?:
     | {
         label: string;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Headline figure, e.g. 99.9% or 0.9s.
+   */
   metric_value?: string | null;
+  /**
+   * Caption under the figure.
+   */
   metric_label?: string | null;
   hero_image?: (number | null) | Media;
+  /**
+   * Optional overrides for the single-page hero + section headings. Wrap the accent part in *asterisks*. Each falls back to a sensible default when blank.
+   */
+  headings?: {
+    /**
+     * Big H1. Wrap the accent in *asterisks*. Falls back to the service title.
+     */
+    hero?: string | null;
+    /**
+     * e.g. // From idea to handoff
+     */
+    story_eyebrow?: string | null;
+    /**
+     * Wrap the accent-coloured part in *asterisks*, e.g. “SEO that drives *revenue,* not just rankings.”
+     */
+    story_heading?: string | null;
+    /**
+     * Intro under the walkthrough heading.
+     */
+    story_lead?: string | null;
+    /**
+     * e.g. // Capabilities
+     */
+    capabilities_eyebrow?: string | null;
+    /**
+     * Wrap the accent-coloured part in *asterisks*, e.g. “SEO that drives *revenue,* not just rankings.”
+     */
+    capabilities_heading?: string | null;
+    /**
+     * e.g. // Process
+     */
+    process_eyebrow?: string | null;
+    /**
+     * Wrap the accent-coloured part in *asterisks*, e.g. “SEO that drives *revenue,* not just rankings.”
+     */
+    process_heading?: string | null;
+    process_lead?: string | null;
+    /**
+     * e.g. // FAQ
+     */
+    faq_eyebrow?: string | null;
+    /**
+     * No accent needed. Falls back to “<Service> questions.”
+     */
+    faq_heading?: string | null;
+  };
   /**
    * Glyph/emoji or icon key.
    */
   icon?: string | null;
+  /**
+   * Big statement shown under the hero. Hidden if empty.
+   */
+  manifesto?: string | null;
+  /**
+   * Stats in the hero. Falls back to the card metric if empty.
+   */
+  hero_metrics?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Walkthrough steps. Section hidden if empty.
+   */
+  scrolly?:
+    | {
+        /**
+         * e.g. 01
+         */
+        num: string;
+        /**
+         * Short caption.
+         */
+        cap: string;
+        title: string;
+        desc: string;
+        tags?:
+          | {
+              label: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
   features?:
     | {
         label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Pillar cards (label + description). Section hidden if empty.
+   */
+  capabilities?:
+    | {
+        label: string;
+        desc: string;
         id?: string | null;
       }[]
     | null;
@@ -423,6 +552,27 @@ export interface Service {
         step: string;
         title: string;
         desc: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Result stat strip. Section hidden if empty.
+   */
+  results?:
+    | {
+        value: string;
+        unit?: string | null;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Section hidden if empty.
+   */
+  faqs?:
+    | {
+        q: string;
+        a: string;
         id?: string | null;
       }[]
     | null;
@@ -484,6 +634,10 @@ export interface Project {
   duration?: string | null;
   services?: (number | Service)[] | null;
   live_url?: string | null;
+  /**
+   * Heading for the challenge section.
+   */
+  challenge_title?: string | null;
   challenge?: {
     root: {
       type: string;
@@ -499,6 +653,10 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Heading for the approach section.
+   */
+  approach_title?: string | null;
   approach?: {
     root: {
       type: string;
@@ -616,6 +774,114 @@ export interface Page {
   id: number;
   title: string;
   layout?: (RichTextBlock | StatsBlock | GalleryBlock | MediaTextBlock | CtaBlock)[] | null;
+  /**
+   * Editable copy for the archive routes (records with slug work / industries / services). Ignored by Core/Legal pages.
+   */
+  archive?: {
+    hero_eyebrow?: string | null;
+    hero_heading?: string | null;
+    /**
+     * Accent-coloured tail of the heading.
+     */
+    hero_heading_accent?: string | null;
+    hero_lead?: string | null;
+    hero_stats?:
+      | {
+          value: string;
+          /**
+           * Small superscript, e.g. + or /100 or s.
+           */
+          suffix?: string | null;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Industries archive manifesto. Hidden if empty.
+     */
+    manifesto?: string | null;
+    /**
+     * Work archive featured case. Falls back to the first featured project.
+     */
+    featured?: {
+      project?: (number | null) | Project;
+      eyebrow?: string | null;
+      heading?: string | null;
+      heading_accent?: string | null;
+      desc?: string | null;
+      stats?:
+        | {
+            value: string;
+            suffix?: string | null;
+            label: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    results_eyebrow?: string | null;
+    results_heading?: string | null;
+    results_heading_accent?: string | null;
+    results_lead?: string | null;
+    results_stats?:
+      | {
+          value: string;
+          suffix?: string | null;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Services archive timeline. Hidden if empty.
+     */
+    roadmap?:
+      | {
+          week: string;
+          title: string;
+          desc: string;
+          future?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Services archive pricing models. Hidden if empty.
+     */
+    engagement?:
+      | {
+          tag: string;
+          title: string;
+          price: string;
+          price_unit?: string | null;
+          desc: string;
+          featured?: boolean | null;
+          cta_label?: string | null;
+          cta_href?: string | null;
+          items?:
+            | {
+                label: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Services archive "we do / we don't" matrix. Hidden if both empty.
+     */
+    matrix?: {
+      do?:
+        | {
+            label: string;
+            id?: string | null;
+          }[]
+        | null;
+      dont?:
+        | {
+            label: string;
+            id?: string | null;
+          }[]
+        | null;
+    };
+  };
   /**
    * URL segment. Auto-generated from the title if left empty.
    */
@@ -838,6 +1104,28 @@ export interface IndustriesSelect<T extends boolean = true> {
   stat_label?: T;
   hero_image?: T;
   eyebrow?: T;
+  story?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        lead?: T;
+        steps?:
+          | T
+          | {
+              num?: T;
+              cap?: T;
+              title?: T;
+              desc?: T;
+              tags?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
   stats?:
     | T
     | {
@@ -968,11 +1256,56 @@ export interface ServicesSelect<T extends boolean = true> {
   metric_value?: T;
   metric_label?: T;
   hero_image?: T;
+  headings?:
+    | T
+    | {
+        hero?: T;
+        story_eyebrow?: T;
+        story_heading?: T;
+        story_lead?: T;
+        capabilities_eyebrow?: T;
+        capabilities_heading?: T;
+        process_eyebrow?: T;
+        process_heading?: T;
+        process_lead?: T;
+        faq_eyebrow?: T;
+        faq_heading?: T;
+      };
   icon?: T;
+  manifesto?: T;
+  hero_metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  scrolly?:
+    | T
+    | {
+        num?: T;
+        cap?: T;
+        title?: T;
+        desc?: T;
+        tags?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   features?:
     | T
     | {
         label?: T;
+        id?: T;
+      };
+  capabilities?:
+    | T
+    | {
+        label?: T;
+        desc?: T;
         id?: T;
       };
   process?:
@@ -981,6 +1314,21 @@ export interface ServicesSelect<T extends boolean = true> {
         step?: T;
         title?: T;
         desc?: T;
+        id?: T;
+      };
+  results?:
+    | T
+    | {
+        value?: T;
+        unit?: T;
+        label?: T;
+        id?: T;
+      };
+  faqs?:
+    | T
+    | {
+        q?: T;
+        a?: T;
         id?: T;
       };
   pricing?: T;
@@ -1026,7 +1374,9 @@ export interface ProjectsSelect<T extends boolean = true> {
   duration?: T;
   services?: T;
   live_url?: T;
+  challenge_title?: T;
   challenge?: T;
+  approach_title?: T;
   approach?: T;
   stats?:
     | T
@@ -1112,6 +1462,96 @@ export interface PagesSelect<T extends boolean = true> {
         mediaText?: T | MediaTextBlockSelect<T>;
         ctaBand?: T | CtaBlockSelect<T>;
       };
+  archive?:
+    | T
+    | {
+        hero_eyebrow?: T;
+        hero_heading?: T;
+        hero_heading_accent?: T;
+        hero_lead?: T;
+        hero_stats?:
+          | T
+          | {
+              value?: T;
+              suffix?: T;
+              label?: T;
+              id?: T;
+            };
+        manifesto?: T;
+        featured?:
+          | T
+          | {
+              project?: T;
+              eyebrow?: T;
+              heading?: T;
+              heading_accent?: T;
+              desc?: T;
+              stats?:
+                | T
+                | {
+                    value?: T;
+                    suffix?: T;
+                    label?: T;
+                    id?: T;
+                  };
+            };
+        results_eyebrow?: T;
+        results_heading?: T;
+        results_heading_accent?: T;
+        results_lead?: T;
+        results_stats?:
+          | T
+          | {
+              value?: T;
+              suffix?: T;
+              label?: T;
+              id?: T;
+            };
+        roadmap?:
+          | T
+          | {
+              week?: T;
+              title?: T;
+              desc?: T;
+              future?: T;
+              id?: T;
+            };
+        engagement?:
+          | T
+          | {
+              tag?: T;
+              title?: T;
+              price?: T;
+              price_unit?: T;
+              desc?: T;
+              featured?: T;
+              cta_label?: T;
+              cta_href?: T;
+              items?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        matrix?:
+          | T
+          | {
+              do?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              dont?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+            };
+      };
   slug?: T;
   seo?:
     | T
@@ -1194,6 +1634,24 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Copy for the Services mega panel. The four service cards are pulled live from the Services collection.
+   */
+  mega?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    blurb?: string | null;
+    ctaLabel?: string | null;
+    /**
+     * Featured promo card in the mega panel. Hidden if Title is empty.
+     */
+    promo?: {
+      eyebrow?: string | null;
+      title?: string | null;
+      linkLabel?: string | null;
+      linkHref?: string | null;
+    };
+  };
   footerColumns?:
     | {
         heading: string;
@@ -1208,6 +1666,13 @@ export interface SiteSetting {
       }[]
     | null;
   footerTagline?: string | null;
+  /**
+   * Bottom bar of the footer.
+   */
+  footerBottom?: {
+    left?: string | null;
+    right?: string | null;
+  };
   social?:
     | {
         platform: string;
@@ -1215,6 +1680,35 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Contact-page channels ("Other channels" block).
+   */
+  contact?: {
+    /**
+     * Used for the mailto: link.
+     */
+    email?: string | null;
+    /**
+     * Email / Telegram / LinkedIn etc. Icons are assigned by position.
+     */
+    channels?:
+      | {
+          /**
+           * e.g. Email, Telegram, LinkedIn
+           */
+          platform: string;
+          /**
+           * Displayed value, e.g. @structurestudio
+           */
+          handle: string;
+          /**
+           * Full URL or mailto:
+           */
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1232,6 +1726,22 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         href?: T;
         id?: T;
       };
+  mega?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        blurb?: T;
+        ctaLabel?: T;
+        promo?:
+          | T
+          | {
+              eyebrow?: T;
+              title?: T;
+              linkLabel?: T;
+              linkHref?: T;
+            };
+      };
   footerColumns?:
     | T
     | {
@@ -1246,12 +1756,31 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         id?: T;
       };
   footerTagline?: T;
+  footerBottom?:
+    | T
+    | {
+        left?: T;
+        right?: T;
+      };
   social?:
     | T
     | {
         platform?: T;
         href?: T;
         id?: T;
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        channels?:
+          | T
+          | {
+              platform?: T;
+              handle?: T;
+              href?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

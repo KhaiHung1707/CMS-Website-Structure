@@ -132,9 +132,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div className="cs-prose">
               <div>
                 <p className="t-mono">// The challenge</p>
-                <h2>
-                  A beautiful site that <span style={{ color: 'var(--accent)' }}>couldn&apos;t convert.</span>
-                </h2>
+                <h2>{project.challenge_title ?? 'The challenge.'}</h2>
               </div>
               <RichText data={project.challenge} className="body" />
             </div>
@@ -149,9 +147,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div className="cs-prose">
               <div>
                 <p className="t-mono">// Our approach</p>
-                <h2>
-                  Rebuilt on a <span style={{ color: 'var(--accent)' }}>typed foundation.</span>
-                </h2>
+                <h2>{project.approach_title ?? 'Our approach.'}</h2>
               </div>
               <RichText data={project.approach} className="body" />
             </div>

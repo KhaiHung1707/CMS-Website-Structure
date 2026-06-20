@@ -169,3 +169,95 @@ Mỗi file/PR phải pass checklist trước khi merge — Codex kiểm:
   **Code tạm bản tối thiểu theo DS** — chỉ dùng token/class có sẵn (`.strx`, `var(--*)`), không tự chế màu/spacing.
   Mỗi bản tạm đánh dấu `// TODO(design): thay khi Design xuất <file>.html` để Codex/diff dễ truy.
 - **Trạng thái thi công:** **chỉ giữ plan** — chưa init code. Bắt đầu Phase 0 khi có lệnh.
+
+---
+
+## 9. Improvement plan: Single & Archive (chốt 2026-06-17)
+
+> Bối cảnh: Phase 0–3 đã build xong, site render OK. Nhưng kiểm tra lại thì **Single & Archive
+> mới CMS-hóa phần lõi (card grid + vài field)**, còn lại **nội dung thiết kế bị hardcode** trong
+> code — vi phạm §0.1 (seam) và §7 ("thêm 1 record → có Single đúng"). Mục này khắc phục triệt để.
+> **Quyết định phạm vi:** full — fix per-record + archive copy qua `pages` + filter chạy thật.
+
+### 9.1 Nợ kỹ thuật đã định vị (bằng chứng theo file)
+
+**A. Sai chức năng CMS (mỗi record phải ra nội dung của chính nó — đang KHÔNG):**
+1. `app/(frontend)/services/[slug]/page.tsx` — hardcode toàn bộ nội dung SaaS: `SCROLLY_STEPS`,
+   `FAQS`, `PILLAR_DESCS`, `PILLAR_ICONS`, `FALLBACK_PILLARS`, manifesto, results stat-strip,
+   hero metric phụ `×3.2`. ⇒ **mọi** service (web-design, seo…) đều render ra SaaS. Schema
+   `Services.ts` mới có `features/process/tech/pricing` — thiếu field cho các vùng trên.
+2. `components/sections/IndustryStory.tsx` — hardcode 100% case study "QuoteFlow" (4 step + portal
+   mockup), không nhận prop. `industries/[slug]/page.tsx` gọi `<IndustryStory />` trống.
+3. `app/(frontend)/work/[slug]/page.tsx` — heading & accent của section challenge/approach
+   hardcode ("A beautiful site that couldn't convert", "Rebuilt on a typed foundation").
+
+**B. Editability (page-copy để cứng — sẽ chuyển sang `pages` per-archive):**
+4. `work/page.tsx` — hero copy + `.hero-stats` (40/12/96/0.9s), featured case "Luma Atelier"
+   (toàn bộ), `.stat-strip` results — đều hardcode; chỉ `.work-grid` là động.
+5. `industries/page.tsx` — hero copy, `.h-stats`, manifesto, `.stat-strip` results hardcode.
+6. `services/page.tsx` — hero copy, roadmap 12-tuần, engagement models, scope matrix hardcode.
+
+**C. Tương tác giả:**
+7. `components/sections/WorkFilters.tsx` — `CATEGORIES` tĩnh, click chỉ đổi class `.on`,
+   **không lọc** grid thật.
+
+### 9.2 Quyết định kiến trúc
+
+- **Page-copy archive → `pages` collection, mỗi archive 1 record** (`slug`: `work`, `industries`,
+  `services`). Mở rộng `Pages.ts` thêm **tab "Archive"** chứa các field có cấu trúc khớp 1:1 với
+  section template (hero, heroStats[], featuredCase, resultsStrip[], + nhóm riêng từng loại). Layout
+  archive là CỐ ĐỊNH ⇒ dùng **structured fields**, KHÔNG dùng free-blocks cho các vùng này (blocks
+  `extra/layout` vẫn còn cho section phụ nối thêm). Route đọc qua helper mới `getArchive(slug)`.
+- **Per-record content → mở rộng schema từng collection** (Services/Industries/Projects), không
+  nhét vào `pages`. Mỗi vùng động = 1 array/group; **section ẩn khi field rỗng** (không fallback
+  nội dung SaaS/QuoteFlow nữa).
+- **Mockup bespoke** (`SaasConsole`, story portal "QuoteFlow") = **design decoration** theo đúng
+  tiền lệ README (chrome tĩnh). Giữ là decoration tùy chọn, đánh dấu `// TODO(design)`; phần TEXT
+  (step/heading/tag) phải lấy từ data. KHÔNG tự chế token/màu mới.
+- **Featured case (work)** = field `featuredCase` trên record `pages/work`: relationship tới 1
+  `projects` + copy hiển thị; fallback = project `featured:true` đầu tiên. Không hardcode "Luma".
+
+### 9.3 Phases (mỗi phase = 1 PR + 1 vòng Codex theo §6)
+
+- **Phase A — Schema + types.**
+  - `Services.ts` +tab/field: `manifesto` (textarea), `scrolly[] {num,cap,title,desc,tags[]}`,
+    `capabilities[] {label,desc,icon}` (thay PILLAR_*), `faqs[] {q,a}`, `results[] {value,unit,label}`,
+    `hero_metrics[] {value,label}` (thay `×3.2`).
+  - `Industries.ts` +group `story {eyebrow,title,lead,steps[] {num,cap,title,desc,tags[]}}`.
+  - `Projects.ts` +`challenge_title`, `approach_title` (text, optional).
+  - `Pages.ts` +tab "Archive": `hero {eyebrow,headingHtml,lead}`, `heroStats[] {value,suffix,label}`,
+    `featuredCase {project(rel),eyebrow,heading,desc,stats[]}`, `resultsStrip[] {value,suffix,label}`,
+    + nhóm riêng: services `roadmap[]/engagement[]/matrix{do[],dont[]}`, industries `manifestoHtml`.
+  - Chạy `npm run generate:types`; thêm 3 record `pages` (work/industries/services) + đổ nội dung
+    hiện tại vào admin (giữ y nguyên text để diff = 0 về mặt hiển thị).
+  - *DoD:* `tsc --noEmit` sạch; field hiện trong admin.
+
+- **Phase B — Data layer.** `lib/content/pages.ts` +`getArchive(slug)`; cập nhật `get*BySlug` đảm
+  bảo `depth` đủ cho relationship mới (featuredCase, story). Trả type sinh từ Payload, không `any`.
+  *DoD:* gọi `getArchive('work')` trả typed có featuredCase.
+
+- **Phase C — Single (sửa bug A).** Thứ tự: `work/[slug]` (nhỏ nhất) → `industries/[slug]` →
+  `services/[slug]`. Xóa mọi `const` nội dung; render từ field; ẩn section khi rỗng. `IndustryStory`
+  & service scrolly nhận prop `steps`. Giữ NGUYÊN class/DOM template.
+  *DoD:* tạo 1 service mới (vd web-design) → trang KHÔNG còn chữ SaaS; tạo industry mới → story đúng.
+
+- **Phase D — Archive (sửa B).** 3 archive đọc `getArchive(slug)`; thay hero/stats/featured/results/
+  roadmap/engagement/matrix bằng data. Featured case từ relationship + fallback `featured`.
+  *DoD:* sửa số "40+" trong admin → archive đổi, không deploy.
+
+- **Phase E — Filter chạy thật (C).** Tách `WorkGrid` (client) bọc filter + grid, lọc theo
+  `project.industry`; categories suy từ industries có thật trong data. Giữ class `.filter/.filter.on`,
+  `.work-grid`. *DoD:* click "SaaS" → chỉ còn project ngành SaaS; "All" → đủ.
+
+- **Phase F — Verify + Codex gate.** Chạy `tsc`/lint; `/verify` UI từng route; checklist §6
+  (không hardcode token, DOM khớp template, data qua `lib/content`, loop đúng marker, SRP ≤~150 dòng).
+
+### 9.4 Definition of done (riêng mục này)
+- Mỗi service/industry/project render **nội dung của chính nó**; không còn const nội dung trong page.
+- Sửa copy/số trong admin (archive + single) → site đổi, không deploy.
+- Filter work lọc thật theo ngành.
+- Class & DOM vẫn khớp 100% template; không token/màu mới; mockup bespoke gắn `// TODO(design)`.
+
+### 9.5 Cần chốt trước Phase A
+1. Mockup `SaasConsole` & story portal: giữ làm decoration tĩnh per-loại, hay cũng field-hóa? (đề xuất: giữ tĩnh giai đoạn này.)
+2. Roadmap/engagement/matrix của services archive: coi là brand copy chung (1 record `pages/services`) — OK chứ?

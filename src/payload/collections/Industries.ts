@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '../fields/slug'
 import { seoField } from '../fields/seo'
 import { extraBlocks } from '../blocks'
+import { tagsField, statsField } from '../fields/factories'
 
 /** Industries — Archive `/industries` (card) + Single `/industries/[slug]`. */
 export const Industries: CollectionConfig = {
@@ -21,12 +22,7 @@ export const Industries: CollectionConfig = {
             { name: 'number', type: 'text', admin: { description: 'e.g. 01' } },
             { name: 'title', type: 'text', required: true },
             { name: 'lead', type: 'textarea', required: true },
-            {
-              name: 'tags',
-              type: 'array',
-              labels: { singular: 'Tag', plural: 'Tags' },
-              fields: [{ name: 'label', type: 'text', required: true }],
-            },
+            tagsField('tags'),
             { name: 'stat_value', type: 'text' },
             { name: 'stat_label', type: 'text' },
             { name: 'hero_image', type: 'upload', relationTo: 'media' },
@@ -37,15 +33,28 @@ export const Industries: CollectionConfig = {
           fields: [
             { name: 'eyebrow', type: 'text' },
             {
-              name: 'stats',
-              type: 'array',
-              labels: { singular: 'Stat', plural: 'Stats' },
+              name: 'story',
+              type: 'group',
+              admin: { description: 'Scrolly case-study section. Hidden if it has no steps.' },
               fields: [
-                { name: 'value', type: 'text', required: true },
-                { name: 'unit', type: 'text' },
-                { name: 'label', type: 'text', required: true },
+                { name: 'eyebrow', type: 'text' },
+                { name: 'title', type: 'text' },
+                { name: 'lead', type: 'textarea' },
+                {
+                  name: 'steps',
+                  type: 'array',
+                  labels: { singular: 'Step', plural: 'Steps' },
+                  fields: [
+                    { name: 'num', type: 'text', required: true, admin: { description: 'e.g. 01' } },
+                    { name: 'cap', type: 'text', required: true },
+                    { name: 'title', type: 'text', required: true },
+                    { name: 'desc', type: 'textarea', required: true },
+                    tagsField('tags'),
+                  ],
+                },
               ],
             },
+            statsField('stats', { secondaryKey: 'unit' }),
             {
               name: 'faqs',
               type: 'array',

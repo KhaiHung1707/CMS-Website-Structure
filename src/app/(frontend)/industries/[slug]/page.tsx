@@ -70,7 +70,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         </div>
       </header>
 
-      <IndustryStory />
+      <IndustryStory story={industry.story} />
 
       {industry.stats && industry.stats.length > 0 ? (
         <section className="sec on-dark" id="results">

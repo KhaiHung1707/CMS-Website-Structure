@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import './contact.css'
+import { getSiteSettings } from '@/lib/content'
+import type { ContactChannel } from '@/lib/content/types'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { ContactForm } from '@/components/forms/ContactForm'
 import { ContactFaq } from '@/components/sections/ContactFaq'
@@ -32,7 +35,26 @@ const DISCOVERY: { n: string; h: string; p: string }[] = [
   },
 ]
 
-export default function ContactPage() {
+/** Positional channel glyphs — decoration only; labels/links come from data. */
+const CHANNEL_ICONS: ReactNode[] = [
+  <svg key="mail" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" /></svg>,
+  <svg key="chat" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>,
+  <svg key="in" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>,
+]
+
+const FALLBACK_CHANNELS: ContactChannel[] = [
+  { platform: 'Email', handle: 'hello@structure.studio', href: 'mailto:hello@structure.studio' },
+  { platform: 'Telegram', handle: '@structurestudio', href: 'https://t.me/structurestudio' },
+  { platform: 'LinkedIn', handle: '/structure', href: 'https://www.linkedin.com/company/structure' },
+]
+
+export default async function ContactPage() {
+  const settings = await getSiteSettings()
+  const channels =
+    settings.contact?.channels && settings.contact.channels.length > 0
+      ? settings.contact.channels
+      : FALLBACK_CHANNELS
+
   return (
     <>
       <header className="contact-hero">
@@ -97,42 +119,23 @@ export default function ContactPage() {
             <p>We’re on several channels. Email gets the fastest reply.</p>
           </div>
           <div className="chan-grid">
-            <a href="mailto:hello@structure.studio" className="chan">
-              <span className="ic">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="m22 7-10 5L2 7" />
-                </svg>
-              </span>
-              <span className="ct">
-                <span className="k">Email</span>
-                <span className="v">hello@structure.studio</span>
-              </span>
-            </a>
-            <a href="#" className="chan">
-              <span className="ic">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                </svg>
-              </span>
-              <span className="ct">
-                <span className="k">Telegram</span>
-                <span className="v">@structurestudio</span>
-              </span>
-            </a>
-            <a href="#" className="chan">
-              <span className="ic">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
-                  <rect x="2" y="9" width="4" height="12" />
-                  <circle cx="4" cy="4" r="2" />
-                </svg>
-              </span>
-              <span className="ct">
-                <span className="k">LinkedIn</span>
-                <span className="v">/structure</span>
-              </span>
-            </a>
+            {channels.map((ch, i) => {
+              const external = /^https?:/i.test(ch.href)
+              return (
+                <a
+                  href={ch.href}
+                  className="chan"
+                  key={`${ch.platform}-${ch.href}`}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <span className="ic">{CHANNEL_ICONS[i % CHANNEL_ICONS.length]}</span>
+                  <span className="ct">
+                    <span className="k">{ch.platform}</span>
+                    <span className="v">{ch.handle}</span>
+                  </span>
+                </a>
+              )
+            })}
           </div>
         </div>
       </section>

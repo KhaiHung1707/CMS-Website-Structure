@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '../fields/slug'
 import { seoField } from '../fields/seo'
 import { extraBlocks } from '../blocks'
+import { statsField } from '../fields/factories'
 
 /** Portfolio — Archive `/work` (card) + Single `/work/[slug]` (case study). */
 export const Projects: CollectionConfig = {
@@ -39,18 +40,11 @@ export const Projects: CollectionConfig = {
             { name: 'duration', type: 'text' },
             { name: 'services', type: 'relationship', relationTo: 'services', hasMany: true },
             { name: 'live_url', type: 'text' },
+            { name: 'challenge_title', type: 'text', admin: { description: 'Heading for the challenge section.' } },
             { name: 'challenge', type: 'richText' },
+            { name: 'approach_title', type: 'text', admin: { description: 'Heading for the approach section.' } },
             { name: 'approach', type: 'richText' },
-            {
-              name: 'stats',
-              type: 'array',
-              labels: { singular: 'Stat', plural: 'Stats' },
-              fields: [
-                { name: 'value', type: 'text', required: true },
-                { name: 'unit', type: 'text' },
-                { name: 'label', type: 'text', required: true },
-              ],
-            },
+            statsField('stats', { secondaryKey: 'unit' }),
             {
               name: 'gallery',
               type: 'array',

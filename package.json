@@ -10,6 +10,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "generate:types": "payload generate:types",
+    "seed": "PAYLOAD_SEED_CLI=1 payload run src/payload/seed.ts",
+    "seed:http": "echo 'Start `npm run dev`, then open http://localhost:3000/dev-seed (works on Node 24 where the CLI seed fails inside tsx).'",
     "payload": "payload"
   },
   "dependencies": {

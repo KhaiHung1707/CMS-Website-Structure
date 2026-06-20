@@ -64,8 +64,8 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           ))}
         </div>
         <div className="foot-bottom">
-          <span>© 2026 STRUCTURE STUDIO</span>
-          <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+          <span>{settings.footerBottom?.left || '© 2026 STRUCTURE STUDIO'}</span>
+          <span>{settings.footerBottom?.right || 'WE BUILD THE WEB WITH STRUCTURE.'}</span>
         </div>
       </div>
     </footer>
