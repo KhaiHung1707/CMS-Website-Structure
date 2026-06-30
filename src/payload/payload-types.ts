@@ -226,7 +226,35 @@ export interface Industry {
   stat_value?: string | null;
   stat_label?: string | null;
   hero_image?: (number | null) | Media;
+  /**
+   * Hero eyebrow, e.g. // For 2–30 person law firms
+   */
   eyebrow?: string | null;
+  /**
+   * Big H1. Wrap the accent in *asterisks*. Falls back to the title.
+   */
+  hero_heading?: string | null;
+  /**
+   * Long hero paragraph. Falls back to the card lead.
+   */
+  hero_lead?: string | null;
+  /**
+   * Hero stat row (the count-up figures). Hidden if empty.
+   */
+  hero_metrics?:
+    | {
+        /**
+         * e.g. 9, 0, or 1
+         */
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Big statement under the hero. Wrap accent part in *asterisks*. Hidden if empty.
+   */
+  manifesto?: string | null;
   /**
    * Scrolly case-study section. Hidden if it has no steps.
    */
@@ -253,6 +281,103 @@ export interface Industry {
         }[]
       | null;
   };
+  /**
+   * Capability "full library" section. Hidden if it has no groups.
+   */
+  library?: {
+    /**
+     * e.g. // The full library
+     */
+    eyebrow?: string | null;
+    /**
+     * Wrap the accent-coloured part in *asterisks*, e.g. “SEO that drives *revenue,* not just rankings.”
+     */
+    heading?: string | null;
+    lead?: string | null;
+    /**
+     * Explains each tag colour (Connects / We set up / Your edge).
+     */
+    legend?:
+      | {
+          tag: 'core' | 'set' | 'edge';
+          /**
+           * e.g. "to software you already have"
+           */
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+    groups?:
+      | {
+          /**
+           * e.g. // 01
+           */
+          num: string;
+          title: string;
+          /**
+           * Right-aligned caption, e.g. "front of the funnel"
+           */
+          subtitle?: string | null;
+          modules?:
+            | {
+                title: string;
+                tag: 'core' | 'set' | 'edge';
+                desc: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * e.g. // 07
+     */
+    packs_num?: string | null;
+    packs_title?: string | null;
+    packs_lead?: string | null;
+    /**
+     * Practice-area chips. Hidden if empty.
+     */
+    packs?:
+      | {
+          name: string;
+          /**
+           * Mono caption, e.g. "IRCC / USCIS"
+           */
+          sub?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Dashed "keepbar" callout under the library. Hidden if no title.
+     */
+    callout?: {
+      /**
+       * Emoji, e.g. 🗂️
+       */
+      icon?: string | null;
+      title?: string | null;
+      text?: string | null;
+    };
+  };
+  /**
+   * Process timeline. Hidden if empty.
+   */
+  process?:
+    | {
+        /**
+         * e.g. Week 1 / Ongoing
+         */
+        step: string;
+        title: string;
+        desc: string;
+        /**
+         * Dims the step (upcoming phase).
+         */
+        future?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   stats?:
     | {
         value: string;
@@ -261,6 +386,10 @@ export interface Industry {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Heading of the FAQ aside. Wrap accent in *asterisks*. Falls back to "<Title> questions."
+   */
+  faq_heading?: string | null;
   faqs?:
     | {
         q: string;
@@ -272,6 +401,27 @@ export interface Industry {
    * Related industries shown at the foot of the page.
    */
   related?: (number | Industry)[] | null;
+  /**
+   * Closing CTA band. Falls back to a generic CTA when the heading is blank.
+   */
+  cta?: {
+    /**
+     * e.g. // Get started
+     */
+    eyebrow?: string | null;
+    /**
+     * Wrap the accent-coloured part in *asterisks*, e.g. “SEO that drives *revenue,* not just rankings.”
+     */
+    heading?: string | null;
+    text?: string | null;
+    primary_label?: string | null;
+    /**
+     * e.g. mailto:hello@structure.studio or /contact
+     */
+    primary_href?: string | null;
+    secondary_label?: string | null;
+    secondary_href?: string | null;
+  };
   extra_blocks?: (RichTextBlock | StatsBlock | GalleryBlock | MediaTextBlock | CtaBlock)[] | null;
   /**
    * URL segment. Auto-generated from the title if left empty.
@@ -1104,6 +1254,16 @@ export interface IndustriesSelect<T extends boolean = true> {
   stat_label?: T;
   hero_image?: T;
   eyebrow?: T;
+  hero_heading?: T;
+  hero_lead?: T;
+  hero_metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  manifesto?: T;
   story?:
     | T
     | {
@@ -1126,6 +1286,62 @@ export interface IndustriesSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  library?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        lead?: T;
+        legend?:
+          | T
+          | {
+              tag?: T;
+              label?: T;
+              id?: T;
+            };
+        groups?:
+          | T
+          | {
+              num?: T;
+              title?: T;
+              subtitle?: T;
+              modules?:
+                | T
+                | {
+                    title?: T;
+                    tag?: T;
+                    desc?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        packs_num?: T;
+        packs_title?: T;
+        packs_lead?: T;
+        packs?:
+          | T
+          | {
+              name?: T;
+              sub?: T;
+              id?: T;
+            };
+        callout?:
+          | T
+          | {
+              icon?: T;
+              title?: T;
+              text?: T;
+            };
+      };
+  process?:
+    | T
+    | {
+        step?: T;
+        title?: T;
+        desc?: T;
+        future?: T;
+        id?: T;
+      };
   stats?:
     | T
     | {
@@ -1134,6 +1350,7 @@ export interface IndustriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  faq_heading?: T;
   faqs?:
     | T
     | {
@@ -1142,6 +1359,17 @@ export interface IndustriesSelect<T extends boolean = true> {
         id?: T;
       };
   related?: T;
+  cta?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        text?: T;
+        primary_label?: T;
+        primary_href?: T;
+        secondary_label?: T;
+        secondary_href?: T;
+      };
   extra_blocks?:
     | T
     | {

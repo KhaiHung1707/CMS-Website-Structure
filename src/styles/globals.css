@@ -14,6 +14,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Brand lockup logos (nav = dark on light, footer = white on dark). The image
+   already contains the wordmark, so the separate text word is not rendered. */
+.nav-brand .nav-logo { height: 28px; width: auto; display: block; }
+.foot-brand .foot-logo { height: 30px; width: auto; display: block; }
+
 html {
   scroll-behavior: smooth;
 }

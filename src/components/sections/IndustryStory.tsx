@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Tag } from '@/components/ui/Tag'
+import { renderAccentHeading } from '@/lib/utils/accentHeading'
+import { StageVisual } from './StageVisual'
 import type { StoryStep } from '@/lib/content/types'
 
 interface IndustryStoryProps {
+  slug?: string
   story?: {
     eyebrow?: string | null
     title?: string | null
@@ -20,7 +23,7 @@ interface IndustryStoryProps {
  * Window chrome is design decoration; copy comes from `industry.story`. Hidden when
  * there are no steps.
  */
-export function IndustryStory({ story }: IndustryStoryProps) {
+export function IndustryStory({ story, slug = '' }: IndustryStoryProps) {
   const steps = story?.steps ?? []
   const [active, setActive] = useState(0)
   const stepRefs = useRef<(HTMLElement | null)[]>([])
@@ -62,33 +65,40 @@ export function IndustryStory({ story }: IndustryStoryProps) {
       <div className="strx-container">
         <div className="sec-head reveal">
           {story?.eyebrow ? <Eyebrow>{story.eyebrow}</Eyebrow> : null}
-          {story?.title ? <h2>{story.title}</h2> : null}
+          {story?.title ? <h2>{renderAccentHeading(story.title)}</h2> : null}
           {story?.lead ? <p>{story.lead}</p> : null}
         </div>
 
         <div className="scrolly-grid">
           <div className="scrolly-visual">
-            <div className="story-window story-art" data-focus={focus}>
-              <div className="story-chrome">
-                <span className="dot" />
-                <span className="dot" />
-                <span className="dot" />
-                <span className="ttl">{story?.title ?? 'Case study'}</span>
-              </div>
-              <div className="story-body">
-                <div className="story-part" data-part={focus}>
-                  <div className="sp-cap">
-                    {current.num} · {current.cap}
+            <StageVisual
+              slug={slug}
+              active={active}
+              stepCount={steps.length}
+              fallback={
+                <div className="story-window story-art" data-focus={focus}>
+                  <div className="story-chrome">
+                    <span className="dot" />
+                    <span className="dot" />
+                    <span className="dot" />
+                    <span className="ttl">{story?.title ?? 'Case study'}</span>
                   </div>
-                  <div className="sp-row" style={{ marginTop: 14 }}>
-                    <span className="sp-title" style={{ fontSize: 16 }}>
-                      {current.title}
-                    </span>
+                  <div className="story-body">
+                    <div className="story-part" data-part={focus}>
+                      <div className="sp-cap">
+                        {current.num} · {current.cap}
+                      </div>
+                      <div className="sp-row" style={{ marginTop: 14 }}>
+                        <span className="sp-title" style={{ fontSize: 16 }}>
+                          {current.title}
+                        </span>
+                      </div>
+                    </div>
                   </div>
+                  <div className="story-progress" style={{ width: progress }} />
                 </div>
-              </div>
-              <div className="story-progress" style={{ width: progress }} />
-            </div>
+              }
+            />
           </div>
 
           <div className="scrolly-steps">

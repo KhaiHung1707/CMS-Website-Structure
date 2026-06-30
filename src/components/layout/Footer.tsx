@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { NavLink, SiteSettings } from '@/lib/content/types'
+import { BrandLogo } from './BrandLogo'
 
 const DEFAULT_COLUMNS: { heading: string; links: NavLink[] }[] = [
   {
@@ -47,7 +48,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       <div className="strx-container">
         <div className="foot-grid">
           <div className="foot-brand">
-            <span className="nav-word">{brand}</span>
+            <BrandLogo src="/logo-white.svg" word={brand} className="foot-logo" />
             <p>{tagline}</p>
           </div>
           {columns.map((col) => (

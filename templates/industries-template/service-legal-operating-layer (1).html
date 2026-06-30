@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="brick">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structure — Legal Practice Operating Layer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ---- tokens (brick) ---- */
+  :root{
+    --bg:#FBFAF7; --cream:#F2EEE6; --ink:#1A1714; --text:#1A1714;
+    --text-muted:#6E665C; --text-faint:#A39A8E;
+    --accent:#FF6B35; --accent-ink:#8A3414; --accent-soft:rgba(255,107,53,.08);
+    --border:rgba(26,23,20,.12); --border-strong:rgba(26,23,20,.24);
+    --radius-lg:16px; --radius-md:12px; --radius-pill:999px;
+    --shadow-md:0 16px 44px -22px rgba(26,23,20,.34);
+    --font-display:"Geist",system-ui,sans-serif;
+    --font-body:"Geist",system-ui,sans-serif;
+    --font-mono:"JetBrains Mono",monospace;
+    --ease-out:cubic-bezier(.22,.61,.36,1);
+    --space-9:64px;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body.strx{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.08;letter-spacing:-.025em}
+  a{color:inherit;text-decoration:none}
+  .strx-container{max-width:var(--maxw);margin:0 auto;padding:0 30px}
+  .accent{color:var(--accent)}
+  .t-mono{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.02em;color:var(--text-faint);margin-bottom:18px}
+  .t-mono.dark{color:rgba(242,238,230,.55)}
+  em{font-style:italic}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);font-weight:500;font-size:15.5px;padding:13px 24px;border-radius:var(--radius-pill);border:1px solid transparent;cursor:pointer;transition:transform .18s var(--ease-out),background .18s,box-shadow .18s,color .18s}
+  .btn-dark{background:var(--ink);color:var(--cream)}
+  .btn-dark:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .btn-ghost{border-color:var(--border-strong);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-accent:hover{transform:translateY(-2px);box-shadow:0 14px 32px -14px rgba(255,107,53,.7)}
+  .btn-on-dark{border-color:rgba(242,238,230,.3);color:var(--cream)}
+  .btn-on-dark:hover{border-color:var(--cream)}
+
+  /* ---- nav ---- */
+  nav.top{position:sticky;top:0;z-index:60;background:rgba(251,250,247,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav.top .inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-brand{display:flex;align-items:center;gap:10px}
+  .nav-mark{width:26px;height:26px;border-radius:6px;background:var(--ink);color:var(--accent);display:grid;place-items:center;font-family:var(--font-mono);font-weight:700;font-size:15px}
+  .nav-word{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:-.03em}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{font-size:15px;color:var(--text-muted);font-weight:500}
+  .nav-links a.cur,.nav-links a:hover{color:var(--ink)}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  /* ---- hero ---- */
+  .svc-hero{padding:64px 0 72px}
+  .crumb{font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);margin-bottom:38px;display:flex;gap:9px}
+  .crumb a:hover{color:var(--accent)}
+  .crumb .sep{color:var(--border-strong)}
+  .lead-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:end}
+  .lead-grid h1{font-size:clamp(36px,5.2vw,58px)}
+  .lead{font-size:clamp(17px,1.9vw,20px);color:var(--text-muted);line-height:1.55;max-width:46ch}
+  .acts{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+  .h-stats{display:flex;gap:54px;margin-top:var(--space-9);padding-top:34px;border-top:1px solid var(--border)}
+  .hs .v{font-family:var(--font-display);font-size:46px;font-weight:600;letter-spacing:-.04em;line-height:1}
+  .hs .v .s{font-size:20px;color:var(--accent);margin-left:2px}
+  .hs .k{font-size:13.5px;color:var(--text-muted);margin-top:8px}
+  @media(max-width:820px){.lead-grid{grid-template-columns:1fr;gap:26px;align-items:start}.h-stats{gap:40px}}
+
+  /* ---- manifesto ---- */
+  .manifesto{padding:78px 0;background:var(--cream)}
+  .manifesto .big{font-family:var(--font-display);font-weight:500;font-size:clamp(24px,3.5vw,40px);line-height:1.28;letter-spacing:-.02em;max-width:24ch;margin:0 auto;text-align:center}
+  .manifesto .mut{color:var(--text-faint)}
+
+  /* ---- section base ---- */
+  .sec{padding:88px 0}
+  .sec.cream{background:var(--cream)}
+  .sec.on-dark{background:var(--ink);color:var(--cream)}
+  .sec.on-dark h2,.sec.on-dark h3,.sec.on-dark h4{color:var(--cream)}
+  .sec-head{max-width:62ch;margin-bottom:52px}
+  .sec-head h2{font-size:clamp(28px,3.8vw,42px)}
+  .sec-head p{color:var(--text-muted);font-size:18px;margin-top:16px;max-width:54ch}
+  .sec.on-dark .sec-head p{color:rgba(242,238,230,.72)}
+
+  /* ---- scrolly story ---- */
+  .scrolly-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start}
+  .scrolly-steps{display:flex;flex-direction:column}
+  .scrolly-step{min-height:54vh;display:flex;flex-direction:column;justify-content:center;opacity:.4;transition:opacity .4s var(--ease-out)}
+  .scrolly-step.active{opacity:1}
+  .scrolly-step .sn{font-family:var(--font-mono);font-size:12.5px;color:var(--accent);margin-bottom:12px}
+  .scrolly-step h3{font-size:clamp(22px,2.8vw,30px);margin-bottom:12px}
+  .scrolly-step p{color:var(--text-muted);font-size:17px;max-width:42ch}
+  .scrolly-visual{position:sticky;top:96px;height:fit-content}
+
+  /* the swapping stage — one detailed screen per module */
+  .stage{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden}
+  .stage-bar{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--border)}
+  .stage-bar .dotrow{display:flex;gap:6px}
+  .stage-bar .d{width:10px;height:10px;border-radius:50%;background:var(--border-strong)}
+  .stage-bar .url{flex:1;text-align:center;font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint)}
+  .stage-screens{position:relative;height:518px}
+  .screen{position:absolute;inset:0;padding:22px 22px 20px;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out),visibility .5s}
+  .screen.on{opacity:1;visibility:visible;transform:none}
+  .scap{font-family:var(--font-mono);font-size:11.5px;color:var(--accent);margin-bottom:6px}
+  .stitle{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+  .stitle .cnt{font-family:var(--font-mono);font-size:11px;font-weight:400;color:var(--text-muted);background:var(--cream);padding:4px 10px;border-radius:var(--radius-pill);white-space:nowrap}
+  .snote{margin-top:14px;font-size:13px;color:var(--text-muted);line-height:1.5;border-top:1px dashed var(--border);padding-top:12px}
+  /* inquiry / checklist rows */
+  .lrow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:9px}
+  .lr-t{font-size:14px;font-weight:600;color:var(--ink)}
+  .lr-s{font-size:12px;color:var(--text-faint);margin-top:2px}
+  .pill{font-family:var(--font-mono);font-size:10.5px;padding:4px 10px;border-radius:var(--radius-pill);background:var(--cream);white-space:nowrap}
+  .pill-new{color:var(--accent)}.pill-g{color:#3B6CA8}.pill-r{color:#3B7A4E}.pill-p{color:var(--text-muted)}
+  /* form fields */
+  .pbar{height:6px;background:var(--cream);border-radius:var(--radius-pill);overflow:hidden;margin-bottom:14px}
+  .pbar i{display:block;height:100%;background:var(--accent);border-radius:inherit}
+  .pbar.low i{background:#E0992E}
+  .field{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:9px;font-size:13.5px}
+  .field span{color:var(--text-muted)}
+  .field b{color:var(--ink);font-weight:600;text-align:right}
+  .field.cond b{color:var(--accent-ink)}
+  .field.miss{border-color:var(--accent);background:var(--accent-soft)}
+  .field.miss em{color:var(--accent-ink);font-style:normal;font-weight:500}
+  /* booking slots */
+  .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+  .slot{text-align:center;padding:13px 0;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-weight:500;color:var(--ink)}
+  .slot.off{color:var(--text-faint);background:var(--cream);text-decoration:line-through}
+  .slot.sel{border-color:var(--accent);background:var(--accent);color:#fff}
+  .confirm{border:1px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius-md);padding:13px 15px;font-size:13px;color:var(--text-muted)}
+  .confirm b{display:block;color:var(--ink);font-size:14px;margin-bottom:3px}
+  /* retainer / actions */
+  .retainer{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 15px;margin-bottom:11px}
+  .ret-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-muted);margin-bottom:11px}
+  .ret-h b{color:var(--ink);font-size:14px}
+  .action{display:flex;gap:12px;align-items:center;border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:9px;font-size:13px;color:var(--text-muted)}
+  .action .ic{flex:none;width:30px;height:30px;border-radius:8px;background:var(--cream);display:grid;place-items:center;font-size:14px}
+  .action b{color:var(--ink);font-size:13.5px;display:block;margin-bottom:2px}
+  .action.ok{border-color:#3B7A4E33}.action.ok .ic{background:#EAF3EC;color:#3B7A4E}
+  /* document checklist */
+  .check{display:flex;align-items:center;gap:12px;border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:9px;font-size:14px;font-weight:600;color:var(--ink)}
+  .check em{margin-left:auto;font-style:normal;font-weight:400;font-size:12px;color:var(--text-faint)}
+  .check .cb{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:13px}
+  .check.ok .cb{background:#EAF3EC;color:#3B7A4E}
+  .check.wait .cb{background:var(--accent-soft);color:var(--accent)}
+  .check.wait em{color:var(--accent-ink)}
+  /* updates timeline + message */
+  .tl{margin:0 0 14px;padding-left:6px}
+  .tli{position:relative;display:flex;align-items:center;gap:11px;padding:8px 0 8px 18px;font-size:13.5px;color:var(--text-faint)}
+  .tli::before{content:"";position:absolute;left:3px;top:0;bottom:0;width:2px;background:var(--border)}
+  .tli:first-child::before{top:50%}.tli:last-child::before{bottom:50%}
+  .tli .td{position:absolute;left:-2px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--border)}
+  .tli.done{color:var(--ink);font-weight:500}
+  .tli.done .td{border-color:#3B7A4E;background:#3B7A4E}
+  .tli.now{color:var(--accent-ink);font-weight:600}
+  .tli.now .td{border-color:var(--accent);background:var(--accent)}
+  .msg{border:1px solid var(--border);border-radius:var(--radius-md);padding:13px 15px;font-size:13.5px;color:var(--ink);line-height:1.5}
+  .msg-m{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-top:9px}
+  /* reviews / reputation */
+  .rating{border:1px solid var(--border);border-radius:var(--radius-md);padding:15px;text-align:center;margin-bottom:10px}
+  .rnum{font-family:var(--font-display);font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1}
+  .rstars{color:#E0992E;letter-spacing:3px;font-size:15px;margin:5px 0 6px}
+  .rmeta{font-size:12px;color:var(--text-faint)}
+  /* where clients come from */
+  .chan{display:flex;align-items:center;gap:12px;margin-bottom:11px;font-size:13px}
+  .chl{width:74px;color:var(--text-muted);flex:none}
+  .chbar{flex:1;height:11px;background:var(--cream);border-radius:var(--radius-pill);overflow:hidden}
+  .chbar i{display:block;height:100%;background:var(--accent);border-radius:inherit}
+  .chbar.alt i{background:var(--ink);opacity:.4}
+  .chv{width:26px;text-align:right;font-weight:600;color:var(--ink);flex:none}
+  .callout{margin-top:2px;border:1px dashed var(--accent);background:var(--accent-soft);border-radius:var(--radius-md);padding:11px 14px;font-size:12.5px;color:var(--accent-ink)}
+  .callout b{color:var(--ink)}
+  /* ===== deep automation components ===== */
+  .arow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px}
+  .chip{font-family:var(--font-mono);font-size:11px;padding:5px 11px;border-radius:var(--radius-pill);background:var(--cream);color:var(--text-muted)}
+  .chip.hot{background:var(--accent-soft);color:var(--accent-ink);font-weight:500}
+  .chip.score{background:var(--ink);color:var(--cream)}
+  .aimsg{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-md);padding:11px 13px;font-size:12.5px;color:var(--text-muted);margin-bottom:12px;line-height:1.5}
+  .aimsg b{color:var(--ink)}
+  /* flow (trigger → action) */
+  .flow{display:flex;flex-direction:column;gap:0;margin-bottom:6px}
+  .fstep{border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 14px;font-size:13px;display:flex;align-items:center;gap:10px;background:#fff}
+  .fstep .ft{font-family:var(--font-mono);font-size:10px;color:var(--accent);flex:none;width:54px}
+  .fstep b{color:var(--ink);font-weight:600}
+  .fstep.trig{border-color:var(--accent);background:var(--accent-soft)}
+  .farr{height:16px;width:2px;background:var(--border-strong);margin:0 0 0 26px}
+  /* when / then rule */
+  .rule{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:12px}
+  .rwhen{background:var(--ink);color:var(--cream);padding:12px 15px;font-size:13px}
+  .rwhen .k{font-family:var(--font-mono);font-size:10px;color:var(--accent);display:block;margin-bottom:3px}
+  .rthen{padding:12px 15px}
+  .rthen .k{font-family:var(--font-mono);font-size:10px;color:var(--accent);display:block;margin-bottom:8px}
+  .ract{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink);padding:5px 0}
+  .ract .b{flex:none;width:16px;height:16px;border-radius:5px;background:#EAF3EC;color:#3B7A4E;display:grid;place-items:center;font-size:10px}
+  /* blueprint generation */
+  .genhead{display:flex;align-items:center;gap:10px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius-md);padding:11px 14px;margin-bottom:12px;font-size:13.5px;font-weight:600;color:var(--ink)}
+  .genhead .ic{flex:none;width:26px;height:26px;border-radius:7px;background:#fff;display:grid;place-items:center}
+  .gengrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .gentile{border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 13px}
+  .gentile .n{font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--accent);line-height:1}
+  .gentile .l{font-size:12px;color:var(--text-muted);margin-top:5px}
+  /* deadlines */
+  .dl{border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 14px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .dl .dt{font-size:13.5px;font-weight:600;color:var(--ink)}
+  .dl .ds{font-size:11.5px;color:var(--text-faint);margin-top:2px}
+  .dl .cd{font-family:var(--font-mono);font-size:12px;padding:5px 10px;border-radius:var(--radius-pill);white-space:nowrap}
+  .cd.warn{background:var(--accent-soft);color:var(--accent-ink)}
+  .cd.ok{background:#EAF3EC;color:#3B7A4E}
+  .cd.soon{background:#FCEFD7;color:#9A6516}
+  /* merge document */
+  .mdoc{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;font-size:13px;color:var(--text-muted);line-height:1.85;margin-bottom:11px;background:#fff}
+  .mf{background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-mono);font-size:11.5px;padding:1px 6px;border-radius:5px}
+  .mf.done{background:#EAF3EC;color:#3B7A4E}
+  /* extraction table */
+  .ex{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:11px}
+  .exrow{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;font-size:13px;border-top:1px solid var(--border)}
+  .exrow:first-child{border-top:none}
+  .exrow .l{color:var(--text-muted)}
+  .exrow .v{color:var(--ink);font-weight:600;font-family:var(--font-mono);font-size:12px}
+  .exrow.miss .v{color:var(--accent-ink)}
+  /* sync nodes */
+  .sync{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+  .snode{border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 13px;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .snode .nm{font-weight:600;color:var(--ink)}
+  .snode .st{font-family:var(--font-mono);font-size:10px;color:#3B7A4E}
+  .snode .st.sy{color:var(--accent)}
+  /* analytics tiles */
+  .tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:11px}
+  .tile{border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 13px}
+  .tile .n{font-family:var(--font-display);font-size:24px;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .tile .n .s{font-size:13px;color:var(--accent)}
+  .tile .l{font-size:11px;color:var(--text-faint);margin-top:6px}
+  .alert{border:1px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius-md);padding:11px 14px;font-size:12.5px;color:var(--accent-ink)}
+  .alert b{color:var(--ink)}
+  /* ===== module library ===== */
+  .lib-legend{display:flex;gap:22px;flex-wrap:wrap;margin:-18px 0 40px}
+  .lib-leg{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--text-muted)}
+  .tg{font-family:var(--font-mono);font-size:10.5px;padding:4px 9px;border-radius:var(--radius-pill);white-space:nowrap;font-weight:500}
+  .tg-core{background:var(--cream);color:var(--text-muted)}
+  .tg-set{background:#F3E9D6;color:#8A6516}
+  .tg-edge{background:var(--accent-soft);color:var(--accent-ink)}
+  .lib-group{margin-bottom:34px}
+  .lib-ghead{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .lib-ghead .gn{font-family:var(--font-mono);font-size:12px;color:var(--accent)}
+  .lib-ghead h3{font-size:21px}
+  .lib-ghead .gt{font-size:13.5px;color:var(--text-faint);margin-left:auto}
+  .lib-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .lib-mod{border:1px solid var(--border);border-radius:var(--radius-md);padding:15px 16px;background:var(--bg);transition:border-color .18s,transform .18s}
+  .lib-mod:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .lib-mod .mh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+  .lib-mod h4{font-size:15px;letter-spacing:-.01em;line-height:1.25}
+  .lib-mod p{font-size:13px;color:var(--text-muted);line-height:1.5}
+  @media(max-width:880px){.lib-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.lib-grid{grid-template-columns:1fr}.lib-legend{gap:14px}}
+  /* vertical packs */
+  .packs-head{display:flex;align-items:baseline;gap:14px;margin:6px 0 18px;flex-wrap:wrap}
+  .packs-head .gn{font-family:var(--font-mono);font-size:12px;color:var(--accent)}
+  .packs-head h3{font-size:21px}
+  .packs{display:flex;flex-wrap:wrap;gap:10px}
+  .pack{border:1px solid var(--border-strong);border-radius:var(--radius-pill);padding:10px 18px;font-size:14px;font-weight:500;color:var(--ink);background:var(--bg);transition:all .18s}
+  .pack:hover{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+  .pack .pe{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-left:8px}
+  .stage-prog{height:3px;background:var(--cream);position:relative}
+  .stage-prog i{position:absolute;left:0;top:0;bottom:0;width:16%;background:var(--accent);transition:width .5s var(--ease-out)}
+  @media(max-width:880px){
+    .scrolly-grid{grid-template-columns:1fr;gap:8px}
+    .scrolly-visual{position:sticky;top:74px;order:-1;margin-bottom:20px}
+    .scrolly-step{min-height:auto;padding:22px 0;opacity:1}
+    .stage-screens{height:480px}
+  }
+
+  /* ---- capabilities grid ---- */
+  .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+  .cap{background:var(--bg);padding:30px 26px}
+  .cap .cn{font-family:var(--font-mono);font-size:12px;color:var(--accent);margin-bottom:14px}
+  .cap h4{font-size:18px;margin-bottom:8px}
+  .cap p{color:var(--text-muted);font-size:15px;line-height:1.55}
+  @media(max-width:820px){.cap-grid{grid-template-columns:1fr}}
+
+  .keepbar{margin-top:26px;border:1px dashed var(--accent);border-radius:var(--radius-md);padding:18px 22px;display:flex;gap:14px;align-items:center;background:var(--accent-soft)}
+  .keepbar .ic{flex:none;width:38px;height:38px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:18px}
+  .keepbar b{font-weight:600}
+  .keepbar p{color:var(--text-muted);font-size:14.5px;margin-top:2px}
+
+  /* ---- process ---- */
+  .proc-line{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+  .proc-step{padding-top:20px;border-top:2px solid var(--accent)}
+  .proc-step.future{border-top-color:rgba(242,238,230,.22)}
+  .proc-step .pw{font-family:var(--font-mono);font-size:12px;color:var(--accent);letter-spacing:.02em}
+  .proc-step.future .pw{color:rgba(242,238,230,.5)}
+  .proc-step h4{font-size:18px;margin:12px 0 8px}
+  .proc-step p{color:rgba(242,238,230,.66);font-size:14.5px;line-height:1.5}
+  @media(max-width:820px){.proc-line{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.proc-line{grid-template-columns:1fr}}
+
+  /* ---- stat strip ---- */
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;border-top:1px solid rgba(242,238,230,.16);padding-top:46px}
+  .stat-cell .v{font-family:var(--font-display);font-size:48px;font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--cream)}
+  .stat-cell .v .s{font-size:22px;color:var(--accent)}
+  .stat-cell .k{font-size:14px;color:rgba(242,238,230,.66);margin-top:10px;max-width:22ch}
+  @media(max-width:820px){.stat-strip{grid-template-columns:1fr 1fr;gap:36px 24px}}
+
+  /* ---- faq ---- */
+  .faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:54px;align-items:start}
+  .faq-aside h2{font-size:clamp(26px,3.4vw,36px)}
+  .faq-aside p{color:var(--text-muted);margin-top:14px}
+  .faq-item{border-bottom:1px solid var(--border)}
+  .faq-q{width:100%;background:none;border:none;text-align:left;cursor:pointer;font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:18px;letter-spacing:-.01em}
+  .faq-ic{flex:none;width:26px;height:26px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;color:var(--accent);transition:transform .25s,background .25s}
+  .faq-item.open .faq-ic{transform:rotate(45deg);background:var(--cream)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease-out)}
+  .faq-a>div{padding:0 0 22px;color:var(--text-muted);font-size:16px;line-height:1.6;max-width:60ch}
+  @media(max-width:820px){.faq-grid{grid-template-columns:1fr;gap:30px}}
+
+  /* ---- other services ---- */
+  .other-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .other-card{display:flex;align-items:center;justify-content:space-between;padding:28px 26px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg);transition:transform .2s,border-color .2s,background .2s}
+  .other-card:hover{transform:translateY(-3px);border-color:var(--accent);background:#fff}
+  .oc-n{font-family:var(--font-mono);font-size:12px;color:var(--text-faint);margin-bottom:6px}
+  .other-card h4{font-size:18px}
+  .oc-arr{color:var(--accent);font-size:18px}
+  @media(max-width:820px){.other-grid{grid-template-columns:1fr}}
+
+  /* ---- cta ---- */
+  .cta{background:var(--ink);color:var(--cream);text-align:center;padding:90px 0}
+  .cta h2{font-size:clamp(30px,4.4vw,48px);margin:6px 0 16px}
+  .cta p{color:rgba(242,238,230,.74);font-size:18px;max-width:46ch;margin:0 auto 30px}
+  .cta .acts{justify-content:center}
+
+  /* ---- footer ---- */
+  footer{background:var(--bg);padding:64px 0 40px;border-top:1px solid var(--border)}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
+  .foot-brand .nav-word{font-size:22px}
+  .foot-brand p{color:var(--text-muted);font-size:14.5px;margin-top:14px;max-width:34ch}
+  .foot-col h4{font-size:13px;font-family:var(--font-mono);font-weight:500;color:var(--text-faint);margin-bottom:16px;letter-spacing:.04em}
+  .foot-col ul{list-style:none}
+  .foot-col li{margin-bottom:10px}
+  .foot-col a{font-size:15px;color:var(--text-muted)}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:50px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--text-faint)}
+  @media(max-width:820px){.foot-grid{grid-template-columns:1fr 1fr;gap:30px}}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.scrolly-step{opacity:1}*{scroll-behavior:auto}}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body class="strx" data-template="single-service">
+
+<nav class="top">
+  <div class="strx-container inner">
+    <a href="#" class="nav-brand"><span class="nav-mark">S</span><span class="nav-word">Structure</span></a>
+    <ul class="nav-links">
+      <li><a href="#" class="cur">Services</a></li>
+      <li><a href="#">Work</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Industries</a></li>
+    </ul>
+    <a href="#cta" class="btn btn-dark nav-cta">Contact →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="svc-hero">
+  <div class="strx-container">
+    <div class="crumb"><a href="#">Services</a><span class="sep">/</span><span>Legal Operating Layer</span></div>
+    <div class="lead-grid">
+      <div>
+        <p class="t-mono">// Service 05</p>
+        <h1>The layer that runs your firm — built <span class="accent">around what you already use.</span></h1>
+      </div>
+      <div>
+        <p class="lead">We build a connected automation engine on top of the software you already use — it routes inquiries, generates documents, tracks deadlines, and acts on its own. Built once. Yours to keep.</p>
+        <div class="acts">
+          <a href="#cta" class="btn btn-dark">Book a free audit →</a>
+          <a href="#story" class="btn btn-ghost">See how it works</a>
+        </div>
+      </div>
+    </div>
+    <div class="h-stats reveal">
+      <div class="hs"><div class="v"><span class="count-up" data-target="9">0</span></div><div class="k">connected steps, one system</div></div>
+      <div class="hs"><div class="v"><span class="count-up" data-target="0">0</span></div><div class="k">new tools to learn</div></div>
+      <div class="hs"><div class="v">1<span class="s"></span></div><div class="k">fixed price you own</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="strx-container">
+    <p class="big reveal"><span class="mut">Every hour your team spends re-typing, chasing, and remembering is an hour not billed.</span> We automate that work — so the firm runs on a <span class="accent">system, not on you.</span></p>
+  </div>
+</section>
+
+<!-- SCROLLY STORY -->
+<section class="sec cream" id="story">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// The automation engine</p>
+      <h2>Nine automations that run your firm <span class="accent">while you practice.</span></h2>
+      <p>Not a form-builder. A connected automation engine that routes, generates, tracks, and acts on its own — on top of the software you already run. Scroll to see each one work.</p>
+    </div>
+
+    <div class="scrolly-grid">
+      <div class="scrolly-steps">
+        <div class="scrolly-step active"><div class="sn">// 01 · auto-triage</div><h3>Sorts and routes every inquiry</h3><p>The intake form's own answers tag, score, and route each inquiry to the right person — and fire an instant reply, 24/7.</p></div>
+        <div class="scrolly-step"><div class="sn">// 02 · sequences</div><h3>Follow-ups that fire on behaviour</h3><p>No-show, stalled documents, an unconverted lead — each triggers its own sequence automatically. Nothing depends on someone remembering.</p></div>
+        <div class="scrolly-step"><div class="sn">// 03 · workflow engine</div><h3>"When this happens, do that"</h3><p>Build multi-step, conditional rules across the whole firm. One event sets off a chain of tasks, emails, and updates on its own.</p></div>
+        <div class="scrolly-step"><div class="sn">// 04 · blueprints</div><h3>A whole matter, spun up in one click</h3><p>Pick a matter type and the full task list, deadlines, documents, and assignments generate themselves — no rebuilding from scratch.</p></div>
+        <div class="scrolly-step"><div class="sn">// 05 · deadlines</div><h3>Critical dates calculated for you</h3><p>The engine works out every deadline by matter type and jurisdiction, sets reminders, and escalates before anything is missed.</p></div>
+        <div class="scrolly-step"><div class="sn">// 06 · document automation</div><h3>Documents that write themselves</h3><p>Letters, agreements, and government forms generate from matter data in seconds. Every field filled, nothing retyped.</p></div>
+        <div class="scrolly-step"><div class="sn">// 07 · document intake</div><h3>Every upload checked and filed</h3><p>Each file is matched to the matter's required list, filed automatically, and anything still missing is chased for you.</p></div>
+        <div class="scrolly-step"><div class="sn">// 08 · integrations</div><h3>Every tool kept in sync, two ways</h3><p>Your PMS, accounting, calendar, e-sign, and payments stay in lockstep. Data flows once and lands everywhere it belongs.</p></div>
+        <div class="scrolly-step"><div class="sn">// 09 · analytics</div><h3>It spots the bottleneck before you do</h3><p>Live dashboards surface where matters stall, your realization rate, and which channels actually bring signed clients.</p></div>
+      </div>
+
+      <div class="scrolly-visual">
+        <div class="stage" id="stage">
+          <div class="stage-bar">
+            <div class="dotrow"><span class="d"></span><span class="d"></span><span class="d"></span></div>
+            <div class="url">your firm · one connected view</div>
+          </div>
+          <div class="stage-screens">
+
+            <div class="screen on">
+              <div class="scap">// auto-triage &amp; routing</div>
+              <div class="stitle">Sorts &amp; routes every inquiry <span class="cnt">instant</span></div>
+              <div class="arow"><span class="chip">From intake form</span><span class="chip hot">Immigration · restoration</span></div>
+              <div class="arow"><span class="chip">Priority rule</span><span class="chip hot">High</span><span class="chip score">Score 92</span></div>
+              <div class="action ok"><span class="ic">➡️</span><div><b>Routed to intake queue</b>Assigned to Mai by practice-area rule</div></div>
+              <div class="action ok"><span class="ic">✉️</span><div><b>Instant reply sent</b>Matched template · 24/7, even at 2 AM</div></div>
+              <div class="action ok"><span class="ic">✓</span><div><b>Logged &amp; tracked</b>Nothing waits in an inbox</div></div>
+              <div class="snote">The form's own answers tag, score, and route each inquiry — then fire an instant reply. No one has to be watching.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// behavioral sequences</div>
+              <div class="stitle">Follow-ups that fire on their own <span class="cnt">running</span></div>
+              <div class="flow">
+                <div class="fstep trig"><span class="ft">TRIGGER</span><b>No-show detected</b></div>
+                <div class="farr"></div>
+                <div class="fstep"><span class="ft">WAIT</span>1 hour</div>
+                <div class="farr"></div>
+                <div class="fstep"><span class="ft">DO</span>Send re-engage SMS + rebook link</div>
+                <div class="farr"></div>
+                <div class="fstep"><span class="ft">IF</span>No reply in 48h → notify attorney</div>
+              </div>
+              <div class="snote">Stalled docs, no-shows, cold leads — each kicks off its own sequence. Nothing waits on memory.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// workflow engine</div>
+              <div class="stitle">When this, do that <span class="cnt">active rule</span></div>
+              <div class="rule">
+                <div class="rwhen"><span class="k">WHEN</span>Matter stage changes to "Retainer signed"</div>
+                <div class="rthen"><span class="k">THEN, AUTOMATICALLY</span>
+                  <div class="ract"><span class="b">✓</span>Generate the matter task list</div>
+                  <div class="ract"><span class="b">✓</span>Send the welcome email + portal invite</div>
+                  <div class="ract"><span class="b">✓</span>Set every deadline for this matter type</div>
+                  <div class="ract"><span class="b">✓</span>Assign the paralegal &amp; notify them</div>
+                </div>
+              </div>
+              <div class="snote">One event sets off a chain of tasks, emails, and updates across the firm — built with no code.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// matter blueprints</div>
+              <div class="stitle">A whole matter in one click <span class="cnt">Study Permit</span></div>
+              <div class="genhead"><span class="ic">⚡</span>"Study Permit" blueprint applied — built in 0.4s</div>
+              <div class="gengrid">
+                <div class="gentile"><div class="n">11</div><div class="l">tasks created &amp; assigned</div></div>
+                <div class="gentile"><div class="n">4</div><div class="l">key deadlines set</div></div>
+                <div class="gentile"><div class="n">6</div><div class="l">document templates queued</div></div>
+                <div class="gentile"><div class="n">3</div><div class="l">team members notified</div></div>
+              </div>
+              <div class="snote">Pick the matter type — the entire workflow builds itself. No two-hour setup, ever again.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// deadline engine</div>
+              <div class="stitle">Critical dates, calculated <span class="cnt">auto-tracked</span></div>
+              <div class="dl"><div><div class="dt">Biometrics deadline</div><div class="ds">reminder set · escalates at 3 days</div></div><span class="cd warn">in 6 days</span></div>
+              <div class="dl"><div><div class="dt">PR filing window opens</div><div class="ds">calendar + client portal updated</div></div><span class="cd soon">in 21 days</span></div>
+              <div class="dl"><div><div class="dt">Limitation period</div><div class="ds">jurisdiction: Ontario</div></div><span class="cd ok">340 days</span></div>
+              <div class="snote">It computes every date by matter type and jurisdiction — and escalates before one is missed.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// document automation</div>
+              <div class="stitle">Documents write themselves <span class="cnt">Engagement letter</span></div>
+              <div class="mdoc">This agreement is between <span class="mf done">Sarah Chen</span> and the firm, regarding <span class="mf done">Study Permit — Restoration</span>, for a retainer of <span class="mf done">$1,500</span>, dated <span class="mf done">Mar 19, 2026</span>.</div>
+              <div class="action ok"><span class="ic">📄</span><div><b>Engagement-Letter.pdf generated</b>4 fields merged from the matter · 0.3s</div></div>
+              <div class="snote">Letters, agreements, and government forms fill themselves from matter data. Nothing retyped.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// document intake &amp; validation</div>
+              <div class="stitle">Every upload checked &amp; filed <span class="cnt">Study Permit</span></div>
+              <div class="ex">
+                <div class="exrow"><span class="l">Passport</span><span class="v">✓ received · filed</span></div>
+                <div class="exrow"><span class="l">Photo ID</span><span class="v">✓ received · filed</span></div>
+                <div class="exrow"><span class="l">Bank statement</span><span class="v">✓ received · filed</span></div>
+                <div class="exrow"><span class="l">Proof of enrolment</span><span class="v">✓ received · filed</span></div>
+                <div class="exrow miss"><span class="l">Reference letter</span><span class="v">missing · reminder sent</span></div>
+              </div>
+              <div class="snote">Each upload is matched to the matter's required list, filed automatically, and gaps are chased for you.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// integration &amp; sync</div>
+              <div class="stitle">Every tool, in sync — two ways <span class="cnt">real-time</span></div>
+              <div class="sync">
+                <div class="snode"><span class="nm">Practice software</span><span class="st">✓ synced</span></div>
+                <div class="snode"><span class="nm">QuickBooks</span><span class="st">✓ synced</span></div>
+                <div class="snode"><span class="nm">Calendar</span><span class="st">✓ synced</span></div>
+                <div class="snode"><span class="nm">e-Sign</span><span class="st sy">↻ syncing</span></div>
+                <div class="snode"><span class="nm">Payments</span><span class="st">✓ synced</span></div>
+                <div class="snode"><span class="nm">Google Business</span><span class="st">✓ synced</span></div>
+              </div>
+              <div class="snote">Data flows once and lands everywhere it belongs — no double entry, no tools drifting apart.</div>
+            </div>
+
+            <div class="screen">
+              <div class="scap">// live analytics</div>
+              <div class="stitle">It spots the bottleneck first <span class="cnt">last 30 days</span></div>
+              <div class="tiles">
+                <div class="tile"><div class="n">32</div><div class="l">active matters</div></div>
+                <div class="tile"><div class="n">91<span class="s">%</span></div><div class="l">realization</div></div>
+                <div class="tile"><div class="n">4.1<span class="s">d</span></div><div class="l">to retained</div></div>
+              </div>
+              <div class="chan"><span class="chl">Referrals</span><div class="chbar"><i style="width:100%"></i></div><span class="chv">23</span></div>
+              <div class="chan"><span class="chl">Google</span><div class="chbar"><i style="width:78%"></i></div><span class="chv">18</span></div>
+              <div class="alert"><b>⚠ 4 matters stalled</b> at "Documents pending" for 7+ days — nudge sent automatically.</div>
+              <div class="snote">Realization, pipeline, channel ROI, and where work is stuck — surfaced before it costs you.</div>
+            </div>
+
+          </div>
+          <div class="stage-prog"><i id="stageProg"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="sec" id="what">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono">// The full library</p>
+      <h2>Every module — <span class="accent">assembled to your practice.</span></h2>
+      <p>Your firm doesn't need all of this. It needs the right set. Here's the full library; we build the bundle your practice area actually uses — and connect it to the software you already run.</p>
+    </div>
+
+    <div class="lib-legend reveal">
+      <span class="lib-leg"><span class="tg tg-core">Connects</span> to software you already have</span>
+      <span class="lib-leg"><span class="tg tg-set">We set up</span> what your tools never turned on</span>
+      <span class="lib-leg"><span class="tg tg-edge">Your edge</span> the part that wins the work</span>
+    </div>
+
+    <div class="lib-group reveal">
+      <div class="lib-ghead"><span class="gn">// 01</span><h3>Bring clients in</h3><span class="gt">front of the funnel</span></div>
+      <div class="lib-grid">
+        <div class="lib-mod"><div class="mh"><h4>Catch every inquiry</h4><span class="tg tg-set">We set up</span></div><p>One tracked list from web, phone, Google &amp; referrals.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Smart intake</h4><span class="tg tg-set">We set up</span></div><p>Right questions per matter, auto follow-up on gaps.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Conflict check</h4><span class="tg tg-edge">Your edge</span></div><p>Clears automatically before you take the matter.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Online booking</h4><span class="tg tg-set">We set up</span></div><p>Clients book themselves; reminders cut no-shows.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Sign &amp; pay in one link</h4><span class="tg tg-edge">Your edge</span></div><p>Engagement letter signed, retainer paid, matter opened.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Lead nurture</h4><span class="tg tg-set">We set up</span></div><p>Sequences that warm up unconverted leads on their own.</p></div>
+      </div>
+    </div>
+
+    <div class="lib-group reveal">
+      <div class="lib-ghead"><span class="gn">// 02</span><h3>Run the work</h3><span class="gt">the automation engine</span></div>
+      <div class="lib-grid">
+        <div class="lib-mod"><div class="mh"><h4>Workflow engine</h4><span class="tg tg-edge">Your edge</span></div><p>"When this happens, do that" — across the whole firm.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Matter blueprints</h4><span class="tg tg-edge">Your edge</span></div><p>A whole matter — tasks, dates, docs — in one click.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Tasks &amp; deadlines</h4><span class="tg tg-core">Connects</span></div><p>Assigned, tracked, and reminded.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Never miss a filing date</h4><span class="tg tg-edge">Your edge</span></div><p>Deadlines computed by matter type + jurisdiction.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Document automation</h4><span class="tg tg-edge">Your edge</span></div><p>Letters &amp; agreements write themselves from the file.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Court / gov form auto-fill</h4><span class="tg tg-edge">Your edge</span></div><p>Official forms filled from the matter, not retyped.</p></div>
+      </div>
+    </div>
+
+    <div class="lib-group reveal">
+      <div class="lib-ghead"><span class="gn">// 03</span><h3>Keep clients informed</h3><span class="gt">client experience</span></div>
+      <div class="lib-grid">
+        <div class="lib-mod"><div class="mh"><h4>Client portal</h4><span class="tg tg-core">Connects</span></div><p>Status, messages, and documents in one place.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Document upload &amp; checklist</h4><span class="tg tg-set">We set up</span></div><p>One link, auto-filed, missing items chased.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Status updates</h4><span class="tg tg-set">We set up</span></div><p>Auto "we filed / next step / decision in."</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Multilingual</h4><span class="tg tg-edge">Your edge</span></div><p>Intake and updates in the client's language.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>After-hours auto-reply</h4><span class="tg tg-set">We set up</span></div><p>24/7 acknowledgement with the next step.</p></div>
+      </div>
+    </div>
+
+    <div class="lib-group reveal">
+      <div class="lib-ghead"><span class="gn">// 04</span><h3>Get paid</h3><span class="gt">billing &amp; money</span></div>
+      <div class="lib-grid">
+        <div class="lib-mod"><div class="mh"><h4>Billing &amp; invoicing</h4><span class="tg tg-core">Connects</span></div><p>Time entries and invoices in your software.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Trust accounting</h4><span class="tg tg-core">Connects</span></div><p>Trust ledger and reconciliation stay put.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Retainer top-ups</h4><span class="tg tg-set">We set up</span></div><p>Alerts and auto-invoice before the balance runs low.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Pay online + reminders</h4><span class="tg tg-set">We set up</span></div><p>Trust-compliant payments, reminders on their own.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Collections</h4><span class="tg tg-set">We set up</span></div><p>Overdue sequences — without the awkward call.</p></div>
+      </div>
+    </div>
+
+    <div class="lib-group reveal">
+      <div class="lib-ghead"><span class="gn">// 05</span><h3>See &amp; control</h3><span class="gt">intelligence</span></div>
+      <div class="lib-grid">
+        <div class="lib-mod"><div class="mh"><h4>Live dashboard</h4><span class="tg tg-edge">Your edge</span></div><p>The whole firm at a glance, by stage.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Bottleneck detection</h4><span class="tg tg-edge">Your edge</span></div><p>Flags matters stuck too long at a stage.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Where clients come from</h4><span class="tg tg-edge">Your edge</span></div><p>Channel ROI and cost per signed client.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Productivity reporting</h4><span class="tg tg-set">We set up</span></div><p>Workload, time captured, throughput per person.</p></div>
+      </div>
+    </div>
+
+    <div class="lib-group reveal">
+      <div class="lib-ghead"><span class="gn">// 06</span><h3>Connect &amp; comply</h3><span class="gt">the connective tissue</span></div>
+      <div class="lib-grid">
+        <div class="lib-mod"><div class="mh"><h4>Integration &amp; sync</h4><span class="tg tg-edge">Your edge</span></div><p>Every tool kept in lockstep, two ways.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Compliance &amp; audit</h4><span class="tg tg-edge">Your edge</span></div><p>Audit trails, rules mapped to your jurisdiction.</p></div>
+        <div class="lib-mod"><div class="mh"><h4>Retention &amp; security</h4><span class="tg tg-set">We set up</span></div><p>Access control and data residency, done right.</p></div>
+      </div>
+    </div>
+
+    <div class="lib-group reveal" style="margin-bottom:0">
+      <div class="packs-head"><span class="gn">// 07</span><h3>Built to your practice area</h3></div>
+      <p style="color:var(--text-muted);font-size:15.5px;max-width:60ch;margin-bottom:18px">Each practice area gets its own form library and automation pack on top of the modules above. We assemble the bundle that fits how your firm actually works.</p>
+      <div class="packs">
+        <span class="pack">Immigration<span class="pe">IRCC / USCIS</span></span>
+        <span class="pack">Personal Injury<span class="pe">demands · liens</span></span>
+        <span class="pack">Family<span class="pe">disclosures</span></span>
+        <span class="pack">Real Estate<span class="pe">closings</span></span>
+        <span class="pack">Estate &amp; Wills<span class="pe">assembly</span></span>
+        <span class="pack">Corporate<span class="pe">formation</span></span>
+      </div>
+    </div>
+
+    <div class="keepbar reveal" style="margin-top:34px">
+      <span class="ic">🗂️</span>
+      <div><b>Your practice software stays exactly as it is.</b><p>Anything tagged "Connects" already lives in the tools you pay for. We never rebuild it — we wire the rest around it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec on-dark" id="process">
+  <div class="strx-container">
+    <div class="sec-head reveal">
+      <p class="t-mono dark">// Process</p>
+      <h2>Done for you — you never <span class="accent">touch the tech.</span></h2>
+      <p>We build it, connect it to the software you have, and train your team. You get a system that just runs.</p>
+    </div>
+    <div class="proc-line">
+      <div class="proc-step"><div class="pw">Week 1</div><h4>Audit</h4><p>We map how inquiries, intake, and billing flow today — and where clients and hours are leaking.</p></div>
+      <div class="proc-step"><div class="pw">Weeks 2–3</div><h4>Build &amp; connect</h4><p>We set up your layer and wire it onto your existing software. Your team touches none of the setup.</p></div>
+      <div class="proc-step future"><div class="pw">Week 4</div><h4>Train</h4><p>A gentle rollout — each person learns only the small part of the system they actually use.</p></div>
+      <div class="proc-step future"><div class="pw">Ongoing</div><h4>Launch &amp; care</h4><p>It goes live and runs in the background. We stay on to keep it smooth as you grow.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS (honest, structural) -->
+<section class="sec on-dark" id="results" style="padding-top:0">
+  <div class="strx-container">
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="9">0</span></div><div class="k">steps connected into one journey</div></div>
+      <div class="stat-cell"><div class="v">1</div><div class="k">view, instead of five open tabs</div></div>
+      <div class="stat-cell"><div class="v"><span class="count-up" data-target="0">0</span></div><div class="k">new tools your team has to learn</div></div>
+      <div class="stat-cell"><div class="v">1</div><div class="k">fixed price — you own what we build</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec cream" id="faq">
+  <div class="strx-container">
+    <div class="faq-grid">
+      <div class="faq-aside reveal">
+        <p class="t-mono">// FAQ</p>
+        <h2>The questions firms <span class="accent">ask first.</span></h2>
+        <p>Don't see your answer? Message us — we reply within one business day.</p>
+        <a href="#cta" class="btn btn-dark" style="margin-top:24px">Contact →</a>
+      </div>
+      <div id="faqList">
+        <div class="faq-item open"><button class="faq-q">I already pay for practice software. Why do I need this?<span class="faq-ic">+</span></button><div class="faq-a"><div>Keep it. Your software is great at holding cases, files, and billing. What it usually doesn't do well is catch every inquiry, run intake on its own, and keep clients informed automatically. That's the layer we build around it — so the tools you already pay for finally work together.</div></div></div>
+        <div class="faq-item"><button class="faq-q">What if I don't have practice software yet?<span class="faq-ic">+</span></button><div class="faq-a"><div>We help you choose one and set it up as part of the build, then build the layer around it. You don't have to figure it out alone.</div></div></div>
+        <div class="faq-item"><button class="faq-q">How do you keep client information confidential?<span class="faq-ic">+</span></button><div class="faq-a"><div>Only everyday, non-sensitive steps are automated — reminders, scheduling, collecting intake details. Confidential legal work always stays with you, and nothing sensitive goes to outside tools that aren't safe. We document the whole approach for your records.</div></div></div>
+        <div class="faq-item"><button class="faq-q">I'm not a tech person. Is it hard to use?<span class="faq-ic">+</span></button><div class="faq-a"><div>It's built to be quiet. We set everything up, connect it, and train each person on the small part they use. Most of it runs in the background without anyone touching it.</div></div></div>
+        <div class="faq-item"><button class="faq-q">How long does it take?<span class="faq-ic">+</span></button><div class="faq-a"><div>Usually a few weeks, depending on your firm size and what needs connecting. We confirm a timeline after the free audit.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER SERVICES -->
+<section class="sec" id="other">
+  <div class="strx-container">
+    <div class="sec-head reveal"><p class="t-mono">// Other services</p><h2>Explore <span class="accent">more.</span></h2></div>
+    <div class="other-grid">
+      <a href="#" class="other-card reveal"><div><div class="oc-n">01</div><h4>Web Design</h4></div><span class="oc-arr">→</span></a>
+      <a href="#" class="other-card reveal"><div><div class="oc-n">03</div><h4>SEO &amp; Core Web Vitals</h4></div><span class="oc-arr">→</span></a>
+      <a href="#" class="other-card reveal"><div><div class="oc-n">04</div><h4>SaaS Platform</h4></div><span class="oc-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="strx-container">
+    <p class="t-mono dark">// Get started</p>
+    <h2>Ready to stop <span class="accent">holding every piece?</span></h2>
+    <p>A free audit to map where clients and billable hours are leaking — and a fixed price to fix it.</p>
+    <div class="acts">
+      <a href="mailto:hello@structure.studio" class="btn btn-accent">Book a free audit →</a>
+      <a href="#" class="btn btn-on-dark">View work</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="strx-container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="nav-word">Structure</span>
+        <p>A web design and development studio. Strategy, design, and engineering for teams who care how products are built.</p>
+      </div>
+      <div class="foot-col"><h4>Services</h4><ul><li><a href="#">Web Design</a></li><li><a href="#">Web Application</a></li><li><a href="#">SEO</a></li><li><a href="#">Legal Operating Layer</a></li></ul></div>
+      <div class="foot-col"><h4>Studio</h4><ul><li><a href="#">Work</a></li><li><a href="#">About</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="foot-col"><h4>Industries</h4><ul><li><a href="#">Legal</a></li><li><a href="#">E-commerce</a></li><li><a href="#">SaaS</a></li><li><a href="#">Professional services</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 STRUCTURE STUDIO</span>
+      <span>WE BUILD THE WEB WITH STRUCTURE.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* reveal */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  /* count-up */
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;var t=parseFloat(el.dataset.target);var dur=900,s=performance.now();function tick(now){var p=Math.min((now-s)/dur,1);var val=t*(1-Math.pow(1-p,3));el.textContent=(t%1!==0)?val.toFixed(1):Math.round(val);if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);cio.unobserve(el);});},{threshold:.6});
+  document.querySelectorAll('.count-up').forEach(function(el){cio.observe(el);});
+
+  /* faq accordion */
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.parentElement, a=item.querySelector('.faq-a');
+      var open=item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
+      if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+    });
+  });
+  window.addEventListener('load',function(){var o=document.querySelector('.faq-item.open .faq-a');if(o)o.style.maxHeight=o.scrollHeight+'px';});
+
+  /* scrolly — nearest step to viewport centre swaps the screen on the right */
+  (function(){
+    var steps=[].slice.call(document.querySelectorAll('#story .scrolly-step'));
+    var screens=[].slice.call(document.querySelectorAll('#stage .screen'));
+    var prog=document.getElementById('stageProg');
+    if(!steps.length||!screens.length)return;
+    var cur=-1;
+    function setActive(i){if(i===cur)return;cur=i;
+      steps.forEach(function(s,j){s.classList.toggle('active',j===i);});
+      screens.forEach(function(s,j){s.classList.toggle('on',j===i);});
+      if(prog)prog.style.width=((i+1)/steps.length*100)+'%';}
+    function update(){var mid=innerHeight/2,best=0,bd=Infinity;steps.forEach(function(s,i){var r=s.getBoundingClientRect();var d=Math.abs(r.top+r.height/2-mid);if(d<bd){bd=d;best=i;}});setActive(best);}
+    update();addEventListener('scroll',update,{passive:true});addEventListener('resize',update,{passive:true});
+  })();
+</script>
+</body>
+</html>

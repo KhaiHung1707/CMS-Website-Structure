@@ -83,6 +83,41 @@ export interface Project {
   seo?: SeoMeta | null
 }
 
+export type ModuleTag = 'core' | 'set' | 'edge'
+
+export interface LibraryModule {
+  title: string
+  tag: ModuleTag
+  desc: string
+}
+
+export interface LibraryGroup {
+  num: string
+  title: string
+  subtitle?: string | null
+  modules?: LibraryModule[] | null
+}
+
+export interface CapabilityLibrary {
+  eyebrow?: string | null
+  heading?: string | null
+  lead?: string | null
+  legend?: { tag: ModuleTag; label: string }[] | null
+  groups?: LibraryGroup[] | null
+  packs_num?: string | null
+  packs_title?: string | null
+  packs_lead?: string | null
+  packs?: { name: string; sub?: string | null }[] | null
+  callout?: { icon?: string | null; title?: string | null; text?: string | null } | null
+}
+
+export interface ProcessStep {
+  step: string
+  title: string
+  desc: string
+  future?: boolean | null
+}
+
 export interface Industry {
   id: string
   slug: string
@@ -95,15 +130,31 @@ export interface Industry {
   hero_image?: MediaDoc | string | null
   // single
   eyebrow?: string | null
+  hero_heading?: string | null
+  hero_lead?: string | null
+  hero_metrics?: { value: string; label: string }[] | null
+  manifesto?: string | null
   story?: {
     eyebrow?: string | null
     title?: string | null
     lead?: string | null
     steps?: StoryStep[] | null
   } | null
+  library?: CapabilityLibrary | null
+  process?: ProcessStep[] | null
   stats?: StatItem[] | null
+  faq_heading?: string | null
   faqs?: FaqItem[] | null
   related?: (Industry | string)[] | null
+  cta?: {
+    eyebrow?: string | null
+    heading?: string | null
+    text?: string | null
+    primary_label?: string | null
+    primary_href?: string | null
+    secondary_label?: string | null
+    secondary_href?: string | null
+  } | null
   extra_blocks?: AnyBlock[] | null
   seo?: SeoMeta | null
 }

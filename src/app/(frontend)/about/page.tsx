@@ -137,6 +137,8 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Team section hidden per request. The TEAM data + about.css .team-* rules
+          are kept so it can be re-enabled by un-commenting this block.
       <section className="sec on-dark" id="team">
         <div className="strx-container">
           <div className="sec-head">
@@ -159,6 +161,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      */}
 
       <section className="sec" id="values">
         <div className="strx-container">

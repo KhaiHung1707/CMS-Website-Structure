@@ -9,7 +9,10 @@ import { CtaSection } from '@/components/layout/CtaSection'
 import { BlockRenderer } from '@/components/blocks/BlockRenderer'
 import { FaqList } from '@/components/sections/FaqList'
 import { IndustryStory } from '@/components/sections/IndustryStory'
+import { CapabilityLibrary } from '@/components/sections/CapabilityLibrary'
+import { ProcessTimeline } from '@/components/sections/ProcessTimeline'
 import { RelatedIndustries } from '@/components/sections/RelatedIndustries'
+import { renderAccentHeading } from '@/lib/utils/accentHeading'
 import './single-industry.css'
 
 export async function generateStaticParams() {
@@ -41,6 +44,11 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
     (r): r is Industry => typeof r === 'object' && r !== null,
   )
 
+  // "Rich" = the service-style layout (has a process timeline). Drives the bare,
+  // continuous results strip that the template uses.
+  const isRich = !!(industry.process && industry.process.length > 0)
+  const cta = industry.cta
+
   return (
     <>
       <header className="svc-hero">
@@ -53,10 +61,10 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
           <div className="lead-grid">
             <div>
               {industry.eyebrow ? <Eyebrow>{industry.eyebrow}</Eyebrow> : null}
-              <h1>{industry.title}</h1>
+              <h1>{industry.hero_heading ? renderAccentHeading(industry.hero_heading) : industry.title}</h1>
             </div>
             <div>
-              <p className="lead">{industry.lead}</p>
+              <p className="lead">{industry.hero_lead ?? industry.lead}</p>
               <div className="acts">
                 <Link href="/contact" className="btn btn-dark">
                   Start a project →
@@ -67,24 +75,65 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
               </div>
             </div>
           </div>
+          {industry.hero_metrics && industry.hero_metrics.length > 0 ? (
+            <div className="h-stats reveal">
+              {industry.hero_metrics.map((m, i) => (
+                <div className="hs" key={i}>
+                  <div className="v">{m.value}</div>
+                  <div className="k">{m.label}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </header>
 
-      <IndustryStory story={industry.story} />
+      {industry.manifesto ? (
+        <section className="manifesto">
+          <div className="strx-container">
+            <p className="big reveal">{renderAccentHeading(industry.manifesto)}</p>
+          </div>
+        </section>
+      ) : null}
 
-      {industry.stats && industry.stats.length > 0 ? (
-        <section className="sec on-dark" id="results">
+      <IndustryStory story={industry.story} slug={industry.slug} />
+
+      <CapabilityLibrary library={industry.library} />
+
+      {industry.process && industry.process.length > 0 ? (
+        <section className="sec on-dark" id="process">
           <div className="strx-container">
             <div className="sec-head reveal">
-              <Eyebrow dark>// Results</Eyebrow>
+              <Eyebrow dark>// Process</Eyebrow>
               <h2>
-                Numbers that <span className="accent">moved.</span>
+                Done for you — you never <span className="accent">touch the tech.</span>
               </h2>
-              <p>Representative outcomes after go-live.</p>
+              <p>We build it, connect it to the software you have, and train your team.</p>
             </div>
+            <ProcessTimeline steps={industry.process} />
+          </div>
+        </section>
+      ) : null}
+
+      {industry.stats && industry.stats.length > 0 ? (
+        // Rich (service-style) layout: a bare stat strip flowing under Process,
+        // matching the template. Legacy industries keep their own results heading.
+        <section className={isRich ? 'sec on-dark results-tight' : 'sec on-dark'} id="results">
+          <div className="strx-container">
+            {isRich ? null : (
+              <div className="sec-head reveal">
+                <Eyebrow dark>// Results</Eyebrow>
+                <h2>
+                  Numbers that <span className="accent">moved.</span>
+                </h2>
+                <p>Representative outcomes after go-live.</p>
+              </div>
+            )}
             <div
               className="stat-strip reveal"
-              style={{ gridTemplateColumns: `repeat(${industry.stats.length}, 1fr)` }}
+              // No inline grid in the rich layout — let the CSS (4-col → 2-col @800px)
+              // handle responsiveness. Inline grid would override the media query.
+              style={isRich ? undefined : { gridTemplateColumns: `repeat(${industry.stats.length}, 1fr)` }}
             >
               {industry.stats.map((stat, i) => (
                 <div key={i} className="stat-cell">
@@ -106,7 +155,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
             <div className="faq-grid">
               <div className="faq-aside reveal">
                 <Eyebrow>// FAQ</Eyebrow>
-                <h2>{industry.title} questions.</h2>
+                <h2>
+                  {industry.faq_heading ? renderAccentHeading(industry.faq_heading) : `${industry.title} questions.`}
+                </h2>
                 <p>Don&apos;t see your answer? Message us — we reply within one business day.</p>
                 <Link href="/contact" className="btn btn-dark" style={{ marginTop: 24 }}>
                   Contact →
@@ -122,15 +173,33 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
 
       <BlockRenderer blocks={industry.extra_blocks} />
 
-      <CtaSection
-        heading={
-          <>
-            Ready to ship <span className="accent">faster?</span>
-          </>
-        }
-        text="A 30-minute call to look at your product and the path from trial to paid."
-        secondary={{ label: 'All industries', href: '/industries' }}
-      />
+      {cta?.heading ? (
+        <CtaSection
+          eyebrow={cta.eyebrow ?? '// Get started'}
+          heading={renderAccentHeading(cta.heading)}
+          text={cta.text ?? undefined}
+          primary={
+            cta.primary_label
+              ? { label: cta.primary_label, href: cta.primary_href ?? '/contact' }
+              : undefined
+          }
+          secondary={
+            cta.secondary_label
+              ? { label: cta.secondary_label, href: cta.secondary_href ?? '/work' }
+              : undefined
+          }
+        />
+      ) : (
+        <CtaSection
+          heading={
+            <>
+              Ready to ship <span className="accent">faster?</span>
+            </>
+          }
+          text="A 30-minute call to look at your product and the path from trial to paid."
+          secondary={{ label: 'All industries', href: '/industries' }}
+        />
+      )}
     </>
   )
 }

@@ -4,9 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils/cn'
-import { mediaUrl, mediaAlt } from '@/lib/utils/format'
+import { mediaUrl } from '@/lib/utils/format'
 import type { NavLink, SiteSettings } from '@/lib/content/types'
 import { MegaNav, type MegaItemData } from './MegaNav'
+import { BrandLogo } from './BrandLogo'
 
 const DEFAULT_NAV: NavLink[] = [
   { label: 'Services', href: '/services' },
@@ -41,7 +42,9 @@ export function TopNav({
 
   const navLinks = settings.nav && settings.nav.length > 0 ? settings.nav : DEFAULT_NAV
   const brand = settings.brandWord || 'Structure'
-  const logoSrc = mediaUrl(settings.logo)
+  // Prefer a CMS-uploaded logo; otherwise the dark lockup at /public/logo-dark.svg.
+  // BrandLogo falls back to the text wordmark if neither file is present.
+  const navLogo = mediaUrl(settings.logo) || '/logo-dark.svg'
 
   const openMega = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
@@ -59,10 +62,7 @@ export function TopNav({
     <nav className={cn('top', scrolled && 'scrolled')} id="topnav">
       <div className="strx-container inner">
         <Link href="/" className="nav-brand">
-          <span className="nav-mark">
-            {logoSrc ? <img src={logoSrc} alt={mediaAlt(settings.logo)} /> : null}
-          </span>
-          <span className="nav-word">{brand}</span>
+          <BrandLogo src={navLogo} word={brand} className="nav-logo" />
         </Link>
         <ul className="nav-links">
           {navLinks.map((item) => {

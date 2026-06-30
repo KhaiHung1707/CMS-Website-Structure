@@ -12,10 +12,11 @@ import { writeFileSync } from 'fs'
 import path from 'path'
 import { getPayload, type Payload } from 'payload'
 import config from './payload.config'
-import type { Service, SiteSetting } from './payload-types'
+import type { Industry, Service, SiteSetting } from './payload-types'
 
 type ServiceSeed = Omit<Service, 'id' | 'updatedAt' | 'createdAt' | 'sizes'>
 type SettingsSeed = Omit<SiteSetting, 'id' | 'updatedAt' | 'createdAt'>
+type IndustrySeed = Omit<Industry, 'id' | 'updatedAt' | 'createdAt' | 'sizes'>
 
 export const SERVICES: ServiceSeed[] = [
   {
@@ -497,6 +498,177 @@ export const SERVICES: ServiceSeed[] = [
 ]
 
 /** Baseline site settings (nav, mega copy, footer, contact channels). */
+export const INDUSTRIES: IndustrySeed[] = [
+  {
+    number: '05',
+    title: 'Legal Operating Layer',
+    slug: 'legal-operating-layer',
+    lead:
+      'A connected automation engine built on top of the software your firm already uses — it routes inquiries, generates documents, tracks deadlines, and runs on its own.',
+    tags: [{ label: 'Automation' }, { label: 'Legal ops' }, { label: 'Done-for-you' }],
+    stat_value: '9',
+    stat_label: 'connected steps, one system',
+    eyebrow: '// For 2–30 person law firms',
+    hero_heading: 'The layer that runs your firm — built *around what you already use.*',
+    hero_lead:
+      "We build a connected automation engine on top of the software you already use — it routes inquiries, generates documents, tracks deadlines, and acts on its own. Built once. Yours to keep.",
+    hero_metrics: [
+      { value: '9', label: 'connected steps, one system' },
+      { value: '0', label: 'new tools to learn' },
+      { value: '1', label: 'fixed price you own' },
+    ],
+    manifesto:
+      'Every hour your team spends re-typing, chasing, and remembering is an hour not billed. We automate that work — so the firm runs on a *system, not on you.*',
+    story: {
+      eyebrow: '// The automation engine',
+      title: 'Nine automations that run your firm *while you practice.*',
+      lead:
+        'Not a form-builder. A connected automation engine that routes, generates, tracks, and acts on its own — on top of the software you already run. Scroll to see each one work.',
+      steps: [
+        { num: '01', cap: 'auto-triage', title: 'Sorts and routes every inquiry', desc: "The intake form's own answers tag, score, and route each inquiry to the right person — and fire an instant reply, 24/7." },
+        { num: '02', cap: 'sequences', title: 'Follow-ups that fire on behaviour', desc: 'No-show, stalled documents, an unconverted lead — each triggers its own sequence automatically. Nothing depends on someone remembering.' },
+        { num: '03', cap: 'workflow engine', title: '"When this happens, do that"', desc: 'Build multi-step, conditional rules across the whole firm. One event sets off a chain of tasks, emails, and updates on its own.' },
+        { num: '04', cap: 'blueprints', title: 'A whole matter, spun up in one click', desc: 'Pick a matter type and the full task list, deadlines, documents, and assignments generate themselves — no rebuilding from scratch.' },
+        { num: '05', cap: 'deadlines', title: 'Critical dates calculated for you', desc: 'The engine works out every deadline by matter type and jurisdiction, sets reminders, and escalates before anything is missed.' },
+        { num: '06', cap: 'document automation', title: 'Documents that write themselves', desc: 'Letters, agreements, and government forms generate from matter data in seconds. Every field filled, nothing retyped.' },
+        { num: '07', cap: 'document intake', title: 'Every upload checked and filed', desc: "Each file is matched to the matter's required list, filed automatically, and anything still missing is chased for you." },
+        { num: '08', cap: 'integrations', title: 'Every tool kept in sync, two ways', desc: 'Your PMS, accounting, calendar, e-sign, and payments stay in lockstep. Data flows once and lands everywhere it belongs.' },
+        { num: '09', cap: 'analytics', title: 'It spots the bottleneck before you do', desc: 'Live dashboards surface where matters stall, your realization rate, and which channels actually bring signed clients.' },
+      ],
+    },
+    library: {
+      eyebrow: '// The full library',
+      heading: 'Every module — *assembled to your practice.*',
+      lead:
+        "Your firm doesn't need all of this. It needs the right set. Here's the full library; we build the bundle your practice area actually uses — and connect it to the software you already run.",
+      legend: [
+        { tag: 'core', label: 'to software you already have' },
+        { tag: 'set', label: 'what your tools never turned on' },
+        { tag: 'edge', label: 'the part that wins the work' },
+      ],
+      groups: [
+        {
+          num: '// 01',
+          title: 'Bring clients in',
+          subtitle: 'front of the funnel',
+          modules: [
+            { title: 'Catch every inquiry', tag: 'set', desc: 'One tracked list from web, phone, Google & referrals.' },
+            { title: 'Smart intake', tag: 'set', desc: 'Right questions per matter, auto follow-up on gaps.' },
+            { title: 'Conflict check', tag: 'edge', desc: 'Clears automatically before you take the matter.' },
+            { title: 'Online booking', tag: 'set', desc: 'Clients book themselves; reminders cut no-shows.' },
+            { title: 'Sign & pay in one link', tag: 'edge', desc: 'Engagement letter signed, retainer paid, matter opened.' },
+            { title: 'Lead nurture', tag: 'set', desc: 'Sequences that warm up unconverted leads on their own.' },
+          ],
+        },
+        {
+          num: '// 02',
+          title: 'Run the work',
+          subtitle: 'the automation engine',
+          modules: [
+            { title: 'Workflow engine', tag: 'edge', desc: '"When this happens, do that" — across the whole firm.' },
+            { title: 'Matter blueprints', tag: 'edge', desc: 'A whole matter — tasks, dates, docs — in one click.' },
+            { title: 'Tasks & deadlines', tag: 'core', desc: 'Assigned, tracked, and reminded.' },
+            { title: 'Never miss a filing date', tag: 'edge', desc: 'Deadlines computed by matter type + jurisdiction.' },
+            { title: 'Document automation', tag: 'edge', desc: 'Letters & agreements write themselves from the file.' },
+            { title: 'Court / gov form auto-fill', tag: 'edge', desc: 'Official forms filled from the matter, not retyped.' },
+          ],
+        },
+        {
+          num: '// 03',
+          title: 'Keep clients informed',
+          subtitle: 'client experience',
+          modules: [
+            { title: 'Client portal', tag: 'core', desc: 'Status, messages, and documents in one place.' },
+            { title: 'Document upload & checklist', tag: 'set', desc: 'One link, auto-filed, missing items chased.' },
+            { title: 'Status updates', tag: 'set', desc: 'Auto "we filed / next step / decision in."' },
+            { title: 'Multilingual', tag: 'edge', desc: "Intake and updates in the client's language." },
+            { title: 'After-hours auto-reply', tag: 'set', desc: '24/7 acknowledgement with the next step.' },
+          ],
+        },
+        {
+          num: '// 04',
+          title: 'Get paid',
+          subtitle: 'billing & money',
+          modules: [
+            { title: 'Billing & invoicing', tag: 'core', desc: 'Time entries and invoices in your software.' },
+            { title: 'Trust accounting', tag: 'core', desc: 'Trust ledger and reconciliation stay put.' },
+            { title: 'Retainer top-ups', tag: 'set', desc: 'Alerts and auto-invoice before the balance runs low.' },
+            { title: 'Pay online + reminders', tag: 'set', desc: 'Trust-compliant payments, reminders on their own.' },
+            { title: 'Collections', tag: 'set', desc: 'Overdue sequences — without the awkward call.' },
+          ],
+        },
+        {
+          num: '// 05',
+          title: 'See & control',
+          subtitle: 'intelligence',
+          modules: [
+            { title: 'Live dashboard', tag: 'edge', desc: 'The whole firm at a glance, by stage.' },
+            { title: 'Bottleneck detection', tag: 'edge', desc: 'Flags matters stuck too long at a stage.' },
+            { title: 'Where clients come from', tag: 'edge', desc: 'Channel ROI and cost per signed client.' },
+            { title: 'Productivity reporting', tag: 'set', desc: 'Workload, time captured, throughput per person.' },
+          ],
+        },
+        {
+          num: '// 06',
+          title: 'Connect & comply',
+          subtitle: 'the connective tissue',
+          modules: [
+            { title: 'Integration & sync', tag: 'edge', desc: 'Every tool kept in lockstep, two ways.' },
+            { title: 'Compliance & audit', tag: 'edge', desc: 'Audit trails, rules mapped to your jurisdiction.' },
+            { title: 'Retention & security', tag: 'set', desc: 'Access control and data residency, done right.' },
+          ],
+        },
+      ],
+      packs_num: '// 07',
+      packs_title: 'Built to your practice area',
+      packs_lead:
+        'Each practice area gets its own form library and automation pack on top of the modules above. We assemble the bundle that fits how your firm actually works.',
+      packs: [
+        { name: 'Immigration', sub: 'IRCC / USCIS' },
+        { name: 'Personal Injury', sub: 'demands · liens' },
+        { name: 'Family', sub: 'disclosures' },
+        { name: 'Real Estate', sub: 'closings' },
+        { name: 'Estate & Wills', sub: 'assembly' },
+        { name: 'Corporate', sub: 'formation' },
+      ],
+      callout: {
+        icon: '🗂️',
+        title: 'Your practice software stays exactly as it is.',
+        text: 'Anything tagged "Connects" already lives in the tools you pay for. We never rebuild it — we wire the rest around it.',
+      },
+    },
+    process: [
+      { step: 'Week 1', title: 'Audit', desc: 'We map how inquiries, intake, and billing flow today — and where clients and hours are leaking.', future: false },
+      { step: 'Weeks 2–3', title: 'Build & connect', desc: 'We set up your layer and wire it onto your existing software. Your team touches none of the setup.', future: false },
+      { step: 'Week 4', title: 'Train', desc: 'A gentle rollout — each person learns only the small part of the system they actually use.', future: true },
+      { step: 'Ongoing', title: 'Launch & care', desc: 'It goes live and runs in the background. We stay on to keep it smooth as you grow.', future: true },
+    ],
+    stats: [
+      { value: '9', label: 'steps connected into one journey' },
+      { value: '1', label: 'view, instead of five open tabs' },
+      { value: '0', label: 'new tools your team has to learn' },
+      { value: '1', label: 'fixed price — you own what we build' },
+    ],
+    faq_heading: 'The questions firms *ask first.*',
+    cta: {
+      eyebrow: '// Get started',
+      heading: 'Ready to stop *holding every piece?*',
+      text: 'A free audit to map where clients and billable hours are leaking — and a fixed price to fix it.',
+      primary_label: 'Book a free audit →',
+      primary_href: 'mailto:hello@structure.studio',
+      secondary_label: 'View work',
+      secondary_href: '/work',
+    },
+    faqs: [
+      { q: 'I already pay for practice software. Why do I need this?', a: "Keep it. Your software is great at holding cases, files, and billing. What it usually doesn't do well is catch every inquiry, run intake on its own, and keep clients informed automatically. That's the layer we build around it — so the tools you already pay for finally work together." },
+      { q: "What if I don't have practice software yet?", a: 'We help you choose one and set it up as part of the build, then build the layer around it. You don’t have to figure it out alone.' },
+      { q: 'How do you keep client information confidential?', a: 'Only everyday, non-sensitive steps are automated — reminders, scheduling, collecting intake details. Confidential legal work always stays with you, and nothing sensitive goes to outside tools that aren’t safe. We document the whole approach for your records.' },
+      { q: "I'm not a tech person. Is it hard to use?", a: "It's built to be quiet. We set everything up, connect it, and train each person on the small part they use. Most of it runs in the background without anyone touching it." },
+      { q: 'How long does it take?', a: 'Usually a few weeks, depending on your firm size and what needs connecting. We confirm a timeline after the free audit.' },
+    ],
+  },
+]
+
 export const SETTINGS: SettingsSeed = {
   brandWord: 'Structure',
   nav: [
@@ -598,6 +770,28 @@ export async function runSeed(payload: Payload): Promise<SeedReport> {
         updated.push(slug)
       } else {
         await payload.create({ collection: 'services', data })
+        created.push(slug)
+      }
+    } catch (err) {
+      failed.push({ slug, error: err instanceof Error ? err.message : String(err) })
+    }
+  }
+
+  for (const data of INDUSTRIES) {
+    const slug = `industry:${data.slug ?? '(no slug)'}`
+    try {
+      const existing = await payload.find({
+        collection: 'industries',
+        where: { slug: { equals: data.slug } },
+        limit: 1,
+        depth: 0,
+      })
+
+      if (existing.docs.length > 0) {
+        await payload.update({ collection: 'industries', id: existing.docs[0].id, data })
+        updated.push(slug)
+      } else {
+        await payload.create({ collection: 'industries', data })
         created.push(slug)
       }
     } catch (err) {
